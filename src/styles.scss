@@ -44,3 +44,28 @@ $FCT_Atmira-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-pane > div{
+  @apply max-w-48 shadow-xl rounded-md;
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)!important;
+    --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color)!important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)!important;
+  .modal-text-wrap{
+    p{
+      @apply p-0 px-2 overflow-hidden overflow-ellipsis;
+      font-family: 'EB Garamond', serif;
+    }
+    @apply text-nowrap overflow-hidden;
+  }
+  button{
+    @apply p-0 px-2;
+    span{
+      text-wrap: nowrap!important;
+      @apply p-0 px-2 overflow-hidden overflow-ellipsis font-semibold text-[#707070];
+      font-family: 'EB Garamond', serif;
+    }
+  }
+  .mat-mdc-menu-content{
+    @apply p-0;
+  }
+}
