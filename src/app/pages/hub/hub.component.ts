@@ -4,8 +4,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import {MatButtonModule} from '@angular/material/button';
-import { ExampleComponent } from '../../components/modals/example/example.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ProjectService } from '../../service/common/Project/project.service';
+import { ConfigurationComponent } from '../../components/modals/Configuration/configuration.component';
 @Component({
   selector: 'app-hub',
   standalone: true,
@@ -32,11 +33,14 @@ export class HubComponent {
 
   constructor(public dialog: MatDialog){}
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(ExampleComponent, {
+    this.dialog.open(ConfigurationComponent, {
       width: 'auto',
       enterAnimationDuration,
       maxWidth: '60rem',
       exitAnimationDuration
     });
   }
+
+
+  
 }

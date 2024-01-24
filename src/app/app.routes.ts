@@ -8,21 +8,23 @@ export const routes: Routes = [
     {
         path: 'Welcome',
         title: 'FCT_Atmira - Welcome',
-        component: WelcomeComponent
+        component: WelcomeComponent,
+        canActivate: [authGuard]
     },
     {
-        path: 'Hub',
+        path: '',
         title: 'FCT_Atmira - Projects',
         component: HubComponent,
         canActivate: [authGuard]
     },
     {
         path: '',
-        redirectTo: 'Hub',
-        pathMatch: 'full'
+        redirectTo: '',
+        pathMatch: 'full',
+
     },
     {
         path: '**',
-        redirectTo: 'Hub'
+        redirectTo: 'Welcome'
     }
 ];
