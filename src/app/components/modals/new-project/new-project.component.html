@@ -1,0 +1,59 @@
+<article class="p-5 h-auto w-auto flex flex-col gap-3">
+    <header class="flex justify-between">
+        <h1 class="font-semibold text-lg text-[#172B4D]/90">New project</h1>
+        <div class="flex items-center gap-2">
+            <!--<span class="cursor-pointer border-none  end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-400/50 dark:hover:text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
+                    <path id="Trazado_50" data-name="Trazado 50" d="M6.39,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,6.39,6ZM1.2,6A1.2,1.2,0,1,1,0,7.2,1.2,1.2,0,0,1,1.2,6ZM11.583,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,11.583,6Z" transform="translate(0.5 -5.5)" fill="#474747" stroke="#474747" stroke-width="1"/>
+                  </svg>
+            </span>-->
+              
+            <button (click)="this.dialogRef.close()" type="button" class=" border-none  end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-400/50 dark:hover:text-red-500" data-modal-hide="popup-modal">
+                <svg  class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+    </header>
+    <hr>
+    <form class="w-full grid grid-cols-2 gap-2">
+        <h3 class="font-medium text-lg text-[#172B4D]/90" style="font-size: 1.5rem;">Details</h3><div></div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Title</p>
+        </div>
+        <div class="flex items-center">
+            <div>
+                <input placeholder="Write any name for the project" type="text" id="first_name" class=" w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis" required>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Initial Date</p>
+        </div>
+        <div class="flex items-center w-56 ">
+            <mat-form-field class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Final Date</p>
+        </div>
+        <div class="flex items-center w-56 ">
+            <mat-form-field class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Type of service</p>
+        </div>
+        <div class="flex items-center">
+            <div>
+                <input placeholder="Write any name for the project" type="text" id="first_name" class=" w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis" required>
+            </div>
+        </div>
+    </form>
+</article>

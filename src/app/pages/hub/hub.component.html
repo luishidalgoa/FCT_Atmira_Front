@@ -26,14 +26,14 @@
               </button>
             }
             <hr>
-            <button mat-menu-item class="font-normal text-[#707070] p-2">Create a new project</button>
+            <button mat-menu-item class="font-normal text-[#707070] p-2" (click)="openNewProject('0ms', '0ms')">Create a new project</button>
             <button mat-menu-item class="font-normal text-[#707070] p-2">View all your projects</button>
   
           </mat-menu>
         </li>
       </ul>
       <ul class="flex items-center gap-3">
-        <li mat-raised-button (click)="openDialog('0ms', '0ms')" class="">
+        <li mat-raised-button (click)="openConfiguration('0ms', '0ms')" class="">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-12 h-12 active:bg-gray-400/30 rounded-full" viewBox="0 0 59.799 59.798">
             <defs class="mt-10">
               <filter id="Trazado_30" x="0" y="0" width="59.799" height="59.798" filterUnits="userSpaceOnUse">

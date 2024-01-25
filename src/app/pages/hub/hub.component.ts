@@ -7,6 +7,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectService } from '../../service/common/Project/project.service';
 import { ConfigurationComponent } from '../../components/modals/Configuration/configuration.component';
+import { NewProjectComponent } from '../../components/modals/new-project/new-project.component';
 @Component({
   selector: 'app-hub',
   standalone: true,
@@ -32,7 +33,7 @@ export class HubComponent {
   }
 
   constructor(public dialog: MatDialog){}
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openConfiguration(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(ConfigurationComponent, {
       width: 'auto',
       enterAnimationDuration,
@@ -42,5 +43,12 @@ export class HubComponent {
   }
 
 
-  
+  openNewProject(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(NewProjectComponent, {
+      width: 'auto',
+      enterAnimationDuration,
+      maxWidth: '60rem',
+      exitAnimationDuration
+    });
+  }
 }
