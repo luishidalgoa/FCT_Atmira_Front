@@ -45,7 +45,7 @@ export class NewProjectComponent {
         endDate: this.form.get('finalDate')?.value,
         typeOfService: 'IT',
         colaboratorProjects: [],
-        active: true
+        active: true 
       }
       this._ProjectS.save(project).subscribe((data:Project)=>{
         console.log(data)
