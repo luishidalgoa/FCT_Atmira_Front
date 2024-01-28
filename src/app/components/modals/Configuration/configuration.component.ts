@@ -12,7 +12,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import { TypeOfService } from '../../../model/enum/type-of-service';
+import { Language } from '../../../model/enum/language';
 
 
 @Component({
@@ -24,6 +24,6 @@ import { TypeOfService } from '../../../model/enum/type-of-service';
   styleUrl: './configuration.component.scss'
 })
 export class ConfigurationComponent {
-  typeOfServiceValues = Object.values(TypeOfService);
+  languages = Object.values(Language);
   constructor(public dialogRef: MatDialogRef<ConfigurationComponent>) {}
 }

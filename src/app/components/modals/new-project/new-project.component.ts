@@ -3,23 +3,26 @@ import { MatDialogRef } from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectService } from '../../../service/common/Project/project.service';
 import { Project } from '../../../model/domain/project';
 import { CommonModule } from '@angular/common';
+import { MatSelect } from '@angular/material/select';
+import { TypeOfService } from '../../../model/enum/type-of-service';
 
 @Component({
   selector: 'app-new-project',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule,ReactiveFormsModule,CommonModule],
+  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule,ReactiveFormsModule,CommonModule,MatSelect,MatOption],
   templateUrl: './new-project.component.html',
   styleUrl: './new-project.component.scss'
 })
 export class NewProjectComponent {
   form: FormGroup;
+  typeOfServiceValues = Object.values(TypeOfService);
 
   minDate: Date;
   maxDate: Date;
@@ -32,7 +35,7 @@ export class NewProjectComponent {
     this.form = this._formBuilder.group({
       title: new FormControl('',Validators.maxLength(20)),
       initialDate: new FormControl('',Validators.required),
-      finalDate: new FormControl('',Validators.required),
+      endDate: new FormControl('',Validators.required),
       typeOfService: new FormControl('',Validators.required),
     })
   }
@@ -42,17 +45,18 @@ export class NewProjectComponent {
       const project:Project = {
         name: this.form.get('title')?.value,
         initialDate: this.form.get('initialDate')?.value,
-        endDate: this.form.get('finalDate')?.value,
-        typeOfService: 'IT',
+        endDate: this.form.get('endDate')?.value,
+        typeOfService: this.form.get('typeOfService')?.value,
         colaboratorProjects: [],
-        active: true
+        active: true 
       }
+      console.log(project)
       this._ProjectS.save(project).subscribe((data:Project)=>{
-        console.log(data)
+        
       });
       this.dialogRef.close();
     }else{
-      console.log("NO SE PUEDE",this.form)
+      
     }
   }
 }

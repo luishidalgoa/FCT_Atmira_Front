@@ -17,7 +17,7 @@
         </div>
     </header>
     <hr>
-    <form (submit)="this.create()" [formGroup]="this.form" class="w-full grid grid-cols-2 gap-2">
+    <form [formGroup]="this.form" (submit)="this.create()" class="w-full grid grid-cols-2 gap-2">
         <h3 class="font-medium text-lg text-[#172B4D]/90" style="font-size: 1.5rem;">Details</h3><div></div>
         <div class="flex items-center gap-2">
             <p class="text-[#172B4D]/90 text-[1.25rem]">Title</p>
@@ -42,7 +42,7 @@
         </div>
         <div class="flex items-center w-56 ">
             <mat-form-field class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
-                <input formControlName="finalDate" matInput [matDatepicker]="picker2" placeholder="Choose a date">
+                <input formControlName="endDate" matInput [matDatepicker]="picker2" placeholder="Choose a date">
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
@@ -51,9 +51,14 @@
             <p class="text-[#172B4D]/90 text-[1.25rem]">Type of service</p>
         </div>
         <div class="flex items-center">
-            <div>
-                <input formControlName="typeOfService" placeholder="Write any name for the project" type="text" id="first_name" class=" w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis" required>
-            </div>
+            <mat-form-field class="w-full">
+                <mat-label><p class="text-[#A8587B]">Select any Language...</p></mat-label>
+                <mat-select formControlName="typeOfService">
+                  @for (type of this.typeOfServiceValues; track type) {
+                    <mat-option [value]="type">{{type}}</mat-option>
+                  }
+                </mat-select>
+            </mat-form-field>
         </div>
         <div>
             <button type="button" class="w-56 text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Cancel</button>

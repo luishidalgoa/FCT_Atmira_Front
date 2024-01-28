@@ -15,22 +15,14 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle stroke="#2e405e" cx="12" cy="12" r="10"/><path stroke="#2e405e" d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path stroke="#2e405e" d="M2 12h20"/></svg><p class="text-[#172B4D]/90 text-[1.25rem]">Language</p>
         </div>
         <div>
-            <button class="flex items-center border border-[#E22C79]/40 p-2 rounded-md bg-[#E22C79]/20 " data-dropdown-toggle="dropdown">
-                <section>
-                    <p class="text-[#A8587B]">Select any Language...</p>
-                    <svg class="w-2.5 h-2.5 ms-2.5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="#A8587B" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                </section>
-            </button>
             <mat-form-field>
-                <mat-label>Select any Language...</mat-label>
+                <mat-label><p class="text-[#A8587B]">Select any Language...</p></mat-label>
                 <mat-select>
-                  @for (food of this.typeOfServiceValues; track food) {
-                    <mat-option [value]="food">{{food}}</mat-option>
+                  @for (language of this.languages; track language) {
+                    <mat-option [value]="language">{{language}}</mat-option>
                   }
                 </mat-select>
-              </mat-form-field>
+            </mat-form-field>
         </div>
     </section>
 </article>

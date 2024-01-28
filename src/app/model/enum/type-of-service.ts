@@ -1,8 +1,8 @@
 export enum TypeOfService {
-    MANTENIMIENTO = "Mantenimiento",
-    DESARROLLO = "Desarrollo",
-    FINANZAS = "Finanzas",
-    MARKETING = "Marketing",
-    OPERACIONES = "Operaciones"
+    MANTENIMIENTO = "MANTENIMIENTO",
+    DESARROLLO = "DESARROLLO",
+    FINANZAS = "FINANZAS",
+    MARKETING = "MARKETING",
+    OPERACIONES = "OPERACIONES"
 }
 
