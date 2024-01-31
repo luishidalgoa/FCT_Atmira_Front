@@ -4,7 +4,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectService } from '../../../service/common/Project/project.service';
 import { Project } from '../../../model/domain/project';
@@ -25,12 +24,10 @@ export class NewProjectComponent {
   typeOfServiceValues = Object.values(TypeOfService);
 
   minDate: Date;
-  maxDate: Date;
   constructor(public dialogRef: MatDialogRef<NewProjectComponent>,private _ProjectS:ProjectService, private _formBuilder: FormBuilder) {
     // Set the minimum to January 1st 20 years in the past and December 31st a year in the future.
     const currentYear = new Date().getFullYear();
-    this.minDate = new Date(currentYear - 20, 0, 1);
-    this.maxDate = new Date(currentYear + 1, 11, 31);
+    this.minDate = new Date(currentYear - 0, 0, new Date().getDate());
 
     this.form = this._formBuilder.group({
       title: new FormControl('',Validators.maxLength(20)),
@@ -47,7 +44,6 @@ export class NewProjectComponent {
         initialDate: this.form.get('initialDate')?.value,
         endDate: this.form.get('endDate')?.value,
         typeOfService: this.form.get('typeOfService')?.value,
-        colaboratorProjects: [],
         active: true 
       }
       console.log(project)
@@ -58,5 +54,9 @@ export class NewProjectComponent {
     }else{
       
     }
+  }
+
+  close(){
+    this.dialogRef.close();
   }
 }
