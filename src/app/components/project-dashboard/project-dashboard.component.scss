@@ -12,9 +12,19 @@ td{
     font-size: larger;
     font-weight: 500;
 }
+p{
+    font-family: 'EB Garamond', serif;
+    color: #172B4D;
+}
 ::ng-deep .mat-sort-header-content{
     color: #172B4D;
     font-family: 'EB Garamond', serif;
     font-weight: 700;
     font-size: large;
+}
+::ng-deep .mat-mdc-menu-item-text{
+    @apply flex gap-2 items-center;
+    svg{
+        @apply mt-1 fill-[#172B4D]
+    }
 }

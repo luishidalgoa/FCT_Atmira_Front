@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HubComponent } from './hub.component';
+import { ViewAllComponent } from './view-all.component';
 
-describe('HubComponent', () => {
-  let component: HubComponent;
-  let fixture: ComponentFixture<HubComponent>;
+describe('ViewAllComponent', () => {
+  let component: ViewAllComponent;
+  let fixture: ComponentFixture<ViewAllComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HubComponent]
+      imports: [ViewAllComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(HubComponent);
+    fixture = TestBed.createComponent(ViewAllComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

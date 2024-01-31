@@ -2,7 +2,7 @@ import { WorkPlace } from "./work-place";
 
 export interface Colaborator {
     ID_Alias: string;
-    WorkPlace: WorkPlace;
+    WorkPlace?: WorkPlace;
     Email: string;
     isActive: boolean;
     relaseDate: Date;
@@ -12,5 +12,5 @@ export interface Colaborator {
     Name: string;
     Surname: string;
     Password: string;
-    Responsible: boolean;
+    Responsible?: Colaborator;
 }

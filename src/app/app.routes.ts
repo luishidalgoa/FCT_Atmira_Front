@@ -5,6 +5,7 @@ import { HubComponent } from './pages/hub/hub.component';
 import { authGuard } from './guards/auth.guard';
 import { ProjectDashboardComponent } from './components/project-dashboard/project-dashboard.component';
 import { TaskBoardComponent } from './components/task-board/task-board.component';
+import { ViewAllComponent } from './pages/project/view-all/view-all.component';
 
 export const routes: Routes = [
     {
@@ -21,7 +22,7 @@ export const routes: Routes = [
         children: [
             {
               path: 'projects',
-              component: ProjectDashboardComponent
+              component: ViewAllComponent
             },
             {
               path: 'projects/:id',
@@ -39,9 +40,9 @@ export const routes: Routes = [
         redirectTo: '',
         pathMatch: 'full',
 
-    },
+    }/*,
     {
         path: '**',
         redirectTo: 'Welcome'
-    }
+    }*/
 ];
