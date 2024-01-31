@@ -36,7 +36,7 @@ export class HubComponent {
   }
 
   getUserProjects(): Observable<Item[]> | void {
-    return this._ProjectS.getUserProjects(1, 4).pipe(
+    return this._ProjectS.getUserProjects('sampleId').pipe(
       map((data: Project[]) => {
         return data.map(project => ({
           title: project.name,

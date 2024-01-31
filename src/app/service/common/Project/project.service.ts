@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Project } from '../../../model/domain/project';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Colaborator } from '../../../model/domain/colaborator';
 
 @Injectable({
@@ -21,28 +21,24 @@ export class ProjectService {
       return this._http.post<Project>(url, project, header);
   }
 
-  getUserProjects(id: number, limit: number): Observable<Project[]> {
+  getUserProjects(ID_Alias: string, limit?: number): Observable<Project[]> {
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    const url: string = 'http://localhost:8080/project/user/' + id + '/limit=' + limit;
+    const url: string = `http://localhost:8080/collaborator/${ID_Alias}/projects`;
     return this._http.get<Project[]>(url, header);
   }
 
-
-  /**
-   * @deprecated TEMPORAL
-   */
-  getAllProjects(ID_Alias:string): Observable<Project[]> {
+  delete(project: Project): Observable<boolean> {
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `http://localhost:8080/project/${ID_Alias}/all`;
-    return this._http.get<Project[]>(url, header);
+    const url: string = `http://localhost:8080/project/delete/${project.id_code}`;
+    return this._http.delete<boolean>(url, header);
   }
 
 }

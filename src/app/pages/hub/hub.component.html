@@ -1,6 +1,6 @@
 <div class="px-4 py-2">
   <header class="flex items-center gap-5 select-none">
-    <div class="flex items-center gap-2">
+    <div routerLink="projects" class="flex items-center gap-2 cursor-pointer">
       <div class="bg-[#E91979] rounded-full w-14 h-14 flex items-center justify-center">
         <p class="text-white text-3xl font-semibold mb-1">a</p>
       </div>
@@ -8,7 +8,7 @@
     </div>
     <nav class="flex justify-between w-full select-none">
       <ul class="flex">
-        <li mat-button [matMenuTriggerFor]="menu" class="relative flex items-center gap-2 cursor-pointer " routerLinkActive="active" routerLink=""><p class="text-[#E91979] text-3xl font-semibold mb-1 relative">Projects</p>
+        <li mat-button [matMenuTriggerFor]="menu" class="relative flex items-center gap-2 cursor-pointer " routerLinkActive="active"><p class="text-[#E91979] text-3xl font-semibold mb-1 relative">Projects</p>
           <svg xmlns="http://www.w3.org/2000/svg" width="16.089" height="9.192" viewBox="0 0 16.089 9.192">
           <path id="Trazado_22" data-name="Trazado 22" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-31.925 -159.925)" fill="rgba(233,25,121,0.75)"/>
           </svg>
@@ -27,7 +27,7 @@
             }
             <hr>
             <button mat-menu-item class="font-normal text-[#707070] p-2" (click)="openNewProject('0ms', '0ms')">Create a new project</button>
-            <button mat-menu-item class="font-normal text-[#707070] p-2">View all your projects</button>
+            <button routerLink="projects" mat-menu-item class="font-normal text-[#707070] p-2">View all your projects</button>
   
           </mat-menu>
         </li>
