@@ -20,4 +20,11 @@ describe('HubComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  test('deberia retornar un array de proyectos del usuario 1, no deberia estar vacio'), () => {
+    const projects = component.getUserProjects();
+    expect(projects).not.toBeNull();
+
+    expect(projects).not.toHaveLength(0);
+  }
 });

@@ -1,0 +1,52 @@
+<article class="bg-white rounded-md shadow-lg">
+    <header class="bg-[#ADADAE]/30 px-5 py-3 flex justify-between items-center rounded-t-md">
+        <div (click)="details=!details" class="flex gap-3 items-center cursor-pointer">
+            <svg [style]="!details ? 'transform: rotate(0deg)' : 'transform: rotate(90deg)'" class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089" viewBox="0 0 9.192 16.089">
+                <path id="Trazado_47" data-name="Trazado 47" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-159.925 48.014) rotate(-90)" fill="#707070"/>
+            </svg>                      
+            <p class="text-xl font-semibold">{{this.value.title}}</p>
+        </div>
+        <div>
+            <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
+                <path id="Trazado_64" data-name="Trazado 64" d="M6.39,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,6.39,6ZM1.2,6A1.2,1.2,0,1,1,0,7.2,1.2,1.2,0,0,1,1.2,6ZM11.583,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,11.583,6Z" transform="translate(0.5 -5.5)" fill="#474747" stroke="#474747" stroke-width="1"/>
+            </svg>              
+        </div>
+    </header>
+    <div class="" [className]="this.newT ? '' :'px-5 py-3'" [style]=" !details ? 'display: none' : ''">
+        @for (task of tasks; track $index) {
+            <section>
+                <input id="{{$index}}" type="checkbox">
+            </section> 
+        }
+        <section class="">
+            <div (click)="newT=true" class="" [className]="newT ? 'hidden' : 'flex items-center gap-2 text-lg font-bold cursor-pointer'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14.933" height="14.933" viewBox="0 0 14.933 14.933">
+                    <path id="Trazado_13" data-name="Trazado 13" d="M24.615,49.149a1.149,1.149,0,0,0-2.3,0v5.169H17.149a1.149,1.149,0,1,0,0,2.3h5.169v5.169a1.149,1.149,0,0,0,2.3,0V56.615h5.169a1.149,1.149,0,1,0,0-2.3H24.615Z" transform="translate(-16 -48)" fill="#0f0f0f"/>
+                </svg>
+                <p>New task</p>
+            </div>
+            @if(newT){
+                <form #form class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md">
+                    <div mat-button [matMenuTriggerFor]="menu" class="min-w-6 h-full cursor-pointer flex items-center gap-2">
+                        <label >Objetive</label>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089" viewBox="0 0 9.192 16.089">
+                            <path id="Trazado_47" data-name="Trazado 47" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-159.925 48.014) rotate(-90)" fill="#707070"/>
+                        </svg>
+                        <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
+                            <p class="font-semibold text-[#707070] p-2">Objetives</p>
+                            <hr class="">
+                            @for (value of this.typeOfServiceValues; track $index) {
+                                <button mat-menu-item (click)="this.formGroup.controls['typeOfService'].setValue(value)">
+                                    <div class="flex gap-1 items-center">
+                                        <p>{{value | titlecase}}</p>
+                                    </div>
+                                </button>
+                            }
+                        </mat-menu>
+                    </div>
+                    <input formControlName="title" placeholder="Write any description about task" #input type="text" class="outline-none w-full h-full">
+                </form> 
+            }
+        </section>
+    </div>
+</article>

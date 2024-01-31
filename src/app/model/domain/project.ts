@@ -7,8 +7,8 @@ export interface Project {
     name: string;
     initialDate: Date;
     endDate: Date;
-    active?: boolean;
-    colaboratorProjects: Colaborator[],
+    active: boolean;
+    colaboratorProjects?: Colaborator[],
     expenses?: boolean,
     tasks?: Task[],
 }
