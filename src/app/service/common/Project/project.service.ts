@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Project } from '../../../model/domain/project';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Colaborator } from '../../../model/domain/colaborator';
+import { environment } from '../../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class ProjectService {
           'Content-Type': 'application/json'
         })
       };
-      const url: string = 'http://localhost:8080/project/save';
+      const url: string = `${environment.apiUrl}/project/save`;
       return this._http.post<Project>(url, project, header);
   }
 
@@ -27,7 +28,7 @@ export class ProjectService {
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `http://localhost:8080/collaborator/${ID_Alias}/projects`;
+    const url: string = `${environment.apiUrl}/collaborator/${ID_Alias}/projects`;
     return this._http.get<Project[]>(url, header);
   }
 
@@ -37,7 +38,7 @@ export class ProjectService {
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `http://localhost:8080/project/delete/${project.id_code}`;
+    const url: string = `${environment.apiUrl}/delete/${project.id_code}`;
     return this._http.delete<boolean>(url, header);
   }
 
