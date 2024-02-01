@@ -41,13 +41,12 @@
             </th>
             <td mat-cell *matCellDef="let element"> {{element.active ? 'Active' : 'Off'}} </td>
         </ng-container>
-
-        <!-- Name Column -->
         <ng-container matColumnDef="option">
+            <!-- Name Column -->
             <th mat-header-cell *matHeaderCellDef>
             </th>
             <td mat-cell *matCellDef="let element">
-                <div mat-button [matMenuTriggerFor]="menu" class="px-2 py-3 rounded-lg hover:bg-gray-300/50 active:bg-gray-300 w-fit">
+                <div mat-button [matMenuTriggerFor]="menu" class="px-2 py-3 rounded-lg hover:bg-gray-300/50 active:bg-gray-300 w-fit" (click)="$event.stopPropagation()">
                     <svg  xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
                         <path id="Trazado_60" data-name="Trazado 60" d="M6.39,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,6.39,6ZM1.2,6A1.2,1.2,0,1,1,0,7.2,1.2,1.2,0,0,1,1.2,6ZM11.583,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,11.583,6Z" transform="translate(0.5 -5.5)" fill="#474747" stroke="#474747" stroke-width="1"/>
                     </svg>
@@ -63,7 +62,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr class="cursor-pointer" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="cursor-pointer" mat-row *matRowDef="let row; columns: displayedColumns" (click)="show(row)"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                     showFirstLastButtons

@@ -37,6 +37,7 @@ export class ProjectDashboardComponent {
 
   delete(project:Project){
       this._project.delete(project).subscribe((result:boolean)=>{
+        console.log(result)
       });
   }
   /**
