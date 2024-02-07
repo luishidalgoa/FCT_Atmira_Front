@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, QueryList, Type, ViewChild, ViewChildren, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { TypeOfService } from '../../model/enum/type-of-service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Task } from '../../model/domain/task';
+import { ProjectService } from '../../service/common/Project/project.service';
+import { ObjetiveService } from '../../service/objetive.service';
+import { AuthService } from '../../service/user/auth.service';
+import { TaskService } from '../../service/common/Task/task.service';
 
 @Component({
   selector: 'app-task-board',
@@ -13,9 +18,11 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   styleUrl: './task-board.component.scss'
 })
 export class TaskBoardComponent {
-  @Input({ required: true })
-  value!: { title: string }
-  tasks: any[] = [];
+  @Input({required: true})
+  value!: Task; // tarea padre
+  @Output()
+  deleteEvent: EventEmitter<Task> = new EventEmitter<Task>();
+  tasks: Task[] = []; //subtareas
   details: boolean = false;
   newT: boolean = false;
 
@@ -23,16 +30,22 @@ export class TaskBoardComponent {
 
   typeOfServiceValues = Object.values(TypeOfService);
 
-  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder) {
-      this.value = { title: 'Tarea 1' };
+  _project:ProjectService = inject(ProjectService);
 
-
-
-
+  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder,public _objetive: ObjetiveService,private _auth: AuthService,private _task:TaskService) {
+      
       this.formGroup = this._formBuilder.group({
         title: new FormControl(''),
         typeOfService: new FormControl('')
       });
+   }
+
+   ngOnInit(): void {
+    console.log(this.value);
+    /*this._task.getSubTasksByProject(this.value.task!=null ? this.value.task : this.value.ID_Code_Project).subscribe((data:Task[])=>{
+      console.log(data);
+      //this.tasks = data;
+    });*/
    }
 
   @ViewChildren('input') input!: QueryList<ElementRef>;
@@ -63,4 +76,14 @@ export class TaskBoardComponent {
     }
   }
   
+  delete(): void{
+    console.log(this.value);
+    this._task.delete(this.value).subscribe((result:boolean)=>{
+      console.log('hola')
+      console.log(result);
+      if(result){
+        this.deleteEvent.emit(this.value);
+      }
+    });
+  }
 }

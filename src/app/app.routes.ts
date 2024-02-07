@@ -1,11 +1,7 @@
 import { Routes } from '@angular/router';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
-import { AppComponent } from './app.component';
-import { HubComponent } from './pages/hub/hub.component';
 import { authGuard } from './guards/auth.guard';
-import { ProjectDashboardComponent } from './components/project-dashboard/project-dashboard.component';
-import { TaskBoardComponent } from './components/task-board/task-board.component';
-import { ViewAllComponent } from './pages/project/view-all/view-all.component';
+import { hubRoutes } from './pages/hub/hub.routes';
 
 export const routes: Routes = [
     {
@@ -17,32 +13,19 @@ export const routes: Routes = [
     {
         path: '',
         title: 'FCT_Atmira - Projects',
-        component: HubComponent,
+        loadComponent: () => import('./pages/hub/hub.component').then(m => m.HubComponent),
         canActivate: [authGuard],
-        children: [
-            {
-              path: 'projects',
-              component: ViewAllComponent
-            },
-            {
-              path: 'projects/:id',
-              component: TaskBoardComponent
-            },
-            {
-                path: '',
-                redirectTo: 'projects',
-                pathMatch: 'full'
-            }
-          ],
+        children: hubRoutes,
+        data: {breadcrumb: {skip: true}}
     },
     {
         path: '',
         redirectTo: '',
         pathMatch: 'full',
 
-    }/*,
+    },
     {
         path: '**',
         redirectTo: 'Welcome'
-    }*/
+    }
 ];

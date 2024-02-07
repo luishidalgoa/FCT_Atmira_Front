@@ -36,6 +36,7 @@ $FCT_Atmira-theme: mat.define-light-theme((
 
 
 
+
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
@@ -69,3 +70,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     @apply p-0;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

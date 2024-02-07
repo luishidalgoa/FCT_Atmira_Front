@@ -19,35 +19,35 @@ describe('ProjectService', () => {
     expect(service).toBeTruthy();
   });
 
-
-  test('deberia retornar un objeto project al menos del usuario sampleId', () => {
-    service.save(
+  test('deberia poderse guardar un proyecto', () => {
+    //devuelve un objeto project completo
+    expect(service.save(
       {
         name: "Nombre del Proyecto",
         typeOfService: "DESARROLLO",
-        initialDate: new Date("2020-03-01"),
-        endDate: new Date("2020-03-02"),
-        "active": true,
+        initialDate: new Date("2025-03-01"),
+        endDate: new Date("2025-03-02"),
+        active: true
+      },"sampleId"
+    )).not.toBeNull();
+  });
 
-        colaboratorProjects: [
-          {
-            ID_Alias: "sampleId",
-            Email: "sample@email.com",
-            isActive: true,
-            relaseDate: new Date("2020-01-31"),
-            Hours: 6,
-            Guards: true,
-            Expense: true,
-            Name: "John",
-            Surname: "Doe",
-            Password: "sample"
-          }
-        ]
-      }
-    )
-
+  test('deberia retornar un objeto project al menos del usuario sampleId', () => {
     service.getUserProjects('sampleId').subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
     });
+  });
+
+  test('deberia poderse eliminar un proyecto', () => {
+    //retorna un booleano
+    expect(service.delete(
+      {
+        name: "Nombre del Proyecto",
+        typeOfService: "DESARROLLO",
+        initialDate: new Date("2025-03-01"),
+        endDate: new Date("2025-03-02"),
+        "active": true
+      }
+    )).toBeTruthy();
   });
 });

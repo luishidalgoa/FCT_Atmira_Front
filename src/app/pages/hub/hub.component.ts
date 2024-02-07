@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,11 +13,12 @@ import { Project } from '../../model/domain/project';
 import { Item } from '../../model/domain/item';
 import { TaskBoardComponent } from '../../components/task-board/task-board.component';
 import { ProjectDashboardComponent } from '../../components/project-dashboard/project-dashboard.component';
+import { AuthService } from '../../service/user/auth.service';
 @Component({
   selector: 'app-hub',
   standalone: true,
   imports: [CommonModule, RouterLinkActive, RouterLink, MatButtonModule, MatMenuModule,
-    MatButtonModule,             TaskBoardComponent,ProjectDashboardComponent, RouterOutlet],
+    MatButtonModule,             TaskBoardComponent,ProjectDashboardComponent, RouterOutlet,RouterModule],
   templateUrl: './hub.component.html',
   styleUrl: './hub.component.scss'
 })
@@ -35,8 +36,9 @@ export class HubComponent {
     ]
   }
 
+  private _auth: AuthService = inject(AuthService);
   getUserProjects(): Observable<Item[]> | void {
-    return this._ProjectS.getUserProjects('sampleId').pipe(
+    return this._ProjectS.getUserProjects(this._auth.currentUser$().ID_Alias).pipe(
       map((data: Project[]) => {
         return data.map(project => ({
           title: project.name,
