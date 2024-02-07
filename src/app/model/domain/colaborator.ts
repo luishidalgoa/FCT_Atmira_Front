@@ -11,6 +11,6 @@ export interface Colaborator {
     Expense: boolean;
     Name: string;
     Surname: string;
-    Password: string;
+    Password?: string;
     Responsible?: Colaborator;
 }
