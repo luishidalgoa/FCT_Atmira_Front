@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { PreloadAllModules, provideRouter, withDebugTracing, withPreloading } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -8,5 +8,5 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideAnimations(), provideHttpClient(), provideAnimations(), provideAnimations(), provideAnimations(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()]
+  providers: [provideRouter(routes, withPreloading(PreloadAllModules)), provideClientHydration(), provideAnimations(), provideHttpClient(), provideAnimations(), provideAnimations(), provideAnimations(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()]
 };
