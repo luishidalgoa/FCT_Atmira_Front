@@ -1,7 +1,7 @@
 <div class="p-5 h-auto w-auto flex flex-col gap-3">
     <header class="flex justify-between items-start">
         <div class="flex flex-col gap-2">
-            <h1 class="font-semibold text-lg text-[#172B4D]/90">Login</h1>
+            <h1 class="font-semibold text-lg text-[#172B4D]/90">Register</h1>
             <p class="text-[#172B4D]/90">Empiece su proyecto</p>
         </div>
         <div class="flex items-center gap-2">
@@ -18,7 +18,7 @@
         </div>
     </header>
     <hr>
-    <form [formGroup]="this.form" (submit)="this.login()" class="w-full grid gap-4">
+    <form [formGroup]="this.form" (submit)="this.register()" class="w-full grid gap-4">
         <h3 class="font-medium text-lg text-[#172B4D]/90 mb-1" style="font-size: 1.5rem;">Details</h3>
         <div class="">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
@@ -28,11 +28,10 @@
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
             <input formControlName="password" type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="•••••••••" required>
         </div> 
-        <a href="#" class="text-[#172B4D]/90 text-sm font-medium">Forgot your password?</a>
         <div>
             <button type="submit"
-                class="w-56 text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login</button>
+                class="w-56 text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign up</button>
         </div>
-        <p class="text-gray-700 text-sm font-medium">Don't have an account? <a href="#" class="text-[#172B4D]/90 text-md font-semibold">Sign up</a></p>
+        <p class="text-gray-700 text-sm font-medium">Have you any account? <a href="#" class="text-[#172B4D]/90 text-md font-semibold">Login</a></p>
     </form>
 </div>
