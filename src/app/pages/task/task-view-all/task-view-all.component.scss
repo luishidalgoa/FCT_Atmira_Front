@@ -6,3 +6,17 @@ button{
         font-family: 'EB Garamond', serif;
     }
 }
+
+.colaborator:first-child{
+    margin-left: -40px!important;
+    z-index: 2!important;
+}
+.colaborator{
+    margin-left: -30px;
+    z-index: 0;
+
+}
+.colaborator:last-child{
+    margin-left: -20px!important;
+    z-index: -1!important;
+}

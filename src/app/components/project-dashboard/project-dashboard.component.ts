@@ -5,10 +5,10 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Project } from '../../model/domain/project';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { ProjectService } from '../../service/common/Project/project.service';
+import { ProjectService } from '../../service/mockup/project.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
-import { AuthService } from '../../service/user/auth.service';
+import { AuthService } from '../../service/mockup/auth.service';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
 
 @Component({
@@ -19,14 +19,12 @@ import { UserDataWrapperService } from '../../service/user/user-data-wrapper.ser
   styleUrl: './project-dashboard.component.scss'
 })
 export class ProjectDashboardComponent {
-  private _project:ProjectService = inject(ProjectService);
   private Data!: Project[];
 
   displayedColumns: string[] = ['name', 'initialDate', 'endDate','type', 'status', 'option'];
   dataSource!: MatTableDataSource<Project>;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private _router: Router,private _auth:AuthService,private _user_dataWrapper:UserDataWrapperService) {
-    this.dataSource = new MatTableDataSource(this.Data);
+  constructor(private _liveAnnouncer: LiveAnnouncer, private _router: Router,private _auth:AuthService,private _user_dataWrapper:UserDataWrapperService,private _project:ProjectService) {
     effect(()=>{
       this.Data = this._user_dataWrapper.projects$();
       this.dataSource = new MatTableDataSource(this.Data);
@@ -34,7 +32,9 @@ export class ProjectDashboardComponent {
   }
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    setTimeout(()=>{
+      this.dataSource.paginator = this.paginator;
+    },10);
   }
 
   delete(project:Project){

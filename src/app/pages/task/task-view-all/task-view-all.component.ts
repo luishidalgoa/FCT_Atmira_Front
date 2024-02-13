@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TaskService } from '../../../service/common/Task/task.service';
+import { TaskService } from '../../../service/mockup/task.service';
 import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
 import { TaskBoardComponent } from '../../../components/task-board/task-board.component';
-import { ProjectService } from '../../../service/common/Project/project.service';
+import { ProjectService } from '../../../service/mockup/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTaskComponent } from '../../../components/modals/new-task/new-task.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-view-all',
@@ -16,22 +17,22 @@ import { NewTaskComponent } from '../../../components/modals/new-task/new-task.c
   styleUrl: './task-view-all.component.scss'
 })
 export class TaskViewAllComponent {
-  parent!: Project;
-  values!: Task[];
+  public parent!: Project;
+  public values!: Task[];
   constructor(private route: ActivatedRoute,private _task:TaskService,private _project: ProjectService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this._project.getById(this.route.snapshot.params['id']).subscribe(
       (data: Project) => {
         this.parent = data;
+
+        this._task.getSubTasksByProject(this.parent.id_code as number).subscribe(
+          (data: Task[]) => {
+            this.values = data;
+          }
+        );
       }
-    ).add(()=>{
-      this._task.getSubTasksByProject(this.parent.id_code as number).subscribe(
-        (data: Task[]) => {
-          this.values = data;
-        }
-      );
-    })
+    )
     
   }
 

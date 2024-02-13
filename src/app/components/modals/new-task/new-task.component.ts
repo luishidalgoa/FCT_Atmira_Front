@@ -9,9 +9,9 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { TypeOfService } from '../../../model/enum/type-of-service';
 import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
-import { TaskService } from '../../../service/common/Task/task.service';
+import { TaskService } from '../../../service/mockup/task.service';
 import { title } from 'process';
-import { AuthService } from '../../../service/user/auth.service';
+import { AuthService } from '../../../service/mockup/auth.service';
 
 @Component({
   selector: 'app-new-task',

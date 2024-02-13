@@ -13,11 +13,12 @@ p,label{
 li::after{ 
     content: '';
     height: 1px;
+    margin-top: 5px;
     @apply w-full bg-[#707070] block
 }
 li::after:last-child{ 
     content: '';
-    @apply w-0 h-1 bg-none
+    @apply w-0 h-0 bg-none
 }
 
 

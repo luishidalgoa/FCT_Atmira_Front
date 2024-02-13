@@ -20,13 +20,24 @@ export class ProjectService {
    * @returns 
    */
   save(project: Project,ID_Alias:string): Observable<Project> {
-      const header = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      };
-      const url: string = `${environment.apiUrl}/project/save/colaboratorId=${ID_Alias}`;
-      return this._http.post<Project>(url, project, header);
+    return new Observable<Project>((observer) => {
+      project.colaboratorProjects = [
+        {
+          Name: 'sampleId',
+          Surname: 'John',
+          Email: 'sampleId@gmail.com',
+          Expense: true,
+          Guards: true,
+          Hours: 8,
+          ID_Alias: ID_Alias,
+          isActive: true,
+          relaseDate: new Date(),
+          Password: '1234',
+        }
+      ]
+      project.id_code = 2;
+      observer.next(project);
+    });
   }
 
   /**
@@ -44,7 +55,20 @@ export class ProjectService {
           endDate: new Date(),
           initialDate: new Date(),
           typeOfService: TypeOfService.DESARROLLO,
-          colaboratorProjects: [],
+          colaboratorProjects: [
+            {
+              Name: 'sampleId',
+              Surname: 'John',
+              Email: 'sampleId@gmail.com',
+              Expense: true,
+              Guards: true,
+              Hours: 8,
+              ID_Alias: ID_Alias,
+              isActive: true,
+              relaseDate: new Date(),
+              Password: '1234',
+            }
+          ],
           tasks: [],
           expenses: true
         }
@@ -53,31 +77,76 @@ export class ProjectService {
   }
 
   delete(project: Project): Observable<boolean> {
-    const _user_dataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
-    const header = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    const url: string = `${environment.apiUrl}/delete/${project.id_code}`;
-
-    return this._http.delete<boolean>(url, header).pipe(
-      tap((result: boolean) => {
-        if (result) {
-          _user_dataWrapper.removeProject(project);
-        }
-      })
-    );
+    return new Observable<boolean>((observer) => {
+      observer.next(true);
+    });
   }
 
   getById(id: number): Observable<Project> {
-    const header = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    const url: string = `${environment.apiUrl}/project/list/${id}`;
-    return this._http.get<Project>(url, header);
+    return new Observable<Project>((observer) => {
+      const project: Project = {
+        id_code: 1,
+        name: 'Proyecto 1',
+        active: true,
+        endDate: new Date(),
+        initialDate: new Date(),
+        typeOfService: TypeOfService.DESARROLLO,
+        colaboratorProjects: [
+          {
+            Name: 'sampleId',
+            Surname: 'John',
+            Email: 'sampleId@gmail.com',
+            Expense: true,
+            Guards: true,
+            Hours: 8,
+            ID_Alias: 'sampleId',
+            isActive: true,
+            relaseDate: new Date(),
+            Password: '1234',
+          },
+          {
+            Name: 'sampleId',
+            Surname: 'John',
+            Email: 'sampleId@gmail.com',
+            Expense: true,
+            Guards: true,
+            Hours: 8,
+            ID_Alias: 'sampleId',
+            isActive: true,
+            relaseDate: new Date(),
+            Password: '1234',
+          },
+          {
+            Name: 'sampleId',
+            Surname: 'John',
+            Email: 'sampleId@gmail.com',
+            Expense: true,
+            Guards: true,
+            Hours: 8,
+            ID_Alias: 'sampleId',
+            isActive: true,
+            relaseDate: new Date(),
+            Password: '1234',
+          },
+          {
+            Name: 'sampleId',
+            Surname: 'John',
+            Email: 'sampleId@gmail.com',
+            Expense: true,
+            Guards: true,
+            Hours: 8,
+            ID_Alias: 'sampleId',
+            isActive: true,
+            relaseDate: new Date(),
+            Password: '1234',
+          }
+        ],
+        tasks: [],
+        expenses: true
+      };
+
+      observer.next(project);
+    });
   }
 
 }

@@ -22,27 +22,27 @@
             <button (click)="this.delete()" mat-menu-item class="font-normal text-[#707070] p-2"><svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg><p class="text-xl">Delete</p></button>
         </mat-menu>
     </header>
-    <section class="" [className]="this.newT ? '' :'px-5 py-3'" [style]=" !details ? 'display: none' : ''">
-        <ul>
+    <section [style]=" !details ? 'display: none' : ''">
+        <ul class="px-5 py-3 flex flex-col gap-1">
             @if(this.value && this.value.task && this.value.task > 0){
                 @for (task of this.tasks; track $index) {
-                <li class="">
-                    <div class="flex items-center gap-4">
-                        <div class="checkbox-wrapper-13 flex items-center">
-                            <input [id]="$index" type="checkbox">
-                            <label [for]="$index"></label>
-                        </div>
+                    <li class="">
+                        <div class="flex items-center gap-4">
+                            <div class="checkbox-wrapper-13 flex items-center">
+                                <input [id]="$index" type="checkbox">
+                                <label [for]="$index"></label>
+                            </div>
 
-                        <div class="text-xl w-4/6 flex items-center overflow-hidden gap-1">
-                            <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
-                            <p class="text-ellipsis text-nowrap font-semibold">{{task.description}}</p>
+                            <div class="text-xl w-4/6 flex items-center overflow-hidden gap-1">
+                                <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
+                                <p class="text-ellipsis text-nowrap font-semibold">{{task.description}}</p>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
                 }
             }
         </ul>
-        <section class="">
+        <section [className]="this.newT ? '' :'px-5 py-3'">
             <div (click)="newT=true" class=""
                 [className]="newT ? 'hidden' : 'flex items-center gap-2 text-lg font-bold cursor-pointer'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14.933" height="14.933" viewBox="0 0 14.933 14.933">

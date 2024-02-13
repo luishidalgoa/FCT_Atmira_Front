@@ -1,6 +1,6 @@
 import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
 import { Project } from '../../model/domain/project';
-import { ProjectService } from '../common/Project/project.service';
+import { ProjectService } from '../mockup/project.service';
 import { AuthService } from './auth.service';
 
 @Injectable({

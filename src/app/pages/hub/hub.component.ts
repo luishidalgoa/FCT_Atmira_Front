@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angul
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ProjectService } from '../../service/common/Project/project.service';
+import { ProjectService } from '../../service/mockup/project.service';
 import { ConfigurationComponent } from '../../components/modals/Configuration/configuration.component';
 import { NewProjectComponent } from '../../components/modals/new-project/new-project.component';
 import { Observable, map } from 'rxjs';
@@ -13,7 +13,7 @@ import { Project } from '../../model/domain/project';
 import { Item } from '../../model/domain/item';
 import { TaskBoardComponent } from '../../components/task-board/task-board.component';
 import { ProjectDashboardComponent } from '../../components/project-dashboard/project-dashboard.component';
-import { AuthService } from '../../service/user/auth.service';
+import { AuthService } from '../../service/mockup/auth.service';
 @Component({
   selector: 'app-hub',
   standalone: true,
