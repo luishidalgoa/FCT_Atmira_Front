@@ -5,7 +5,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProjectService } from '../../../service/common/Project/project.service';
+import { ProjectService } from '../../../service/mockup/project.service';
 import { Project } from '../../../model/domain/project';
 import { CommonModule } from '@angular/common';
 import { MatSelect } from '@angular/material/select';

@@ -40,7 +40,7 @@ describe('TaskService', () => {
       objective: TypeOfService.DESARROLLO,
       closed: false,
       Project: data, // Utiliza los datos obtenidos en el subscribe
-      task: [],
+      task: 1,
     })).not.toBeNull();
   }));
 

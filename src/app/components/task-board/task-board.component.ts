@@ -5,10 +5,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TypeOfService } from '../../model/enum/type-of-service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Task } from '../../model/domain/task';
-import { ProjectService } from '../../service/common/Project/project.service';
+import { ProjectService } from '../../service/mockup/project.service';
 import { ObjetiveService } from '../../service/objetive.service';
-import { AuthService } from '../../service/user/auth.service';
-import { TaskService } from '../../service/common/Task/task.service';
+import { AuthService } from '../../service/mockup/auth.service';
+import { TaskService } from '../../service/mockup/task.service';
 
 @Component({
   selector: 'app-task-board',
@@ -22,7 +22,7 @@ export class TaskBoardComponent {
   value!: Task; // tarea padre
   @Output()
   deleteEvent: EventEmitter<Task> = new EventEmitter<Task>();
-  tasks: Task[] = []; //subtareas
+  tasks!: Task[]; //subtareas
   details: boolean = false;
   newT: boolean = false;
 
@@ -41,11 +41,9 @@ export class TaskBoardComponent {
    }
 
    ngOnInit(): void {
-    console.log(this.value);
-    /*this._task.getSubTasksByProject(this.value.task!=null ? this.value.task : this.value.ID_Code_Project).subscribe((data:Task[])=>{
-      console.log(data);
-      //this.tasks = data;
-    });*/
+    this._task.getSubTasksByProject(this.value.task!=null ? this.value.task : this.value.ID_Code_Project).subscribe((data:Task[])=>{
+      this.tasks = data;
+    });
    }
 
   @ViewChildren('input') input!: QueryList<ElementRef>;
@@ -77,10 +75,7 @@ export class TaskBoardComponent {
   }
   
   delete(): void{
-    console.log(this.value);
     this._task.delete(this.value).subscribe((result:boolean)=>{
-      console.log('hola')
-      console.log(result);
       if(result){
         this.deleteEvent.emit(this.value);
       }

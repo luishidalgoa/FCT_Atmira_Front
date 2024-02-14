@@ -9,6 +9,7 @@ export interface Task {
     objective: TypeOfService;
     closed: boolean;
     task: number | null;
+    tasks?: Task[];
     ID_Code_Project: number;
     Project: Project;
     Asigned?: Colaborator;

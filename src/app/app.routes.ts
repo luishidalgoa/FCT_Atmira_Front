@@ -7,15 +7,14 @@ export const routes: Routes = [
     {
         path: 'Welcome',
         title: 'FCT_Atmira - Welcome',
-        component: WelcomeComponent,
-        canActivate: [authGuard]
+        component: WelcomeComponent
     },
     {
         path: '',
         title: 'FCT_Atmira - Projects',
-        loadComponent: () => import('./pages/hub/hub.component').then(m => m.HubComponent),
+       // loadComponent: () => import('./pages/hub/hub.component').then(m => m.HubComponent),
+        loadChildren: () => import('./pages/hub/hub.routes').then(mod => mod.hubRoutes),
         canActivate: [authGuard],
-        children: hubRoutes,
         data: {breadcrumb: {skip: true}}
     },
     {
