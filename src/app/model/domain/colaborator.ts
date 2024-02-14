@@ -5,7 +5,7 @@ export interface Colaborator {
     WorkPlace?: WorkPlace;
     Email: string;
     isActive?: boolean;
-    relaseDate: Date;
+    relaseDate?: Date;
     Hours?: number;
     Guards?: boolean;
     Expense?: boolean;

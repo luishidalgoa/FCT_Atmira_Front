@@ -75,7 +75,6 @@ export class TaskBoardComponent {
   }
   
   delete(): void{
-    console.log(this.value);
     this._task.delete(this.value).subscribe((result:boolean)=>{
       if(result){
         this.deleteEvent.emit(this.value);

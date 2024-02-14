@@ -27,7 +27,6 @@ export class NewTaskComponent {
   parent!: Task | Project;
   constructor(@Inject(MAT_DIALOG_DATA) public data: Task | Project,public dialogRef: MatDialogRef<NewTaskComponent>,private _formBuilder: FormBuilder,private _task:TaskService){
     this.parent = data;
-    console.log(data)
     this.form = this._formBuilder.group({
       title: new FormControl('',[Validators.required]),
       objective: new FormControl('',[Validators.required]),
@@ -49,7 +48,10 @@ export class NewTaskComponent {
     };
   
     this._task.save(task).subscribe((data:Task)=>{
-      console.log(data);
+      console.log(data)
+      if(data && this.parent.tasks){
+        this.dialogRef.close();
+      }
     });
   }
   

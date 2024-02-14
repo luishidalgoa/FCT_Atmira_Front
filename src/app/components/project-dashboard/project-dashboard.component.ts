@@ -37,9 +37,15 @@ export class ProjectDashboardComponent {
     },10);
   }
 
+  /**
+   * Hace una llamada al servicio de proyectos para eliminar el proyecto seleccionado de la bbdd.
+    Acto seguido, actualiza el array de proyectos del usuario, para reflejar el cambio en la vista.
+  * @param project 
+   */
   delete(project:Project){
       this._project.delete(project).subscribe((result:boolean)=>{
-        console.log(result)
+        //devolvemos el array de projects sin el project eliminado
+        this._user_dataWrapper.projects$.set(this._user_dataWrapper.projects$().filter((p:Project)=>p!==project));
       });
   }
   /**
@@ -48,6 +54,7 @@ export class ProjectDashboardComponent {
    * @param project proyecto seleccionado por el usuario
    */
   show(project:Project){
+    this._user_dataWrapper.currentItem$.set(project)
     this._router.navigateByUrl(`projects/${project.id_code}`);
   }
 }

@@ -5,7 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AuthService } from '../../../service/mockup/auth.service';
+import { AuthService } from '../../../service/user/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

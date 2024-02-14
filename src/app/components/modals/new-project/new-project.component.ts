@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelect } from '@angular/material/select';
 import { TypeOfService } from '../../../model/enum/type-of-service';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
-import { AuthService } from '../../../service/mockup/auth.service';
+import { AuthService } from '../../../service/user/auth.service';
 
 @Component({
   selector: 'app-new-project',

@@ -35,7 +35,7 @@ export class ProjectService {
           Password: '1234',
         }
       ]
-      project.id_code = 2;
+      project.id_code = Math.floor(Math.random() * 100);
       observer.next(project);
     });
   }
@@ -63,7 +63,43 @@ export class ProjectService {
               Expense: true,
               Guards: true,
               Hours: 8,
-              ID_Alias: ID_Alias,
+              ID_Alias: 'sampleId',
+              isActive: true,
+              relaseDate: new Date(),
+              Password: '1234',
+            },
+            {
+              Name: 'sampleId',
+              Surname: 'John',
+              Email: 'sampleId@gmail.com',
+              Expense: true,
+              Guards: true,
+              Hours: 8,
+              ID_Alias: 'sampleId',
+              isActive: true,
+              relaseDate: new Date(),
+              Password: '1234',
+            },
+            {
+              Name: 'sampleId',
+              Surname: 'John',
+              Email: 'sampleId@gmail.com',
+              Expense: true,
+              Guards: true,
+              Hours: 8,
+              ID_Alias: 'sampleId',
+              isActive: true,
+              relaseDate: new Date(),
+              Password: '1234',
+            },
+            {
+              Name: 'sampleId',
+              Surname: 'John',
+              Email: 'sampleId@gmail.com',
+              Expense: true,
+              Guards: true,
+              Hours: 8,
+              ID_Alias: 'sampleId',
               isActive: true,
               relaseDate: new Date(),
               Password: '1234',
@@ -71,7 +107,7 @@ export class ProjectService {
           ],
           tasks: [],
           expenses: true
-        }
+        },
       ]);
     });
   }
@@ -82,70 +118,9 @@ export class ProjectService {
     });
   }
 
-  getById(id: number): Observable<Project> {
+  getById(id: number,projects?:Project[]): Observable<Project> {
     return new Observable<Project>((observer) => {
-      const project: Project = {
-        id_code: 1,
-        name: 'Proyecto 1',
-        active: true,
-        endDate: new Date(),
-        initialDate: new Date(),
-        typeOfService: TypeOfService.DESARROLLO,
-        colaboratorProjects: [
-          {
-            Name: 'sampleId',
-            Surname: 'John',
-            Email: 'sampleId@gmail.com',
-            Expense: true,
-            Guards: true,
-            Hours: 8,
-            ID_Alias: 'sampleId',
-            isActive: true,
-            relaseDate: new Date(),
-            Password: '1234',
-          },
-          {
-            Name: 'sampleId',
-            Surname: 'John',
-            Email: 'sampleId@gmail.com',
-            Expense: true,
-            Guards: true,
-            Hours: 8,
-            ID_Alias: 'sampleId',
-            isActive: true,
-            relaseDate: new Date(),
-            Password: '1234',
-          },
-          {
-            Name: 'sampleId',
-            Surname: 'John',
-            Email: 'sampleId@gmail.com',
-            Expense: true,
-            Guards: true,
-            Hours: 8,
-            ID_Alias: 'sampleId',
-            isActive: true,
-            relaseDate: new Date(),
-            Password: '1234',
-          },
-          {
-            Name: 'sampleId',
-            Surname: 'John',
-            Email: 'sampleId@gmail.com',
-            Expense: true,
-            Guards: true,
-            Hours: 8,
-            ID_Alias: 'sampleId',
-            isActive: true,
-            relaseDate: new Date(),
-            Password: '1234',
-          }
-        ],
-        tasks: [],
-        expenses: true
-      };
-
-      observer.next(project);
+      observer.next(projects?.filter((project:Project)=>project.id_code==id)[0]);
     });
   }
 

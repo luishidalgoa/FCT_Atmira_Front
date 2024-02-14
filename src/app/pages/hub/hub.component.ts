@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,10 @@ import { Item } from '../../model/domain/item';
 import { TaskBoardComponent } from '../../components/task-board/task-board.component';
 import { ProjectDashboardComponent } from '../../components/project-dashboard/project-dashboard.component';
 import { AuthService } from '../../service/mockup/auth.service';
+import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
+import { TaskService } from '../../service/mockup/task.service';
+import { Task } from '../../model/domain/task';
+import { ObjetiveService } from '../../service/objetive.service';
 @Component({
   selector: 'app-hub',
   standalone: true,
@@ -23,20 +27,8 @@ import { AuthService } from '../../service/mockup/auth.service';
   styleUrl: './hub.component.scss'
 })
 export class HubComponent {
-  title = 'FCT_Atmira';
 
-  generateProjectsItems() {
-    return [
-      {
-        title: 'FCT_Atmira',
-        callback: () => {
-          alert('FCT_Atmira');
-        }
-      }
-    ]
-  }
-
-  private _auth: AuthService = inject(AuthService);
+  public _auth: AuthService = inject(AuthService);
   getUserProjects(): Observable<Item[]> | void {
     return this._ProjectS.getUserProjects(this._auth.currentUser$().ID_Alias).pipe(
       map((data: Project[]) => {
@@ -50,7 +42,7 @@ export class HubComponent {
     );
   }
 
-  constructor(public dialog: MatDialog, private _ProjectS: ProjectService) { }
+  constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService,public _task:TaskService, public _objetive: ObjetiveService) { }
   openConfiguration(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(ConfigurationComponent, {
       width: 'auto',
@@ -68,5 +60,19 @@ export class HubComponent {
       maxWidth: '60rem',
       exitAnimationDuration
     });
+  }
+
+  router: Router = inject(Router);
+  goProject(project: Project): void {
+    this._user_dataWrapper.currentItem$.set(project);
+    this.router.navigateByUrl(`projects/${project.id_code}`);
+  }
+
+  getUserTasks(): Observable<Task[]> {
+    return new Observable<Task[]>((observable)=>{
+      this._task.getTaskByUser(this._auth.currentUser$().ID_Alias).subscribe((data: Task[]) => {
+        observable.next(data)
+      });
+    })
   }
 }
