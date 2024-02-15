@@ -8,15 +8,27 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  public currentUser$!: WritableSignal<Colaborator>;
+  public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({
+    ID_Alias: 'sampleId',
+    Name: 'John',
+    Surname: 'Doe',
+    Email: '',
+    Expense: true,
+  });
 
   public authorization$: WritableSignal<{
     token: string | null;
   }>;
   constructor(private _http: HttpClient) {
-    this.authorization$ = signal({
-      token: null,
-    });
+    if (sessionStorage.getItem('token')) {
+      this.authorization$ = signal({
+        token: sessionStorage.getItem('token'),
+      });
+    } else {
+      this.authorization$ = signal({
+        token: null,
+      });
+    }
   }
 
   login(credentials: { email: string; password: string }): Observable<boolean> {
@@ -30,20 +42,19 @@ export class AuthService {
 
       this._http
         .post(url, credentials, { headers: header, observe: observe })
-        .subscribe((response) => {
-          console.log('LOGIN',response);
-          observer.next(response.status === 200);
+        .subscribe((response: any) => {
+          if (response.ok) {
+            sessionStorage.setItem('token', response.body.token);
+            this.authorization$.set({ token: response.body.token });
+          }
+          observer.next(response.ok);
         });
     });
   }
 
-  register(credentials: {
-    Name: string;
-    Surname: string;
-    Username: string;
-    email: string;
-    password: string;
-  }) {
+  register(credentials: {id_alias: string;surname: string;name: string;email: string;password: string;isActive?:boolean;relaseDate?:Date}) {
+    credentials.isActive = false;
+    credentials.relaseDate = new Date();
     const url: string = `${environment.apiUrl}/auth/register`;
 
     this._http

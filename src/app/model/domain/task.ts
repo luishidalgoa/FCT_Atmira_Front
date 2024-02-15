@@ -1,14 +1,13 @@
-import { Type } from "@angular/core";
 import { Colaborator } from "./colaborator";
 import { Project } from "./project";
 import { TypeOfService } from "../enum/type-of-service";
 
 export interface Task {
-    id_code?: number;
+    id_code?: string;
     description: string;
     objective: TypeOfService;
     closed: boolean;
-    task: number | null;
+    task: string | null;
     tasks?: Task[];
     ID_Code_Project: number;
     Project: Project;

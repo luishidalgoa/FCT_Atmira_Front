@@ -29,12 +29,12 @@ export class RegisterComponent {
 
   register(){
     if(this.form.valid){
-      const credentials: { Name: string, Surname: string;Username: string;email: string; password: string } = {
+      const credentials: {id_alias: string;surname: string;name: string;email: string;password: string;isActive?:boolean;relaseDate?:Date} = {
         email: this.form.get('email')?.value,
         password: this.form.get('password')?.value,
-        Name: this.form.get('name')?.value,
-        Surname: this.form.get('surname')?.value,
-        Username: this.form.get('username')?.value
+        name: this.form.get('name')?.value,
+        surname: this.form.get('surname')?.value,
+        id_alias: this.form.get('username')?.value,
       }
       this._auth.register(credentials);
     }

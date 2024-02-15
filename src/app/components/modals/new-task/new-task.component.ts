@@ -9,9 +9,9 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { TypeOfService } from '../../../model/enum/type-of-service';
 import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
-import { TaskService } from '../../../service/mockup/task.service';
+import { TaskService } from '../../../service/common/Task/task.service';
 import { title } from 'process';
-import { AuthService } from '../../../service/mockup/auth.service';
+import { AuthService } from '../../../service/user/auth.service';
 
 @Component({
   selector: 'app-new-task',
@@ -34,21 +34,20 @@ export class NewTaskComponent {
   }
 
   private _auth:AuthService = inject(AuthService);
-  create() {
+  create():void {
     const isProject = (this.parent as Project)
-    console.log(this.parent)
     const task: Task = {
       description: this.form.get('objective')?.value,
       Asigned: this._auth.currentUser$(),
       closed: false,
       ID_Code_Project: isProject ? (this.parent as Project).id_code as number : (this.parent as Task).ID_Code_Project,
-      task: !isProject ? (this.parent as Task).id_code as number : null,
+      task: !isProject ? (this.parent as Task).id_code as string : null,
       Project: isProject ? (this.parent as Project) : (this.parent as Task).Project,
       objective: this.form.get('title')?.value
     };
   
     this._task.save(task).subscribe((data:Task)=>{
-      console.log(data)
+      console.log(data);
       if(data && this.parent.tasks){
         this.dialogRef.close();
       }

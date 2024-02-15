@@ -24,7 +24,7 @@ export class ProjectService {
           'Content-Type': 'application/json'
         })
       };
-      const url: string = `${environment.apiUrl}/project/save/colaboratorId=${ID_Alias}`;
+      const url: string = `${environment.apiUrl}/project/save/colaboratorId/${ID_Alias}`;
       return this._http.post<Project>(url, project, header);
   }
 
@@ -34,26 +34,20 @@ export class ProjectService {
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `${environment.apiUrl}/collaborator/${ID_Alias}/projects`;
+    const url: string = `${environment.apiUrl}/colaborator/${ID_Alias}/projects`;
     return this._http.get<Project[]>(url, header);
   }
 
+  
   delete(project: Project): Observable<boolean> {
-    const _user_dataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `${environment.apiUrl}/delete/${project.id_code}`;
+    const url: string = `${environment.apiUrl}/project/delete/${project.id_code}`;
 
-    return this._http.delete<boolean>(url, header).pipe(
-      tap((result: boolean) => {
-        if (result) {
-          _user_dataWrapper.removeProject(project);
-        }
-      })
-    );
+    return this._http.delete<boolean>(url, header);
   }
 
   getById(id: number): Observable<Project> {

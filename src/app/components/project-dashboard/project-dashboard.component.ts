@@ -5,10 +5,10 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Project } from '../../model/domain/project';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { ProjectService } from '../../service/mockup/project.service';
+import { ProjectService } from '../../service/common/Project/project.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
-import { AuthService } from '../../service/mockup/auth.service';
+import { AuthService } from '../../service/user/auth.service';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
 
 @Component({
@@ -44,8 +44,12 @@ export class ProjectDashboardComponent {
    */
   delete(project:Project){
       this._project.delete(project).subscribe((result:boolean)=>{
-        //devolvemos el array de projects sin el project eliminado
-        this._user_dataWrapper.projects$.set(this._user_dataWrapper.projects$().filter((p:Project)=>p!==project));
+        if(result){
+          //devolvemos el array de projects sin el project eliminado
+          this._user_dataWrapper.projects$.set(this._user_dataWrapper.projects$().filter((p:Project)=>p!==project));
+        }else{
+          console.error('Error al eliminar el proyecto');
+        }
       });
   }
   /**

@@ -112,15 +112,22 @@ export class ProjectService {
     });
   }
 
-  delete(project: Project): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
-      observer.next(true);
-    });
-  }
-
   getById(id: number,projects?:Project[]): Observable<Project> {
     return new Observable<Project>((observer) => {
-      observer.next(projects?.filter((project:Project)=>project.id_code==id)[0]);
+      if (projects !== undefined) {
+        observer.next(projects?.filter((project: Project) => project.id_code == id)[0]);
+      } else {
+        const header = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        };
+        const url: string = `${environment.apiUrl}/project/list/${id}`;
+        return this._http.get<Project>(url, header).subscribe((data) => {
+          observer.next(data);
+        });
+      }
+      return; // Add this line to return a value when projects is undefined
     });
   }
 

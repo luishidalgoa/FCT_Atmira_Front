@@ -24,21 +24,9 @@
     </header>
     <section [style]=" !details ? 'display: none' : ''">
         <ul class="px-5 py-3 flex flex-col gap-1">
-            @if(this.value && this.value.task && this.value.task > 0){
+            @if(this.value && this.value.task && this.value.task !=null){
                 @for (task of this.tasks; track $index) {
-                    <li class="">
-                        <div class="flex items-center gap-4">
-                            <div class="checkbox-wrapper-13 flex items-center">
-                                <input [id]="$index" type="checkbox">
-                                <label [for]="$index"></label>
-                            </div>
-
-                            <div class="text-xl w-4/6 flex items-center overflow-hidden gap-1">
-                                <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
-                                <p class="text-ellipsis text-nowrap font-semibold">{{task.description}}</p>
-                            </div>
-                        </div>
-                    </li>
+                    <app-task (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
                 }
             }
         </ul>

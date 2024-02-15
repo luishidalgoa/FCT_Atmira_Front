@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpClient,
-  HttpClientModule,
-  HttpHeaders,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { url } from 'node:inspector';
-import { environment } from '../../../environment/environment';
 import { Task } from '../../model/domain/task';
 import { TypeOfService } from '../../model/enum/type-of-service';
-import { ProjectService } from './project.service';
+import { ProjectService } from '../common/Project/project.service';
 import { Project } from '../../model/domain/project';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +17,7 @@ export class TaskService {
 
   save(task: Task): Observable<Task> {
     //numero random
-    task.id_code = Math.floor(Math.random() * 100);
+    task.id_code = Math.floor(Math.random() * 100).toString();
     return new Observable<Task>((observe) => {
       observe.next(task);
     });
@@ -31,39 +28,39 @@ export class TaskService {
       this._project.getById(id as number).subscribe((project: Project) => {
         const task: Task[] = [
           {
-            id_code: 1,
+            id_code: '1',
             description: 'Tarea 1',
             ID_Code_Project: 1,
-            objective: TypeOfService.MANTENIMIENTO,
-            closed: false,
-            task: 1,
+            objective: TypeOfService.FINANZAS,
+            closed: true,
+            task: '1',
             Project: project,
           },
           {
-            id_code: 8,
+            id_code: '8',
             description: 'Tarea 2',
             ID_Code_Project: 1,
-            objective: TypeOfService.MANTENIMIENTO,
+            objective: TypeOfService.MARKETING,
             closed: false,
-            task: 1,
+            task: '1',
             Project: project,
           },
           {
-            id_code: 9,
+            id_code: '9',
             description: 'Tarea 3',
             ID_Code_Project: 1,
             objective: TypeOfService.MANTENIMIENTO,
             closed: false,
-            task: 1,
+            task: '1',
             Project: project,
           },
           {
-            id_code: 10,
+            id_code: '10',
             description: 'Tarea 4',
             ID_Code_Project: 1,
-            objective: TypeOfService.MANTENIMIENTO,
+            objective: TypeOfService.OPERACIONES,
             closed: false,
-            task: 1,
+            task: '1',
             Project: project,
           },
         ];
@@ -83,12 +80,12 @@ export class TaskService {
     return new Observable<Task[]>((observe) => {
       observe.next([
         {
-          id_code: 1,
+          id_code: '1',
           description: 'Tarea 1',
           ID_Code_Project: 1,
           objective: TypeOfService.MANTENIMIENTO,
           closed: false,
-          task: 1,
+          task: '1',
           Project: {
             id_code: 1,
             name: 'Proyecto 1',
@@ -102,12 +99,12 @@ export class TaskService {
           },
         },
         {
-          id_code: 8,
+          id_code: '8',
           description: 'Tarea 2',
           ID_Code_Project: 1,
           objective: TypeOfService.MANTENIMIENTO,
           closed: false,
-          task: 1,
+          task: '1',
           Project: {
             id_code: 1,
             name: 'Proyecto 1',
@@ -123,4 +120,30 @@ export class TaskService {
       ]);
     });
   }
+  status(id: string,status:boolean): Observable<Task> {
+    return new Observable<Task>((observe) => {
+        observe.next(
+          {
+            id_code: id,
+            description: 'Tarea 1',
+            ID_Code_Project: 1,
+            objective: TypeOfService.FINANZAS,
+            closed: status,
+            task: '1',
+            Project: {
+              id_code: 1,
+              name: 'Proyecto 1',
+              active: true,
+              endDate: new Date(),
+              initialDate: new Date(),
+              typeOfService: TypeOfService.DESARROLLO,
+              colaboratorProjects: [],
+              tasks: [],
+              expenses: true,
+            },
+          },
+        );
+    });
+  }
+
 }
