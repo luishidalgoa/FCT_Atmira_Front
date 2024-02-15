@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
@@ -10,6 +10,8 @@ import { Project } from '../../../model/domain/project';
 import { CommonModule } from '@angular/common';
 import { MatSelect } from '@angular/material/select';
 import { TypeOfService } from '../../../model/enum/type-of-service';
+import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
+import { AuthService } from '../../../service/user/auth.service';
 
 @Component({
   selector: 'app-new-project',
@@ -37,6 +39,8 @@ export class NewProjectComponent {
     })
   }
 
+  private _user_dataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
+  private _authService: AuthService = inject(AuthService);
   create(){
     if(this.form.valid){
       const project:Project = {
@@ -46,9 +50,8 @@ export class NewProjectComponent {
         typeOfService: this.form.get('typeOfService')?.value,
         active: true 
       }
-      console.log(project)
-      this._ProjectS.save(project).subscribe((data:Project)=>{
-        
+      this._ProjectS.save(project,this._authService.currentUser$().ID_Alias).subscribe((data:Project)=>{
+        this._user_dataWrapper.addProject(data);
       });
       this.dialogRef.close();
     }else{

@@ -1,22 +1,55 @@
 <article class="bg-white rounded-md shadow-lg">
     <header class="bg-[#ADADAE]/30 px-5 py-3 flex justify-between items-center rounded-t-md">
         <div (click)="details=!details" class="flex gap-3 items-center cursor-pointer">
-            <svg [style]="!details ? 'transform: rotate(0deg)' : 'transform: rotate(90deg)'" class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089" viewBox="0 0 9.192 16.089">
-                <path id="Trazado_47" data-name="Trazado 47" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-159.925 48.014) rotate(-90)" fill="#707070"/>
-            </svg>                      
-            <p class="text-xl font-semibold">{{this.value.title}}</p>
+            <svg [style]="!details ? 'transform: rotate(0deg)' : 'transform: rotate(90deg)'"
+                class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089"
+                viewBox="0 0 9.192 16.089">
+                <path id="Trazado_47" data-name="Trazado 47"
+                    d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
+                    transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
+            </svg>
+            <p class="text-xl font-semibold">{{this.value.description}}</p>
         </div>
-        <div>
-            <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
-                <path id="Trazado_64" data-name="Trazado 64" d="M6.39,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,6.39,6ZM1.2,6A1.2,1.2,0,1,1,0,7.2,1.2,1.2,0,0,1,1.2,6ZM11.583,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,11.583,6Z" transform="translate(0.5 -5.5)" fill="#474747" stroke="#474747" stroke-width="1"/>
-            </svg>              
+        <div mat-button [matMenuTriggerFor]="menu" class="px-2 py-3 rounded-lg hover:bg-gray-300/50 active:bg-gray-300 w-fit cursor-pointer" (click)="$event.stopPropagation()">
+            <svg  xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
+                <path id="Trazado_60" data-name="Trazado 60" d="M6.39,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,6.39,6ZM1.2,6A1.2,1.2,0,1,1,0,7.2,1.2,1.2,0,0,1,1.2,6ZM11.583,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,11.583,6Z" transform="translate(0.5 -5.5)" fill="#474747" stroke="#474747" stroke-width="1"/>
+            </svg>
         </div>
+        <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md select-none">
+            <p class="font-medium text-2xl p-2">Options</p>
+            <hr>
+            <button (click)="null" mat-menu-item class="font-normal text-[#707070] p-2"><svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg><p class="text-xl">update</p></button>
+            <button (click)="this.delete()" mat-menu-item class="font-normal text-[#707070] p-2"><svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg><p class="text-xl">Delete</p></button>
+        </mat-menu>
     </header>
     <section [style]=" !details ? 'display: none' : ''">
         <ul class="px-5 py-3 flex flex-col gap-1">
-            @if(this.value && this.value.task && this.value.task !=null){
+            @if(this.value && this.value.task && this.value.task > 0){
                 @for (task of this.tasks; track $index) {
-                    <app-task (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
+                    <li class="">
+                        <article class="flex justify-between">
+                            <section class="flex items-center gap-4">
+                                <div class="checkbox-wrapper-13 flex items-center">
+                                    <input [id]="$index" type="checkbox">
+                                    <label [for]="$index"></label>
+                                </div>
+    
+                                <div class="text-xl w-4/6 flex items-center overflow-hidden gap-1">
+                                    <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
+                                    <p class="text-ellipsis text-nowrap font-semibold">{{task.description}}</p>
+                                </div>
+                            </section>
+                            <section class="">
+                                <mat-form-field class="w-full">
+                                    <mat-label><p class="text-[#A8587B]"></p></mat-label>
+                                    <mat-select formControlName="objective">
+                                        <mat-option [value]="'Close'">Close</mat-option>
+                                        <mat-option [value]="'Open'">Open</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </section>
+                        </article>
+                    </li>
                 }
             }
         </ul>
@@ -24,32 +57,38 @@
             <div (click)="newT=true" class=""
                 [className]="newT ? 'hidden' : 'flex items-center gap-2 text-lg font-bold cursor-pointer'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14.933" height="14.933" viewBox="0 0 14.933 14.933">
-                    <path id="Trazado_13" data-name="Trazado 13" d="M24.615,49.149a1.149,1.149,0,0,0-2.3,0v5.169H17.149a1.149,1.149,0,1,0,0,2.3h5.169v5.169a1.149,1.149,0,0,0,2.3,0V56.615h5.169a1.149,1.149,0,1,0,0-2.3H24.615Z" transform="translate(-16 -48)" fill="#0f0f0f"/>
+                    <path id="Trazado_13" data-name="Trazado 13"
+                        d="M24.615,49.149a1.149,1.149,0,0,0-2.3,0v5.169H17.149a1.149,1.149,0,1,0,0,2.3h5.169v5.169a1.149,1.149,0,0,0,2.3,0V56.615h5.169a1.149,1.149,0,1,0,0-2.3H24.615Z"
+                        transform="translate(-16 -48)" fill="#0f0f0f" />
                 </svg>
                 <p>New task</p>
             </div>
             @if(newT){
-                <form #form class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md">
-                    <div mat-button [matMenuTriggerFor]="menu" class="min-w-6 h-full cursor-pointer flex items-center gap-2">
-                        <label >Objetive</label>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089" viewBox="0 0 9.192 16.089">
-                            <path id="Trazado_47" data-name="Trazado 47" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-159.925 48.014) rotate(-90)" fill="#707070"/>
-                        </svg>
-                        <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
-                            <p class="font-semibold text-[#707070] p-2">Objetives</p>
-                            <hr class="">
-                            @for (value of this.typeOfServiceValues; track $index) {
-                                <button mat-menu-item (click)="this.formGroup.controls['typeOfService'].setValue(value)">
-                                    <div class="flex gap-1 items-center">
-                                        <p>{{value | titlecase}}</p>
-                                    </div>
-                                </button>
-                            }
-                        </mat-menu>
-                    </div>
-                    <input formControlName="title" placeholder="Write any description about task" #input type="text" class="outline-none w-full h-full">
-                </form> 
+            <form #form class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md">
+                <div mat-button [matMenuTriggerFor]="menu"
+                    class="min-w-6 h-full cursor-pointer flex items-center gap-2">
+                    <label>Objetive</label>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089" viewBox="0 0 9.192 16.089">
+                        <path id="Trazado_47" data-name="Trazado 47"
+                            d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
+                            transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
+                    </svg>
+                    <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
+                        <p class="font-semibold text-[#707070] p-2">Objetives</p>
+                        <hr class="">
+                        @for (value of this.typeOfServiceValues; track $index) {
+                        <button mat-menu-item (click)="this.formGroup.controls['typeOfService'].setValue(value)">
+                            <div class="flex gap-1 items-center">
+                                <p>{{value | titlecase}}</p>
+                            </div>
+                        </button>
+                        }
+                    </mat-menu>
+                </div>
+                <input formControlName="title" placeholder="Write any description about task" #input type="text"
+                    class="outline-none w-full h-full">
+            </form>
             }
         </section>
-    </div>
+    </section>
 </article>

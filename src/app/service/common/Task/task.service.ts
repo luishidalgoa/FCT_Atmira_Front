@@ -1,4 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Task } from '../../../model/domain/task';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environment/environment';
+import { Observable } from 'rxjs';
+import { url } from 'node:inspector';
+import { AuthService } from '../../mockup/auth.service';
 
 @Injectable({
   providedIn: 'root'

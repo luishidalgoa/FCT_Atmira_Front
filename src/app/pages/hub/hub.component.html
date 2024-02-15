@@ -7,20 +7,40 @@
       <p class="text-[#E91979] text-3xl font-semibold mb-1">Atmira</p>
     </div>
     <nav class="flex justify-between w-full select-none">
-      <ul class="flex">
-        <li mat-button [matMenuTriggerFor]="menu" class="relative flex items-center gap-2 cursor-pointer " routerLinkActive="active"><p class="text-[#E91979] text-3xl font-semibold mb-1 relative">Projects</p>
+      <ul class="flex gap-3">
+        <li mat-button [matMenuTriggerFor]="work" class="relative flex items-center gap-2 cursor-pointer " routerLinkActive=""><p class="text-[#707070] text-3xl font-semibold mb-1 relative">Your Work</p>
           <svg xmlns="http://www.w3.org/2000/svg" width="16.089" height="9.192" viewBox="0 0 16.089 9.192">
-          <path id="Trazado_22" data-name="Trazado 22" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-31.925 -159.925)" fill="rgba(233,25,121,0.75)"/>
+          <path id="Trazado_22" data-name="Trazado 22" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-31.925 -159.925)" class="fill-[#707070]" />
+          </svg>
+          <mat-menu #work="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
+            <p class="font-semibold text-[#707070] p-2">Your Works</p>
+            <hr class="">
+            @for (task of this.getUserTasks() | async; track $index) {
+              <button mat-menu-item>
+                <div class="flex gap-1 items-center">
+                  <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
+                  <div class="text-nowrap overflow-hidden modal-text-wrap">
+                    <p class="overflow-hidden overflow-ellipsis">{{task.description}}</p>
+                  </div>
+                </div>
+              </button>
+            }
+  
+          </mat-menu>
+        </li>
+        <li mat-button [matMenuTriggerFor]="menu" class="relative flex items-center gap-2 cursor-pointer " routerLinkActive="active"><p class="text-[#707070] text-3xl font-semibold mb-1 relative">Projects</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16.089" height="9.192" viewBox="0 0 16.089 9.192">
+          <path id="Trazado_22" data-name="Trazado 22" d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z" transform="translate(-31.925 -159.925)" class="fill-[#707070]" />
           </svg>
           <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
             <p class="font-semibold text-[#707070] p-2">Your Projects</p>
             <hr class="">
-            @for (item of this.generateProjectsItems() ; track $index) {
-              <button mat-menu-item (click)="item?.callback()">
+            @for (item of this._user_dataWrapper.projects$() ; track $index) {
+              <button mat-menu-item (click)="this.goProject(item)">
                 <div class="flex gap-1 items-center">
                   <img class="h-7 w-7 rounded-sm" src="https://luishidalgoa.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10417?size=medium" alt="">
                   <div class="text-nowrap overflow-hidden modal-text-wrap">
-                    <p class="overflow-hidden overflow-ellipsis">{{item.title}}</p>
+                    <p class="overflow-hidden overflow-ellipsis">{{item.name}}</p>
                   </div>
                 </div>
               </button>

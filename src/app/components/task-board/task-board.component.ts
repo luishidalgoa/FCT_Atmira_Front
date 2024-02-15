@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, QueryList, Type, ViewChild, ViewChildren, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { TypeOfService } from '../../model/enum/type-of-service';
@@ -20,9 +20,11 @@ import { TaskComponent } from '../task/task.component';
   styleUrl: './task-board.component.scss'
 })
 export class TaskBoardComponent {
-  @Input({ required: true })
-  value!: { title: string }
-  tasks: any[] = [];
+  @Input({required: true})
+  value!: Task; // tarea padre
+  @Output()
+  deleteEvent: EventEmitter<Task> = new EventEmitter<Task>();
+  tasks!: Task[]; //subtareas
   details: boolean = false;
   newT: boolean = false;
   TasksSelected: Task[] = [];
@@ -31,8 +33,7 @@ export class TaskBoardComponent {
 
   typeOfServiceValues = Object.values(TypeOfService);
 
-  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder) {
-      this.value = { title: 'Tarea 1' };
+  _project:ProjectService = inject(ProjectService);
 
 
 

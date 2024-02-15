@@ -1,6 +1,7 @@
 import { TypeOfService } from "../enum/type-of-service";
 import { Colaborator } from "./colaborator";
 import { Project } from "./project";
+import { TypeOfService } from "../enum/type-of-service";
 
 export interface Task {
     id_code?: string;
@@ -11,5 +12,5 @@ export interface Task {
     tasks?: Task[];
     ID_Code_Project: number;
     Project: Project;
-    Asigned: Colaborator;
+    Asigned?: Colaborator;
 }

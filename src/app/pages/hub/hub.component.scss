@@ -1,7 +1,15 @@
 p{
     font-family: 'EB Garamond', serif;
 }
+.active{
+    p{
+        color: #E91979;
+    }
+}
+.active svg path{
+    fill: #E91979!important;
 
+}
 .active::before{
     content: '';
     position: absolute;
@@ -12,3 +20,6 @@ p{
 }
 
 
+::ng-deep .mat-mdc-menu-item-text svg{
+    margin-top: 0!important;
+}

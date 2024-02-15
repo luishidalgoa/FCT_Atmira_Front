@@ -4,13 +4,13 @@ export interface Colaborator {
     ID_Alias: string;
     WorkPlace?: WorkPlace;
     Email: string;
-    isActive: boolean;
-    relaseDate: Date;
-    Hours: number;
-    Guards: boolean;
-    Expense: boolean;
+    isActive?: boolean;
+    relaseDate?: Date;
+    Hours?: number;
+    Guards?: boolean;
+    Expense?: boolean;
     Name: string;
     Surname: string;
-    Password: string;
+    Password?: string;
     Responsible?: Colaborator;
 }
