@@ -9,7 +9,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { TypeOfService } from '../../../model/enum/type-of-service';
 import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
-import { TaskService } from '../../../service/mockup/task.service';
+import { TaskService } from '../../../service/common/Task/task.service';
 import { title } from 'process';
 import { AuthService } from '../../../service/mockup/auth.service';
 
@@ -34,9 +34,8 @@ export class NewTaskComponent {
   }
 
   private _auth:AuthService = inject(AuthService);
-  create() {
+  create():void {
     const isProject = (this.parent as Project)
-    console.log(this.parent)
     const task: Task = {
       description: this.form.get('objective')?.value,
       Asigned: this._auth.currentUser$(),
@@ -48,7 +47,7 @@ export class NewTaskComponent {
     };
   
     this._task.save(task).subscribe((data:Task)=>{
-      console.log(data)
+      console.log(data);
       if(data && this.parent.tasks){
         this.dialogRef.close();
       }

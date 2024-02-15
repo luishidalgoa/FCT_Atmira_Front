@@ -27,17 +27,28 @@
             @if(this.value && this.value.task && this.value.task > 0){
                 @for (task of this.tasks; track $index) {
                     <li class="">
-                        <div class="flex items-center gap-4">
-                            <div class="checkbox-wrapper-13 flex items-center">
-                                <input [id]="$index" type="checkbox">
-                                <label [for]="$index"></label>
-                            </div>
-
-                            <div class="text-xl w-4/6 flex items-center overflow-hidden gap-1">
-                                <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
-                                <p class="text-ellipsis text-nowrap font-semibold">{{task.description}}</p>
-                            </div>
-                        </div>
+                        <article class="flex justify-between">
+                            <section class="flex items-center gap-4">
+                                <div class="checkbox-wrapper-13 flex items-center">
+                                    <input [id]="$index" type="checkbox">
+                                    <label [for]="$index"></label>
+                                </div>
+    
+                                <div class="text-xl w-4/6 flex items-center overflow-hidden gap-1">
+                                    <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
+                                    <p class="text-ellipsis text-nowrap font-semibold">{{task.description}}</p>
+                                </div>
+                            </section>
+                            <section class="">
+                                <mat-form-field class="w-full">
+                                    <mat-label><p class="text-[#A8587B]"></p></mat-label>
+                                    <mat-select formControlName="objective">
+                                        <mat-option [value]="'Close'">Close</mat-option>
+                                        <mat-option [value]="'Open'">Open</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </section>
+                        </article>
                     </li>
                 }
             }

@@ -1,19 +1,20 @@
 import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
 import { Project } from '../../model/domain/project';
-import { ProjectService } from '../mockup/project.service';
-import { AuthService } from '../mockup/auth.service';
+import { ProjectService } from '../common/Project/project.service';
+import { AuthService } from '../user/auth.service';
 import { Task } from '../../model/domain/task';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataWrapperService {
-  public projects$!: WritableSignal<Project[]>;
+  public projects$: WritableSignal<Project[]> = signal<Project[]>([]);
   public currentItem$: WritableSignal<Project | Task> = signal<Project | Task>({} as Project | Task);
 
-  constructor(private _auth: AuthService, private _projectService: ProjectService) {
+  constructor(private _auth: AuthService, private _projectService: ProjectService) { 
     this._projectService.getUserProjects(this._auth.currentUser$().ID_Alias).subscribe((projects: Project[]) => {
-      this.projects$ = signal<Project[]>(projects);
+      this.projects$.update(()=>projects);
+      console.log(projects,'hola')
     });
   }
 

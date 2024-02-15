@@ -20,15 +20,12 @@ import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.
 export class TaskViewAllComponent {
   public parent!: Project;
   public values!: Task[];
-  constructor(private route: ActivatedRoute,private _task:TaskService,private _project: ProjectService, private dialog:MatDialog) { }
+  constructor(private route: ActivatedRoute,private _task:TaskService,private _project: ProjectService, private dialog:MatDialog,private _user_dataWrapper: UserDataWrapperService) { }
 
-
-  //TEST
-    _user_dataWrapper: UserDataWrapperService = inject(UserDataWrapperService); 
-  //--------------
   ngOnInit(): void {
-    this._project.getById(this.route.snapshot.params['id'],this._user_dataWrapper.projects$()).subscribe(
+    this._project.getById(this.route.snapshot.params['id'],this._user_dataWrapper.projects$().length > 0 ? this._user_dataWrapper.projects$() : undefined).subscribe(
       (data: Project) => {
+        console.log(data,this.route.snapshot.params['id'])
         this.parent = data;
 
         this._task.getSubTasksByProject(this.parent.id_code as number ).subscribe(

@@ -9,11 +9,13 @@ import { ProjectService } from '../../service/mockup/project.service';
 import { ObjetiveService } from '../../service/objetive.service';
 import { AuthService } from '../../service/mockup/auth.service';
 import { TaskService } from '../../service/mockup/task.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, MatMenuModule],
+  imports: [CommonModule, MatMenuModule,MatSelect,MatOption,MatFormField,MatLabel],
   templateUrl: './task-board.component.html',
   styleUrl: './task-board.component.scss'
 })
@@ -40,8 +42,11 @@ export class TaskBoardComponent {
       });
    }
 
+   router: ActivatedRoute = inject(ActivatedRoute);
    ngOnInit(): void {
-    this._task.getSubTasksByProject(this.value.task!=null ? this.value.task : this.value.ID_Code_Project).subscribe((data:Task[])=>{
+    const id = this.router.snapshot.params['id'];
+    console.log(this.router.snapshot.params['id']);
+    this._task.getSubTasksByProject(id).subscribe((data:Task[])=>{
       this.tasks = data;
     });
    }

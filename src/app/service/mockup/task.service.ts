@@ -9,7 +9,7 @@ import { url } from 'node:inspector';
 import { environment } from '../../../environment/environment';
 import { Task } from '../../model/domain/task';
 import { TypeOfService } from '../../model/enum/type-of-service';
-import { ProjectService } from './project.service';
+import { ProjectService } from '../common/Project/project.service';
 import { Project } from '../../model/domain/project';
 
 @Injectable({
