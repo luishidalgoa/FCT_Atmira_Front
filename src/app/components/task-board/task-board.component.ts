@@ -44,6 +44,7 @@ export class TaskBoardComponent {
         typeOfService: new FormControl('')
       });
       
+      
    }
 
    router: ActivatedRoute = inject(ActivatedRoute);
@@ -53,6 +54,7 @@ export class TaskBoardComponent {
       this.tasks = data;
     });
    }
+   
 
 
   newTask(): void {

@@ -11,7 +11,7 @@ import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
 import { TaskService } from '../../../service/common/Task/task.service';
 import { title } from 'process';
-import { AuthService } from '../../../service/mockup/auth.service';
+import { AuthService } from '../../../service/user/auth.service';
 
 @Component({
   selector: 'app-new-task',

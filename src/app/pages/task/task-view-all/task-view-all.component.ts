@@ -4,11 +4,11 @@ import { TaskService } from '../../../service/mockup/task.service';
 import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
 import { TaskBoardComponent } from '../../../components/task-board/task-board.component';
-import { ProjectService } from '../../../service/mockup/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTaskComponent } from '../../../components/modals/new-task/new-task.component';
 import { of } from 'rxjs';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
+import { ProjectService } from '../../../service/mockup/project.service';
 
 @Component({
   selector: 'app-view-all',
