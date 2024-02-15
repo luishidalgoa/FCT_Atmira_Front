@@ -12,14 +12,17 @@
             </svg>              
         </div>
     </header>
-    <div class="" [className]="this.newT ? '' :'px-5 py-3'" [style]=" !details ? 'display: none' : ''">
-        @for (task of tasks; track $index) {
-            <section>
-                <input id="{{$index}}" type="checkbox">
-            </section> 
-        }
-        <section class="">
-            <div (click)="newT=true" class="" [className]="newT ? 'hidden' : 'flex items-center gap-2 text-lg font-bold cursor-pointer'">
+    <section [style]=" !details ? 'display: none' : ''">
+        <ul class="px-5 py-3 flex flex-col gap-1">
+            @if(this.value && this.value.task && this.value.task !=null){
+                @for (task of this.tasks; track $index) {
+                    <app-task (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
+                }
+            }
+        </ul>
+        <section [className]="this.newT ? '' :'px-5 py-3'">
+            <div (click)="newT=true" class=""
+                [className]="newT ? 'hidden' : 'flex items-center gap-2 text-lg font-bold cursor-pointer'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14.933" height="14.933" viewBox="0 0 14.933 14.933">
                     <path id="Trazado_13" data-name="Trazado 13" d="M24.615,49.149a1.149,1.149,0,0,0-2.3,0v5.169H17.149a1.149,1.149,0,1,0,0,2.3h5.169v5.169a1.149,1.149,0,0,0,2.3,0V56.615h5.169a1.149,1.149,0,1,0,0-2.3H24.615Z" transform="translate(-16 -48)" fill="#0f0f0f"/>
                 </svg>

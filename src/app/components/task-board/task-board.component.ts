@@ -3,12 +3,19 @@ import { Component, ElementRef, HostListener, Input, QueryList, ViewChild, ViewC
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { TypeOfService } from '../../model/enum/type-of-service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Task } from '../../model/domain/task';
+import { ProjectService } from '../../service/mockup/project.service';
+import { ObjetiveService } from '../../service/objetive.service';
+import { AuthService } from '../../service/mockup/auth.service';
+import { TaskService } from '../../service/mockup/task.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TaskComponent } from '../task/task.component';
 
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, MatMenuModule],
+  imports: [CommonModule, MatMenuModule,TaskComponent],
   templateUrl: './task-board.component.html',
   styleUrl: './task-board.component.scss'
 })
@@ -18,6 +25,7 @@ export class TaskBoardComponent {
   tasks: any[] = [];
   details: boolean = false;
   newT: boolean = false;
+  TasksSelected: Task[] = [];
 
   formGroup: FormGroup;
 
@@ -28,26 +36,22 @@ export class TaskBoardComponent {
 
 
 
-
+  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder,private _auth: AuthService,private _task:TaskService) {
+      
       this.formGroup = this._formBuilder.group({
         title: new FormControl(''),
         typeOfService: new FormControl('')
       });
+      
    }
 
-  @ViewChildren('input') input!: QueryList<ElementRef>;
-
-  /**
-   * Verificaremos en cada ngAfterViewInit si se ha renderizado el Input para crear una nueva tarea en el componente.
-   * Si esta renderizado entonces se hara automaticamente el focus en el Input
-   */
-  ngAfterViewInit() {
-    this.input.changes.subscribe((changes) => {
-      if (this.input.length > 0) {
-        //this.input.first.nativeElement.focus();
-      }
+   router: ActivatedRoute = inject(ActivatedRoute);
+   ngOnInit(): void {
+    const id = this.router.snapshot.params['id'];
+    this._task.getSubTasksByProject(id).subscribe((data:Task[])=>{
+      this.tasks = data;
     });
-  }
+   }
 
 
   newTask(): void {
@@ -63,4 +67,16 @@ export class TaskBoardComponent {
     }
   }
   
+  delete(): void{
+    this._task.delete(this.value).subscribe((result:boolean)=>{
+      if(result){
+        this.deleteEvent.emit(this.value);
+      }
+    });
+  }
+
+  selectTasksGroup(task:Task):void{
+    this.TasksSelected.push(task);
+    console.log(this.TasksSelected);
+  }
 }
