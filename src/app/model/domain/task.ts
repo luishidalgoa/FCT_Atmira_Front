@@ -1,4 +1,3 @@
-import { TypeOfService } from "../enum/type-of-service";
 import { Colaborator } from "./colaborator";
 import { Project } from "./project";
 import { TypeOfService } from "../enum/type-of-service";
