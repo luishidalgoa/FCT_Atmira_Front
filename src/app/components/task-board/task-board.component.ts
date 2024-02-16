@@ -10,6 +10,7 @@ import { ObjetiveService } from '../../service/objetive.service';
 import { AuthService } from '../../service/mockup/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskComponent } from '../task/task.component';
+import { TaskService } from '../../service/mockup/task.service';
 
 @Component({
   selector: 'app-task-board',
@@ -26,7 +27,7 @@ export class TaskBoardComponent {
   tasks!: Task[]; //subtareas
   details: boolean = false;
   newT: boolean = false;
-  TasksSelected: Task[] = [];
+  TasksSelected: {parent_id: string | undefined;Tasks:Task[] | undefined} = {parent_id:undefined,Tasks:[]};
 
   formGroup: FormGroup;
 
@@ -49,7 +50,7 @@ export class TaskBoardComponent {
    router: ActivatedRoute = inject(ActivatedRoute);
    ngOnInit(): void {
     const id = this.router.snapshot.params['id'];
-    this._task.getSubTasksByProject(id).subscribe((data:Task[])=>{
+    this._task.getTasksById_Code(id).subscribe((data:Task[])=>{
       this.tasks = data;
     });
    }
@@ -78,7 +79,11 @@ export class TaskBoardComponent {
   }
 
   selectTasksGroup(task:Task):void{
-    this.TasksSelected.push(task);
-    console.log(this.TasksSelected);
+    if(this.TasksSelected.parent_id === task.id_code){
+      this.TasksSelected = {parent_id:undefined,Tasks:[]};
+    }else{
+      //this.TasksSelected.parent_id = task.task != null ? task.task : task;
+
+    }
   }
 }

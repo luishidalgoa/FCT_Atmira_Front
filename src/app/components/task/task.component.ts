@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { Task } from '../../model/domain/task';
 import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
@@ -24,12 +24,12 @@ export class TaskComponent {
 
   selected!: string;
 
-  constructor(public _objetive: ObjetiveService,private _task:TaskService){}
+  constructor(public _objetive: ObjetiveService){}
 
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
   }
-
+  private _task:TaskService = inject(TaskService);
   status(status:boolean){
     this._task.status(this.value.id_code as string,status).subscribe((data:Task)=>{
       this.value = data;

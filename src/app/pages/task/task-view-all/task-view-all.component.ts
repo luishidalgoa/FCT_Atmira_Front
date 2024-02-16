@@ -20,14 +20,16 @@ import { ProjectService } from '../../../service/mockup/project.service';
 export class TaskViewAllComponent {
   public parent!: Project;
   public values!: Task[];
-  constructor(private route: ActivatedRoute,private _task:TaskService,private _project: ProjectService, private dialog:MatDialog,private _user_dataWrapper: UserDataWrapperService) { }
+
+  private _task:TaskService = inject(TaskService);
+  constructor(private route: ActivatedRoute,private _project: ProjectService, private dialog:MatDialog,private _user_dataWrapper: UserDataWrapperService) { }
 
   ngOnInit(): void {
     this._project.getById(this.route.snapshot.params['id'],this._user_dataWrapper.projects$().length > 0 ? this._user_dataWrapper.projects$() : undefined).subscribe(
       (data: Project) => {
         this.parent = data;
 
-        this._task.getSubTasksByProject(this.parent.id_code as number ).subscribe(
+        this._task.getTasksById_Code(this.parent.id_code as number ).subscribe(
           (data: Task[]) => {
             this.values = data;
           }

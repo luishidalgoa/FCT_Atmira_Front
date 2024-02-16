@@ -42,7 +42,7 @@ export class HubComponent {
     );
   }
 
-  constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService,public _task:TaskService, public _objetive: ObjetiveService) { }
+  constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService, public _objetive: ObjetiveService) { }
   openConfiguration(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(ConfigurationComponent, {
       width: 'auto',
@@ -51,7 +51,7 @@ export class HubComponent {
       exitAnimationDuration
     });
   }
-
+  public _task:TaskService = inject(TaskService);
 
   openNewProject(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(NewProjectComponent, {
