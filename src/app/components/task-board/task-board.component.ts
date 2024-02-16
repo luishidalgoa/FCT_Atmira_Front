@@ -8,7 +8,6 @@ import { Task } from '../../model/domain/task';
 import { ProjectService } from '../../service/mockup/project.service';
 import { ObjetiveService } from '../../service/objetive.service';
 import { AuthService } from '../../service/mockup/auth.service';
-import { TaskService } from '../../service/mockup/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskComponent } from '../task/task.component';
 
