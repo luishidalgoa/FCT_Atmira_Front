@@ -1,0 +1,9 @@
+<nav>
+  @for (breadcrumb of breadcrumbs; track $index) {
+    @if ($index < breadcrumbs.length -1) {
+        <a class="cursor-pointer" routerLinkActive="active" [routerLink]="breadcrumb.url" [routerLinkActiveOptions]="{exact: true}">{{ breadcrumb.label }} </a>/
+    }@else if($index === breadcrumbs.length -1) {
+        <a class="cursor-pointer" routerLinkActive="active" [routerLink]="breadcrumb.url" [routerLinkActiveOptions]="{exact: true}">{{ breadcrumb.label }}</a>
+    }
+  }
+</nav>
