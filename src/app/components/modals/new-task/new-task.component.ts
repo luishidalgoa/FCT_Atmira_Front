@@ -12,6 +12,7 @@ import { Project } from '../../../model/domain/project';
 import { TaskService } from '../../../service/common/Task/task.service';
 import { title } from 'process';
 import { AuthService } from '../../../service/user/auth.service';
+import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
 
 @Component({
   selector: 'app-new-task',
@@ -34,21 +35,24 @@ export class NewTaskComponent {
   }
 
   private _auth:AuthService = inject(AuthService);
+  private _userDataWrapper:UserDataWrapperService = inject(UserDataWrapperService);
   create():void {
     const isProject = (this.parent as Project)
     const task: Task = {
-      description: this.form.get('objective')?.value,
+      description: this.form.get('title')?.value,
       Asigned: this._auth.currentUser$(),
       closed: false,
       ID_Code_Project: isProject ? (this.parent as Project).id_code as number : (this.parent as Task).ID_Code_Project,
-      task: !isProject ? (this.parent as Task).id_code as string : null,
-      Project: isProject ? (this.parent as Project) : (this.parent as Task).Project,
-      objective: this.form.get('title')?.value
+      task: !isProject ? (this.parent as Task) : null,
+      project: isProject ? (this.parent as Project) : (this.parent as Task).project,
+      objective: this.form.get('objective')?.value
     };
   
     this._task.save(task).subscribe((data:Task)=>{
-      console.log(data);
-      if(data && this.parent.tasks){
+      if(data){
+        if(this.parent.tasks == undefined) this.parent.tasks = [];
+        this.parent.tasks.push(data);
+        this._userDataWrapper.currentItem$.set(this.parent)
         this.dialogRef.close();
       }
     });

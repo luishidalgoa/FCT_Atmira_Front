@@ -12,17 +12,12 @@ export const hubRoutes: Routes = [
             {
                 path: 'projects',
                 loadComponent: ()=> import('../project/view-all/view-all.component').then(m=>m.ViewAllComponent),
-                data: { breadcrumb: { alias: 'project:id' } }
+                data: { breadcrumb: 'Project Dash' }
             },
             {
                 path: 'projects/:id',
                 loadComponent: ()=> import('../task/task-view-all/task-view-all.component').then(m=>m.TaskViewAllComponent),
-                data: { breadcrumb: { alias: 'task:id' } }
-            },
-            {
-                path: 'login',
-                component: LoginComponent,
-                data: { breadcrumb: { alias: 'task' } }
+                data: { breadcrumb: 'Tasks', parent:{breadcrumb: 'Project Dash',url:'/projects'} }
             }
         ]
     }

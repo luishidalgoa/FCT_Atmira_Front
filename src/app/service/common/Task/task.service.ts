@@ -19,7 +19,7 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().ID_Alias}/${task.Project.id_code}`; //TEMPORAL el id sera el del proyecto
+    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().ID_Alias}/${task.task == undefined ? task.ID_Code_Project : task.task}`; //TEMPORAL el id sera el del proyecto
     return this._http.post<Task>(url, task, header);
   }
 
@@ -35,8 +35,12 @@ export class TaskService {
   }
 
   delete(task:Task): Observable<boolean>{
-    const url: string = `http://localhost:8080/taskDelete/${task.id_code}`;
+    const url: string = `http://localhost:8080/taskDelete/${task.idCode}`;
     return this._http.delete<boolean>(url);
   }
   
+  getTaskByUser(alias_Id: string): Observable<Task[]> {
+    const url: string = `${environment.apiUrl}/task/byColaborator/${alias_Id}`;
+    return this._http.get<Task[]>(url);
+  }
 }

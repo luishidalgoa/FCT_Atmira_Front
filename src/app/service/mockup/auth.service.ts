@@ -8,18 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({
-    ID_Alias: 'sampleId',
-    Name: 'John',
-    Surname: 'Doe',
-    Email: 'sample@email.com',
-    Expense: true,
-    Guards: true,
-    Hours: 8,
-    isActive: true,
-    relaseDate: new Date(),
-  });
-
+  public currentUser$!: WritableSignal<Colaborator>;
   public authorization$: WritableSignal<{
     token: string | null;
   }>;
@@ -54,6 +43,7 @@ export class AuthService {
         Name: credentials.Name,
         Surname: credentials.Surname,
         ID_Alias: credentials.Username,
+        relaseDate: new Date(),
         Password: credentials.password,
         isActive: false,
       };

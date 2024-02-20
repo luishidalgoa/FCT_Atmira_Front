@@ -17,51 +17,128 @@ export class TaskService {
 
   save(task: Task): Observable<Task> {
     //numero random
-    task.id_code = Math.floor(Math.random() * 100).toString();
+    task.idCode = Math.floor(Math.random() * 100).toString();
     return new Observable<Task>((observe) => {
       observe.next(task);
     });
   }
 
+  /**
+   * Retorna las tareas hijas de una tarea padre o un proyecto
+   * @param id 
+   * @returns 
+   */
   getTasksById_Code(id: string | number): Observable<Task[]> {
     return new Observable<Task[]>((observe) => {
-      this._project.getById(id as number).subscribe((project: Project) => {
+      this._project.getById(1).subscribe((project: Project) => {
         const task: Task[] = [
           {
-            id_code: '1',
+            idCode: '1_1',
             description: 'Tarea 1',
             ID_Code_Project: 1,
             objective: TypeOfService.FINANZAS,
             closed: true,
-            task: '1',
-            Project: project,
+            task: {
+              idCode: '1_1',
+              description: 'Tarea 1',
+              ID_Code_Project: 1,
+              objective: TypeOfService.MANTENIMIENTO,
+              closed: false,
+              task: null,
+              project: {
+                id_code: 1,
+                name: 'Proyecto 1',
+                active: true,
+                endDate: new Date(),
+                initialDate: new Date(),
+                typeOfService: TypeOfService.DESARROLLO,
+                colaboratorProjects: [],
+                tasks: [],
+                expenses: true,
+              },
+            },
+            project: project,
           },
           {
-            id_code: '8',
+            idCode: '1_2',
             description: 'Tarea 2',
             ID_Code_Project: 1,
             objective: TypeOfService.MARKETING,
             closed: false,
-            task: '1',
-            Project: project,
+            task: {
+              idCode: '1_1',
+              description: 'Tarea 1',
+              ID_Code_Project: 1,
+              objective: TypeOfService.MANTENIMIENTO,
+              closed: false,
+              task: null,
+              project: {
+                id_code: 1,
+                name: 'Proyecto 1',
+                active: true,
+                endDate: new Date(),
+                initialDate: new Date(),
+                typeOfService: TypeOfService.DESARROLLO,
+                colaboratorProjects: [],
+                tasks: [],
+                expenses: true,
+              },
+            },
+            project: project,
           },
           {
-            id_code: '9',
+            idCode: '1_3',
             description: 'Tarea 3',
             ID_Code_Project: 1,
             objective: TypeOfService.MANTENIMIENTO,
             closed: false,
-            task: '1',
-            Project: project,
+            task: {
+              idCode: '1_1',
+              description: 'Tarea 1',
+              ID_Code_Project: 1,
+              objective: TypeOfService.MANTENIMIENTO,
+              closed: false,
+              task: null,
+              project: {
+                id_code: 1,
+                name: 'Proyecto 1',
+                active: true,
+                endDate: new Date(),
+                initialDate: new Date(),
+                typeOfService: TypeOfService.DESARROLLO,
+                colaboratorProjects: [],
+                tasks: [],
+                expenses: true,
+              },
+            },
+            project: project,
           },
           {
-            id_code: '10',
+            idCode: '1_4',
             description: 'Tarea 4',
             ID_Code_Project: 1,
             objective: TypeOfService.OPERACIONES,
             closed: false,
-            task: '1',
-            Project: project,
+            task: {
+              idCode: '1_1',
+              description: 'Tarea 1',
+              ID_Code_Project: 1,
+              objective: TypeOfService.MANTENIMIENTO,
+              closed: false,
+              task: null,
+              project: {
+                id_code: 1,
+                name: 'Proyecto 1',
+                active: true,
+                endDate: new Date(),
+                initialDate: new Date(),
+                typeOfService: TypeOfService.DESARROLLO,
+                colaboratorProjects: [],
+                tasks: [],
+                expenses: true,
+              },
+            },
+            project: project,
           },
         ];
 
@@ -70,23 +147,30 @@ export class TaskService {
     });
   }
 
+  /*
   delete(task: Task): Observable<boolean> {
     return new Observable<boolean>((observe) => {
       observe.next(true);
     });
+  }
+  */
+
+  delete(task:Task): Observable<boolean>{
+    const url: string = `http://localhost:8080/taskDelete/${task.idCode}`;
+    return this._http.delete<boolean>(url);
   }
 
   getTaskByUser(alias_Id: string): Observable<Task[]> {
     return new Observable<Task[]>((observe) => {
       observe.next([
         {
-          id_code: '1',
+          idCode: '1_1',
           description: 'Tarea 1',
           ID_Code_Project: 1,
           objective: TypeOfService.MANTENIMIENTO,
           closed: false,
-          task: '1',
-          Project: {
+          task: null,
+          project: {
             id_code: 1,
             name: 'Proyecto 1',
             active: true,
@@ -99,13 +183,13 @@ export class TaskService {
           },
         },
         {
-          id_code: '8',
+          idCode: '1_2',
           description: 'Tarea 2',
           ID_Code_Project: 1,
           objective: TypeOfService.MANTENIMIENTO,
           closed: false,
-          task: '1',
-          Project: {
+          task: null,
+          project: {
             id_code: 1,
             name: 'Proyecto 1',
             active: true,
@@ -124,13 +208,31 @@ export class TaskService {
     return new Observable<Task>((observe) => {
         observe.next(
           {
-            id_code: id,
+            idCode: id,
             description: 'Tarea 1',
             ID_Code_Project: 1,
             objective: TypeOfService.FINANZAS,
             closed: status,
-            task: '1',
-            Project: {
+            task: {
+              idCode: '1_1',
+              description: 'Tarea 1',
+              ID_Code_Project: 1,
+              objective: TypeOfService.MANTENIMIENTO,
+              closed: false,
+              task: null,
+              project: {
+                id_code: 1,
+                name: 'Proyecto 1',
+                active: true,
+                endDate: new Date(),
+                initialDate: new Date(),
+                typeOfService: TypeOfService.DESARROLLO,
+                colaboratorProjects: [],
+                tasks: [],
+                expenses: true,
+              },
+            },
+            project: {
               id_code: 1,
               name: 'Proyecto 1',
               active: true,

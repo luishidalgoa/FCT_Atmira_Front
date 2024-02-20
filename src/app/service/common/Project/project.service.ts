@@ -4,13 +4,14 @@ import { Project } from '../../../model/domain/project';
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { environment } from '../../../../environment/environment';
 import { UserDataWrapperService } from '../../user/user-data-wrapper.service';
+import { AuthService } from '../../user/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient,private _auth:AuthService) { }
 
   /**
    * 
@@ -22,8 +23,9 @@ export class ProjectService {
       const header = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
-        })
+        }).set('Authorization', `Bearer ${this._auth.authorization$().token}`)
       };
+      
       const url: string = `${environment.apiUrl}/project/save/colaboratorId/${ID_Alias}`;
       return this._http.post<Project>(url, project, header);
   }
@@ -43,7 +45,7 @@ export class ProjectService {
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
+      }).set('Authorization', `Bearer ${this._auth.authorization$().token}`)
     };
     const url: string = `${environment.apiUrl}/project/delete/${project.id_code}`;
 
