@@ -24,9 +24,9 @@
     </header>
     <section [style]=" !details ? 'display: none' : ''">
         <ul class="px-5 py-3 flex flex-col gap-1">
-            @if(this.value && this.value.task && this.value.task !=null){
+            @if(this.value){
                 @for (task of this.tasks; track $index) {
-                    <app-task (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
+                    <app-task (delete)="this.deleteSubTask($event)" (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
                 }
             }
         </ul>
@@ -41,7 +41,7 @@
                 <p>New task</p>
             </div>
             @if(newT){
-            <form #form class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md">
+            <form [formGroup]="this.formGroup" (submit)="this.newTask($event);" class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md">
                 <div mat-button [matMenuTriggerFor]="menu"
                     class="min-w-6 h-full cursor-pointer flex items-center gap-2">
                     <label>Objetive</label>
@@ -53,13 +53,15 @@
                     <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
                         <p class="font-semibold text-[#707070] p-2">Objetives</p>
                         <hr class="">
-                        @for (value of this.typeOfServiceValues; track $index) {
-                        <button mat-menu-item (click)="this.formGroup.controls['typeOfService'].setValue(value)">
-                            <div class="flex gap-1 items-center">
-                                <p>{{value | titlecase}}</p>
-                            </div>
-                        </button>
-                        }
+                        <mat-select formControlName="objective">
+                            @for (type of this.typeOfServiceValues; track $index) {
+                                <mat-option [value]="type">
+                                    <div class="flex gap-1 items-center">
+                                        <p>{{type | titlecase}}</p>
+                                    </div>
+                                </mat-option>
+                            }
+                        </mat-select>
                     </mat-menu>
                 </div>
                 <input formControlName="title" placeholder="Write any description about task" #input type="text"
