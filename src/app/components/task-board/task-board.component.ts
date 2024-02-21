@@ -7,7 +7,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Task } from '../../model/domain/task';
 import { ProjectService } from '../../service/common/Project/project.service';
 import { AuthService } from '../../service/user/auth.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TaskComponent } from '../task/task.component';
 import { TaskService } from '../../service/common/Task/task.service';
 import { MatOption } from '@angular/material/core';
@@ -45,19 +45,8 @@ export class TaskBoardComponent {
       title: new FormControl('',[Validators.required]),
       objective: new FormControl('',[Validators.required]),
     })
-
-    
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        console.log(this._user_dataWrapper.currentItem$())
-        this.value = this._user_dataWrapper.currentItem$() as Task;
-        if(this.value.idCode != undefined){
-          this._task.getTaskByProject(this.value.idCode).subscribe((data: Task[]) => {
-            this.tasks = data;
-          });
-        }
-      }
-    });
+      
+      
    }
 
    routerActive: ActivatedRoute = inject(ActivatedRoute);

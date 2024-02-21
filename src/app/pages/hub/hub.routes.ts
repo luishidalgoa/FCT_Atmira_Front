@@ -17,7 +17,11 @@ export const hubRoutes: Routes = [
             {
                 path: 'projects/:id',
                 loadComponent: ()=> import('../task/project-view-all/project-view-all.component').then(m=>m.ProjectViewAllComponent),
-                data: { breadcrumb: 'Task Dash', parent:{breadcrumb: 'Project Dash',url:'/projects'} }
+                data: { breadcrumb: 'Task Dash', parent:{breadcrumb: 'Project Dash',url:'/projects'} },
+            },
+            {
+                path: 'projects/:id/:taskId',
+                loadComponent: ()=> import('../task/task-view-all/task-view-all.component').then(m=>m.TaskViewAllComponent),
             }
         ]
     }

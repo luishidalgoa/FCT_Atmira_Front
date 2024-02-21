@@ -39,8 +39,16 @@ describe('TaskService', () => {
       description: "Descripcion de la tarea",
       objective: TypeOfService.DESARROLLO,
       closed: false,
-      Project: data, // Utiliza los datos obtenidos en el subscribe
-      task: 1,
+      project: data, // Utiliza los datos obtenidos en el subscribe
+      task: {
+        idCode: '1',
+        description: "Descripcion de la tarea",
+        objective: TypeOfService.DESARROLLO,
+        closed: false,
+        project: data,
+        ID_Code_Project: 1,
+        task: null,
+      },
     })).not.toBeNull();
   }));
 
