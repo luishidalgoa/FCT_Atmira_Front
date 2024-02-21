@@ -7,11 +7,12 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Task } from '../../model/domain/task';
 import { ProjectService } from '../../service/common/Project/project.service';
 import { AuthService } from '../../service/user/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TaskComponent } from '../task/task.component';
 import { TaskService } from '../../service/common/Task/task.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
 
 @Component({
   selector: 'app-task-board',
@@ -37,20 +38,31 @@ export class TaskBoardComponent {
   _project:ProjectService = inject(ProjectService);
 
 
-
-  constructor(public dialog: MatDialog, private _formBuilder: FormBuilder,private _auth: AuthService,private _task:TaskService) {
+  private router: Router = inject(Router);
+  constructor(public _user_dataWrapper:UserDataWrapperService,public dialog: MatDialog, private _formBuilder: FormBuilder,private _auth: AuthService,private _task:TaskService) {
       
     this.formGroup = this._formBuilder.group({
       title: new FormControl('',[Validators.required]),
       objective: new FormControl('',[Validators.required]),
     })
-      
-      
+
+    
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        console.log(this._user_dataWrapper.currentItem$())
+        this.value = this._user_dataWrapper.currentItem$() as Task;
+        if(this.value.idCode != undefined){
+          this._task.getTaskByProject(this.value.idCode).subscribe((data: Task[]) => {
+            this.tasks = data;
+          });
+        }
+      }
+    });
    }
 
-   router: ActivatedRoute = inject(ActivatedRoute);
+   routerActive: ActivatedRoute = inject(ActivatedRoute);
    ngOnInit(): void {
-      const id = this.router.snapshot.params['id'];
+      const id = this.routerActive.snapshot.params['id'];
       this._task.getTaskByProject(id).subscribe((data:Task[])=>{
         console.log('DATA',this.value,data)
         this.tasks = data;

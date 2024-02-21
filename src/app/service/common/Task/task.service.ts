@@ -33,6 +33,11 @@ export class TaskService {
     return this._http.get<Task>(url);
   
   }
+  
+  getSubTasksByTask(id:string): Observable<Task[]>{
+    const url: string = `${environment.apiUrl}/task/bySubTask/${id}`;
+    return this._http.get<Task[]>(url);
+  }
 
   delete(task:Task): Observable<boolean>{
     const url: string = `http://localhost:8080/taskDelete/${task.idCode}`;

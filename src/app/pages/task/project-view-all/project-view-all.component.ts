@@ -14,10 +14,10 @@ import { ProjectService } from '../../../service/common/Project/project.service'
   selector: 'app-view-all',
   standalone: true,
   imports: [TaskBoardComponent],
-  templateUrl: './task-view-all.component.html',
-  styleUrl: './task-view-all.component.scss'
+  templateUrl: './project-view-all.component.html',
+  styleUrl: './project-view-all.component.scss'
 })
-export class TaskViewAllComponent {
+export class ProjectViewAllComponent {
   public parent!: Project;
   public values!: Task[];
 
@@ -35,21 +35,25 @@ export class TaskViewAllComponent {
 
   ngOnInit(): void {
     
-    this._project.getById(this.route.snapshot.params['id']).subscribe(
-      (data: Project) => {
-        this.parent = data;
-
-        /*this._task.getTasksById_Code(this.parent.id_code as number ).subscribe(
-          (data: Task[]) => {
+    if(!(this.route.snapshot.params['id'] as string).includes('_')){
+      this._project.getById(this.route.snapshot.params['id']).subscribe(
+        (data: Project) => {
+          this.parent = data;
+          
+          this._task.getTaskByProject(this.parent.id_code as number).subscribe((data: Task[]) => {
             this.values = data;
-          }
-        );*/
-
-        this._task.getTaskByProject(this.parent.id_code as number).subscribe((data: Task[]) => {
-          this.values = data;
-        });
-      }
-    )
+          });
+        }
+      )
+    }else{
+      this._task.getById(this.route.snapshot.params['id']).subscribe((data:Task)=>{
+        this.values = [data];
+        console.log(data);
+        this._task.getSubTasksByTask(data.idCode as string).subscribe((result:Task[])=>{
+          this.values = this.values.concat(result);
+        })
+      })
+    }
     
   }
 

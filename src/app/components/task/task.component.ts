@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ObjetiveService } from '../../service/objetive.service';
 import { TaskService } from '../../service/mockup/task.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task',
@@ -26,7 +27,7 @@ export class TaskComponent {
 
   selected!: string;
 
-  constructor(public _objetive: ObjetiveService){}
+  constructor(public _objetive: ObjetiveService,private _router:Router){}
 
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
@@ -45,5 +46,9 @@ export class TaskComponent {
 
   deleteEvent(){
     this.delete.emit(this.value);
+  }
+
+  goToTask(){
+    this._router.navigateByUrl('projects/'+this.value.idCode);
   }
 }
