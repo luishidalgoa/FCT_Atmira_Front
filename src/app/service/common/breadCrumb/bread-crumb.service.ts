@@ -10,7 +10,12 @@ import { ProjectService } from '../Project/project.service';
 export class BreadCrumbService {
 
   breadcrumbs: Array<{ label: string, url: string }> = [];
-
+  /**
+   * nos suscribimos a los eventos de fin de navegacion. de modo que cuando se navegue a una nueva ruta se actualizara
+   * el array de rutas que se encuentra en el servicio de BreadCrumbService a traves del metodo createBreadcrumbs()
+   * @param router
+   * @param activatedRoute 
+   */
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -22,13 +27,23 @@ export class BreadCrumbService {
 
   _task:TaskService = inject(TaskService);
   _project:ProjectService = inject(ProjectService);
+
+  /**
+   * crea un array de rutas a partir de la ruta actual
+   * @param route servicio de ActivatedRoute
+   * @param url url que por defecto es un string vacio
+   * @param breadcrumbs array de rutas que por defecto es un array vacio
+   * @returns 
+   */
   private createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: Array<{ label: string, url: string }> = []): Array<{ label: string, url: string }> {
-    const children: ActivatedRoute[] = route.children;
+    const children: ActivatedRoute[] = route.children; //obtenemos los hijos de la ruta actual
+    //si no hay hijos retornamos el array de rutas
     if (children.length === 0) {
       return breadcrumbs;
     }
-
+    //recorremos los hijos de la ruta actual
     for (const child of children) {
+      //si el hijo tiene la propiedad breadcrumb y no es undefined
       if(child.snapshot.data['breadcrumb'] != undefined){
 
         if(child.snapshot.data['parent']){

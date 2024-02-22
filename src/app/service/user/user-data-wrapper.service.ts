@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { Project } from '../../model/domain/project';
 import { ProjectService } from '../common/Project/project.service';
 import { AuthService } from '../user/auth.service';

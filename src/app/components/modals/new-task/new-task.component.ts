@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, inject, input } from '@angular/core';
+import { Component, Inject, Input, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -10,7 +10,6 @@ import { TypeOfService } from '../../../model/enum/type-of-service';
 import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
 import { TaskService } from '../../../service/common/Task/task.service';
-import { title } from 'process';
 import { AuthService } from '../../../service/user/auth.service';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
 
