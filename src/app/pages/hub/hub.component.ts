@@ -30,6 +30,10 @@ import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.comp
 export class HubComponent{
 
   public _auth: AuthService = inject(AuthService);
+  /**
+   * Obtiene los proyectos del usuario actual a traves del servicio de ProjectService
+   * @returns retorna un array de proyectos del usuario actual
+   */
   getUserProjects(): Observable<Item[]> | void {
     return this._ProjectS.getUserProjects(this._auth.currentUser$().ID_Alias).pipe(
       map((data: Project[]) => {
@@ -45,6 +49,11 @@ export class HubComponent{
 
   constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService, public _objetive: ObjetiveService) { }
   
+  /**
+   * abre el modal de configuracion
+   * @param enterAnimationDuration indica la duracion de la animacion de entrada
+   * @param exitAnimationDuration indica la duracion de la animacion de salida
+   */
   openConfiguration(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(ConfigurationComponent, {
       width: 'auto',
@@ -54,7 +63,11 @@ export class HubComponent{
     });
   }
   public _task:TaskService = inject(TaskService);
-
+  /**
+   * Abre el modal para crear un nuevo proyecto
+   * @param enterAnimationDuration indica la duracion de la animacion de entrada
+   * @param exitAnimationDuration indica la duracion de la animacion de salida
+   */
   openNewProject(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(NewProjectComponent, {
       width: 'auto',
@@ -65,11 +78,22 @@ export class HubComponent{
   }
 
   router: Router = inject(Router);
+  /**
+   * redirige al usuario a la ruta /projects/project/{id} donde id es el id del proyecto
+   * además, guarda el proyecto en la signal "currentItem$" para informar al resto de componentes de la aplicacion de cual
+   * es el proyecto actual que se esta visualizando
+   * @param project 
+   */
   goProject(project: Project): void {
     this._user_dataWrapper.currentItem$.set(project);
     this.router.navigateByUrl(`projects/project/${project.id_code}`);
   }
-
+  /**
+   * obtiene una lista de tareas a los que un usuario ha sido asignado.
+   * Los devuelve en forma de observable para que el componente que lo llame pueda subscribirse a el y 
+   * renderice las tareas del usuario en un menu desplegable
+   * @returns observable de un array de tareas
+   */
   getUserTasks(): Observable<Task[]> {
     return new Observable<Task[]>((observable)=>{
       this._task.getTaskByUser(this._auth.currentUser$().ID_Alias).subscribe((data: Task[]) => {

@@ -15,7 +15,11 @@ export class ViewAllComponent {
   
   ngOnInit(): void {
   }
-
+  /**
+   * abre el modal de nuevo proyecto
+   * @param enterAnimationDuration indica la duracion de la animacion de entrada
+   * @param exitAnimationDuration indica la duracion de la animacion de salida
+   */
   openNewProject(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(NewProjectComponent, {
       width: 'auto',
