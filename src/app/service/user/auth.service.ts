@@ -30,7 +30,15 @@ export class AuthService {
       });
     }
   }
-
+  /**
+   * metodo que se encarga de autenticar al usuario en base a las credenciales que se le pasen
+   * hace una peticion al servidor para obtener un token de autenticacion y los datos del usuario.
+   * Posteriormente guarda el token en el sessionStorage y actualiza la signal authorization$ así como
+   * la signal currentUser$ con los datos del usuario
+   * @method login
+   * @param credentials credenciales basicas del usuario para autenticarse
+   * @returns  Observable<boolean> devolvemos true o false en base a si el usuario ha sido autenticado o no
+   */
   login(credentials: { email: string; password: string }): Observable<boolean> {
     return new Observable<boolean>((observer) => {
       const url: string = `${environment.apiUrl}/auth/login`;
@@ -44,6 +52,7 @@ export class AuthService {
         .post(url, credentials, { headers: header, observe: observe })
         .subscribe((response: any) => {
           if (response.ok) {
+            console.log('response', response);
             sessionStorage.setItem('token', response.body.token);
             this.authorization$.set({ token: response.body.token });
           }

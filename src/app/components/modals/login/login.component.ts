@@ -24,7 +24,8 @@ export class LoginComponent {
     })
   }
   /**
-   * 
+   * comprobamos si el formulario es valido, si es asi, creamos un objeto con las credenciales del usuario
+   * y llamamos al metodo login del servicio de autenticacion, si el resultado es true, redirigimos al usuario a la pagina de proyectos
    * @method login
    */
   login():void{
