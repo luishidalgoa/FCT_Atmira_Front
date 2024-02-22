@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({
+  public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({ //Signal que contiene los datos del usuario actual
     ID_Alias: 'sampleId',
     Name: 'John',
     Surname: 'Doe',
@@ -16,7 +16,7 @@ export class AuthService {
     Expense: true,
   });
 
-  public authorization$: WritableSignal<{
+  public authorization$: WritableSignal<{ //Signal que contiene el token de autenticacion
     token: string | null;
   }>;
   constructor(private _http: HttpClient) {
@@ -60,16 +60,23 @@ export class AuthService {
         });
     });
   }
+  /**
+   * Recive un objeto con las credenciales basicas para registrar un nuevo usuario en la base de datos
+   * posteriormente hace una peticion al servidor para registrar al usuario
+   * @param credentials credenciales basicas del usuario para registrarse
+   * @returns Observable<boolean> devolvemos true o false en base a la respuesta del servidor de si el usuario ha sido registrado o no
+   */
+  register(credentials: {id_alias: string;surname: string;name: string;email: string;password: string;isActive?:boolean;relaseDate?:Date}): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      credentials.isActive = false;
+      credentials.relaseDate = new Date();
+      const url: string = `${environment.apiUrl}/auth/register`;
 
-  register(credentials: {id_alias: string;surname: string;name: string;email: string;password: string;isActive?:boolean;relaseDate?:Date}) {
-    credentials.isActive = false;
-    credentials.relaseDate = new Date();
-    const url: string = `${environment.apiUrl}/auth/register`;
-
-    this._http
-      .post<Colaborator>(url, credentials)
-      .subscribe((response: any) => {
-        console.log('respuesta', response);
+      this._http
+        .post<Colaborator>(url, credentials)
+        .subscribe((response: any) => {
+          observer.next(response.ok);
       });
+    });
   }
 }

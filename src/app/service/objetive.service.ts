@@ -8,7 +8,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class ObjetiveService {
 
   constructor(private sanitizer: DomSanitizer) { }
-
+  /**
+   * Metodo que se encarga de obtener el svg de un tipo de servicio
+   * @param type Tipo de servicio del cual se quiere extraer el svg
+   * @returns retorna un SafeHtml con el svg del tipo de servicio
+   */
   getSvgByType(type: TypeOfService): SafeHtml {
     switch (type) {
       case TypeOfService.DESARROLLO:
