@@ -15,13 +15,14 @@ export const hubRoutes: Routes = [
                 data: { breadcrumb: 'Project Dash' }
             },
             {
-                path: 'projects/:id',
+                path: 'projects/project/:id',
                 loadComponent: ()=> import('../task/project-view-all/project-view-all.component').then(m=>m.ProjectViewAllComponent),
                 data: { breadcrumb: 'Task Dash', parent:{breadcrumb: 'Project Dash',url:'/projects'} },
             },
             {
-                path: 'projects/:id/:taskId',
+                path: 'projects/project/:id/task/:taskId',
                 loadComponent: ()=> import('../task/task-view-all/task-view-all.component').then(m=>m.TaskViewAllComponent),
+                data: { breadcrumb: 'Task', parent:{breadcrumb: 'Task Dash',url:'/projects/:id'} },
             }
         ]
     }
@@ -30,9 +31,5 @@ export const hubRoutes: Routes = [
         path: '',
         redirectTo: 'projects',
         pathMatch: 'full'
-    },
-    {
-        path: '**',
-        redirectTo: 'projects'
     }
 ];

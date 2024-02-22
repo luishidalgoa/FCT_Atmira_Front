@@ -53,7 +53,6 @@ export class TaskBoardComponent {
    ngOnInit(): void {
       const id = this.routerActive.snapshot.params['id'];
       this._task.getTaskByProject(id).subscribe((data:Task[])=>{
-        console.log('DATA',this.value,data)
         this.tasks = data;
       });
    }
@@ -71,7 +70,6 @@ export class TaskBoardComponent {
       project: this.value.project,
       objective: this.formGroup.get('objective')?.value
     };
-    console.log('TASK',task)
     this._task.save(task).subscribe((data:Task)=>{
       if(data)this.tasks.push(data)
     })
@@ -102,7 +100,6 @@ export class TaskBoardComponent {
     }else{
       this.TasksSelected.parent_id = this.TasksSelected.parent_id == undefined ? task.task?.idCode: undefined;
     }
-    console.log(this.TasksSelected)
   }
 
   deleteSubTask(task:Task):void{
@@ -116,8 +113,6 @@ export class TaskBoardComponent {
         result.tasks = result.tasks?.filter((t:Task)=>t.idCode !== task2.idCode); //eliminamos la tarea
         //reescribimos la tarea padre por result
         this.tasks = this.tasks.map((t:Task)=>t.idCode === result.idCode ? result : t);
-
-        console.log('ELIMINADO',this.tasks);
       }
     }
   }

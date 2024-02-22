@@ -23,8 +23,11 @@ export class LoginComponent {
       password: new FormControl('',Validators.required)
     })
   }
-
-  login(){
+  /**
+   * 
+   * @method login
+   */
+  login():void{
     if(this.form.valid){
       const credentials: {email:string,password:string} = {
         email: this.form.get('email')?.value,

@@ -35,25 +35,15 @@ export class ProjectViewAllComponent {
 
   ngOnInit(): void {
     
-    if(!(this.route.snapshot.params['id'] as string).includes('_')){
-      this._project.getById(this.route.snapshot.params['id']).subscribe(
-        (data: Project) => {
-          this.parent = data;
-          
-          this._task.getTaskByProject(this.parent.id_code as number).subscribe((data: Task[]) => {
-            this.values = data;
-          });
-        }
-      )
-    }else{
-      this._task.getById(this.route.snapshot.params['id']).subscribe((data:Task)=>{
-        this.values = [data];
-        console.log(data);
-        this._task.getSubTasksByTask(data.idCode as string).subscribe((result:Task[])=>{
-          this.values = this.values.concat(result);
-        })
-      })
-    }
+    this._project.getById(this.route.snapshot.params['id']).subscribe(
+      (data: Project) => {
+        this.parent = data;
+
+        this._task.getTaskByProject(this.parent.id_code as number).subscribe((data: Task[]) => {
+          this.values = data;
+        });
+      }
+    )
     
   }
 

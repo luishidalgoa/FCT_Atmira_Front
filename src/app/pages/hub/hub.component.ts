@@ -67,7 +67,7 @@ export class HubComponent{
   router: Router = inject(Router);
   goProject(project: Project): void {
     this._user_dataWrapper.currentItem$.set(project);
-    this.router.navigateByUrl(`projects/${project.id_code}`);
+    this.router.navigateByUrl(`projects/project/${project.id_code}`);
   }
 
   getUserTasks(): Observable<Task[]> {

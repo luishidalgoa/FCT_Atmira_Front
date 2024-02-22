@@ -59,6 +59,6 @@ export class ProjectDashboardComponent {
    */
   show(project:Project){
     this._user_dataWrapper.currentItem$.set(project)
-    this._router.navigateByUrl(`projects/${project.id_code}`);
+    this._router.navigateByUrl(`projects/project/${project.id_code}`);
   }
 }

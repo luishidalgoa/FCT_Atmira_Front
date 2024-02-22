@@ -27,7 +27,9 @@ export class TaskComponent {
 
   selected!: string;
 
-  constructor(public _objetive: ObjetiveService,private _router:Router){}
+  constructor(public _objetive: ObjetiveService,private _router:Router){
+    
+  }
 
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
@@ -49,6 +51,7 @@ export class TaskComponent {
   }
 
   goToTask(){
-    this._router.navigateByUrl('projects/'+this.value.idCode);
+    //imprimimos el :id de la ruta de navegacion
+    this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
   }
 }
