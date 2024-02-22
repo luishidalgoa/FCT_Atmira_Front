@@ -22,14 +22,14 @@ import { AuthService } from '../../../service/user/auth.service';
   styleUrl: './new-project.component.scss'
 })
 export class NewProjectComponent {
-  form: FormGroup;
-  typeOfServiceValues = Object.values(TypeOfService);
+  form: FormGroup; // formulario para crear un nuevo proyecto
+  typeOfServiceValues = Object.values(TypeOfService); // obtiene los valores del enum para mostrarlos en el html a traves de un bucle for
 
-  minDate: Date;
+  minDate: Date; // fecha minima para el datepicker
   constructor(public dialogRef: MatDialogRef<NewProjectComponent>,private _ProjectS:ProjectService, private _formBuilder: FormBuilder) {
-    // Set the minimum to January 1st 20 years in the past and December 31st a year in the future.
     const currentYear = new Date().getFullYear();
-    this.minDate = new Date(currentYear - 0, 0, new Date().getDate());
+    const currentMonth = new Date().getMonth();
+    this.minDate = new Date(currentYear - 0, currentMonth, new Date().getDate());
 
     this.form = this._formBuilder.group({
       title: new FormControl('',Validators.maxLength(20)),
@@ -41,6 +41,13 @@ export class NewProjectComponent {
 
   private _user_dataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
   private _authService: AuthService = inject(AuthService);
+
+  /**
+   * crea un nuevo proyecto en base a los datos del formulario y lo guarda en la base de datos a traves del servicio de ProjectService
+   * posteriormente lo guarda en el UserDataWrapperService si existe, con el fin de que se actualice la lista de proyectos en la aplicacion y se renderice
+   * en el html y se cierre el modal
+   * @method create
+   */
   create(){
     if(this.form.valid){
       const project:Project = {
@@ -51,14 +58,19 @@ export class NewProjectComponent {
         active: true 
       }
       this._ProjectS.save(project,this._authService.currentUser$().ID_Alias).subscribe((data:Project)=>{
-        this._user_dataWrapper.addProject(data);
+        if(data){
+          this._user_dataWrapper.addProject(data);
+        }
       });
       this.dialogRef.close();
     }else{
       
     }
   }
-
+  /**
+   * cierra el modal
+   * @method close
+   */
   close(){
     this.dialogRef.close();
   }

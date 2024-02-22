@@ -27,9 +27,9 @@ export class TaskBoardComponent {
   @Output()
   deleteEvent: EventEmitter<Task> = new EventEmitter<Task>();
   tasks!: Task[]; //subtareas
-  details: boolean = false;
-  newT: boolean = false;
-  TasksSelected: {parent_id: string | undefined;Tasks:Task[] | undefined} = {parent_id:undefined,Tasks:[]};
+  details: boolean = false; //indica si el menu de detalles esta abierto o cerrado
+  newT: boolean = false; // indica si el formulario para crear una nueva tarea esta abierto u oculto
+  TasksSelected: {parent_id: string | undefined;Tasks:Task[] | undefined} = {parent_id:undefined,Tasks:[]}; //array de subtareas seleccionadas
 
   formGroup: FormGroup;
 
@@ -41,24 +41,31 @@ export class TaskBoardComponent {
   private router: Router = inject(Router);
   constructor(public _user_dataWrapper:UserDataWrapperService,public dialog: MatDialog, private _formBuilder: FormBuilder,private _auth: AuthService,private _task:TaskService) {
       
-    this.formGroup = this._formBuilder.group({
-      title: new FormControl('',[Validators.required]),
-      objective: new FormControl('',[Validators.required]),
-    })
+  this.formGroup = this._formBuilder.group({
+    title: new FormControl('',[Validators.required]),
+    objective: new FormControl('',[Validators.required]),
+  })
       
       
-   }
+  }
 
-   routerActive: ActivatedRoute = inject(ActivatedRoute);
-   ngOnInit(): void {
-      const id = this.routerActive.snapshot.params['id'];
-      this._task.getTaskByProject(id).subscribe((data:Task[])=>{
-        this.tasks = data;
-      });
-   }
+  routerActive: ActivatedRoute = inject(ActivatedRoute);
+   /**
+    * [BUG]
+    */
+  ngOnInit(): void {
+    const id = this.routerActive.snapshot.params['id'];
+    this._task.getTaskByProject(id).subscribe((data:Task[])=>{
+      this.tasks = data;
+    });
+  }
    
 
-
+  /**
+   * crea una nueva tarea en base a los datos del formulario y la guarda en la base de datos a traves del servicio de TaskService
+   * posteriormente la guarda en el array de tareas del componente para que se renderice en el html
+   * @param event 
+   */
   newTask(event:any): void {
 
     const task: Task = {
@@ -76,6 +83,11 @@ export class TaskBoardComponent {
     event.preventDefault()
   }
   @ViewChild('form') form!: ElementRef;
+  /**
+   * cierra el formulario para crear una nueva tarea si el usuario hace click fuera de el
+   * @param event 
+   * @returns 
+   */
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event: any): void {
     if (!this.form) return;
@@ -85,6 +97,10 @@ export class TaskBoardComponent {
     }
   }
   
+  /**
+   * llama al metodo delete del servicio de TaskService para eliminar la tarea de la base de datos. posteriormente emite el evento deleteEvent
+   * para que el componente padre elimine la tarea del array de tareas si la eliminacion en la bbdd ha sido exitosa
+   */
   delete(): void{
     this._task.delete(this.value).subscribe((result:boolean)=>{
       if(result){
@@ -93,6 +109,10 @@ export class TaskBoardComponent {
     });
   }
 
+  /**
+   * selecciona las subtareas de la tarea seleccionada y las guarda en el array de subtareas seleccionadas
+   * @param task 
+   */
   selectTasksGroup(task:Task,):void{
     if(this.TasksSelected.parent_id === task.task?.idCode){
       if(this.TasksSelected.Tasks == undefined) this.TasksSelected.Tasks = [];
@@ -102,6 +122,10 @@ export class TaskBoardComponent {
     }
   }
 
+  /**
+   * elimina la subtarea de la tarea seleccionada y la elimina del array de subtareas seleccionadas
+   * @param task 
+   */
   deleteSubTask(task:Task):void{
     //buscamos la tarea que contenga el mismo id que el campo parent de la tarea que queremos eliminar
     const result:Task = this.tasks.find((t:Task)=>t.task?.idCode === task.task?.idCode) as Task;

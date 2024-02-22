@@ -19,10 +19,10 @@ import { UserDataWrapperService } from '../../service/user/user-data-wrapper.ser
   styleUrl: './project-dashboard.component.scss'
 })
 export class ProjectDashboardComponent {
-  private Data!: Project[];
+  private Data!: Project[]; // array de proyectos que se guardara en la tabla this.dataSource
 
-  displayedColumns: string[] = ['name', 'initialDate', 'endDate','type', 'status', 'option'];
-  dataSource!: MatTableDataSource<Project>;
+  displayedColumns: string[] = ['name', 'initialDate', 'endDate','type', 'status', 'option']; // columnas que se mostraran en la tabla
+  dataSource!: MatTableDataSource<Project>; // fuente de datos de la tabla. Se utiliza para mostrar los datos en la tabla y guardar los proyectos en la tabla
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private _router: Router,private _auth:AuthService,private _user_dataWrapper:UserDataWrapperService,private _project:ProjectService) {
     effect(()=>{
@@ -30,7 +30,11 @@ export class ProjectDashboardComponent {
       this.dataSource = new MatTableDataSource(this.Data);
     })
   }
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // paginador de la tabla. Se utiliza para paginar los resultados de la tabla
+
+  /**
+   * inicializa el paginador de la tabla una vez que la vista se ha renderizado completamente
+   */
   ngAfterViewInit() {
     setTimeout(()=>{
       this.dataSource.paginator = this.paginator;
@@ -53,7 +57,7 @@ export class ProjectDashboardComponent {
       });
   }
   /**
-   * Redirecciona a la ruta /project/{id} donde id es el id del proyecto completo. 
+   * Redirecciona a la ruta /projects/project/{id} donde id es el id del proyecto completo. 
    * El usuario podra visualizar el proyecto completo + sus tareas.
    * @param project proyecto seleccionado por el usuario
    */

@@ -17,39 +17,53 @@ import { Router } from '@angular/router';
 })
 export class TaskComponent {
   @Input({required: true})
-  value!: Task;
+  value!: Task; // valor de la tarea que se renderizara en el html
   @Input({required: true})
-  index!: number;
+  index!: number; // indice de la tarea en el array de tareas del componente padre (el objetivo es usarlo como id unico para el html)
   @Output()
-  Checkbox: EventEmitter<Task> = new EventEmitter<Task>();
+  Checkbox: EventEmitter<Task> = new EventEmitter<Task>(); // evento que se dispara cuando se hace click en el checkbox de seleccionar tarea
   @Output()
-  delete: EventEmitter<Task> = new EventEmitter<Task>();
+  delete: EventEmitter<Task> = new EventEmitter<Task>(); // evento que se dispara cuando se hace click en el boton de eliminar tarea
 
-  selected!: string;
+  selected!: string; // indica si la tarea esta cerrada o no
 
   constructor(public _objetive: ObjetiveService,private _router:Router){
     
   }
-
+  /**
+   * inicializa el valor de la variable selected en base a si la tarea esta cerrada o no
+   */
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
   }
   private _task:TaskService = inject(TaskService);
+
+  /**
+   * Cambia el estado de la tarea a cerrada o no cerrada en base al valor del parametro status y actualiza el valor de la variable selected
+   * los cambios se guardan en la base de datos a traves del servicio de TaskService
+   * @param status  indica si la tarea esta cerrada o no
+   */
   status(status:boolean){
     this._task.status(this.value.idCode as string,status).subscribe((data:Task)=>{
       this.value = data;
       this.selected = data.closed ? 'true' : 'false';
     });
   }
-
+  /**
+   * emite el evento Checkbox con el valor de la tarea para indicar que ha sido seleccionada
+   */
   check(){
     this.Checkbox.emit(this.value);
   }
-
+  /**
+   * emite el evento delete con el valor de la tarea para indicar que ha sido eliminada
+   */
   deleteEvent(){
     this.delete.emit(this.value);
   }
-
+  /**
+   * redirige al usuario a la ruta /projects/project/{id}/task/{id} donde id es el id del proyecto y el id de la tarea
+   */
   goToTask(){
     //imprimimos el :id de la ruta de navegacion
     this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
