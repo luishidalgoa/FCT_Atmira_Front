@@ -41,7 +41,7 @@ export class NewTaskComponent {
       description: this.form.get('title')?.value,
       Asigned: this._auth.currentUser$(),
       closed: false,
-      ID_Code_Project: isProject ? (this.parent as Project).id_code as number : (this.parent as Task).ID_Code_Project,
+      ID_Code_Project: isProject ? (this.parent as Project).id_code as string : (this.parent as Task).ID_Code_Project,
       task: !isProject ? (this.parent as Task) : null,
       project: isProject ? (this.parent as Project) : (this.parent as Task).project,
       objective: this.form.get('objective')?.value

@@ -4,6 +4,7 @@ import { Project } from '../../../model/domain/project';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environment/environment';
 import { AuthService } from '../../user/auth.service';
+import { Colaborator } from '../../../model/domain/colaborator';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,15 @@ export class ProjectService {
     };
     const url: string = `${environment.apiUrl}/project/list/${id}`;
     return this._http.get<Project>(url, header);
+  }
+  /**
+   * retornara una coleccion de Colaboradores asociados a un proyecto
+   * @param id id del proyecto
+   * @returns lista de colaboradores
+   */
+  getColaboratos(id:string):Observable<Colaborator[]>{
+    const url : string =`http://localhost:8080/project/${id}/colaborators`
+    return this._http.get<Colaborator[]>(url)
   }
 
 }

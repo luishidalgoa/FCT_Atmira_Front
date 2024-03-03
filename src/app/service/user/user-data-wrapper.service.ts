@@ -17,7 +17,7 @@ export class UserDataWrapperService {
    * @param _projectService 
    */
   constructor(private _auth: AuthService, private _projectService: ProjectService) { 
-    this._projectService.getUserProjects(this._auth.currentUser$().ID_Alias).subscribe((projects: Project[]) => {
+    this._projectService.getUserProjects(this._auth.currentUser$().id_alias).subscribe((projects: Project[]) => {
       this.projects$.update(()=>projects);
     });
   }

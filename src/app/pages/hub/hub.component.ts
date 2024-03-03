@@ -35,7 +35,7 @@ export class HubComponent{
    * @returns retorna un array de proyectos del usuario actual
    */
   getUserProjects(): Observable<Item[]> | void {
-    return this._ProjectS.getUserProjects(this._auth.currentUser$().ID_Alias).pipe(
+    return this._ProjectS.getUserProjects(this._auth.currentUser$().id_alias).pipe(
       map((data: Project[]) => {
         return data.map(project => ({
           title: project.name,
@@ -96,7 +96,7 @@ export class HubComponent{
    */
   getUserTasks(): Observable<Task[]> {
     return new Observable<Task[]>((observable)=>{
-      this._task.getTaskByUser(this._auth.currentUser$().ID_Alias).subscribe((data: Task[]) => {
+      this._task.getTaskByUser(this._auth.currentUser$().id_alias).subscribe((data: Task[]) => {
         observable.next(data)
       });
     })

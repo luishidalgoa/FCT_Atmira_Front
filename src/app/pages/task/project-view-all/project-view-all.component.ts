@@ -25,7 +25,7 @@ export class ProjectViewAllComponent {
     effect(()=>{
       this.parent = this._user_dataWrapper.currentItem$() as Project;
       if(this.parent.id_code != undefined){
-        this._task.getTaskByProject(this.parent.id_code as number).subscribe((data: Task[]) => {
+        this._task.getTaskByProject(this.parent.id_code).subscribe((data: Task[]) => {
           this.values = data;
         });
       }
@@ -40,7 +40,7 @@ export class ProjectViewAllComponent {
       (data: Project) => {
         this.parent = data;
 
-        this._task.getTaskByProject(this.parent.id_code as number).subscribe((data: Task[]) => {
+        this._task.getTaskByProject(this.parent.id_code as string).subscribe((data: Task[]) => {
           this.values = data;
         });
       }

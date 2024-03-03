@@ -18,10 +18,20 @@
                     <mat-option (click)="this.status(false)" value="false">Open</mat-option>
                 </mat-select>
             </mat-form-field>
-            <span class="relative h-7 w-7 rounded-full bg-[#707070] border border-black/40 shadow-lg">
+            <span mat-button [matMenuTriggerFor]="work" class="relative h-7 w-7 rounded-full bg-[#707070] border border-black/40 shadow-lg">
                 <svg class="absolute top-0 left-0 right-0 bottom-0 m-auto" width="24" height="24" viewBox="0 0 24 24" role="presentation"><g fill="white" fill-rule="evenodd"><path d="M6 14c0-1.105.902-2 2.009-2h7.982c1.11 0 2.009.894 2.009 2.006v4.44c0 3.405-12 3.405-12 0V14z"></path><circle cx="12" cy="7" r="4"></circle></g></svg>
             </span>
-
+            <mat-menu #work="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
+                @defer (when this.value.project.colaboratorProjects) {
+                    @if (this.value.project.colaboratorProjects !== undefined) {
+                        @for (item of this.value.project.colaboratorProjects; track $index){
+                            <p>{{item.id_alias ?? 'nada'}}</p>
+                        }
+                    }
+                }@loading {
+                    <p>loading...</p>
+                }
+            </mat-menu>
             <div mat-button [matMenuTriggerFor]="menu" class="px-2 py-3 rounded-lg hover:bg-gray-300/50 active:bg-gray-300 w-fit cursor-pointer" (click)="$event.stopPropagation()">
                 <svg  xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
                     <path id="Trazado_60" data-name="Trazado 60" d="M6.39,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,6.39,6ZM1.2,6A1.2,1.2,0,1,1,0,7.2,1.2,1.2,0,0,1,1.2,6ZM11.583,6a1.2,1.2,0,1,1-1.2,1.2A1.2,1.2,0,0,1,11.583,6Z" transform="translate(0.5 -5.5)" fill="#474747" stroke="#474747" stroke-width="1"/>

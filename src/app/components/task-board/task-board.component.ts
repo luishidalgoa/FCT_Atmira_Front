@@ -72,7 +72,7 @@ export class TaskBoardComponent {
       description: this.formGroup.get('title')?.value,
       Asigned: this._auth.currentUser$(),
       closed: false,
-      ID_Code_Project: this.value.project.id_code as number,
+      ID_Code_Project: this.value.project.id_code as string,
       task: null,
       project: this.value.project,
       objective: this.formGroup.get('objective')?.value
