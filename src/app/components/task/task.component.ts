@@ -78,7 +78,6 @@ export class TaskComponent {
   getColaborators(): void {
     this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
       this.value.project.colaboratorProjects = data
-      console.log(this.value.project.colaboratorProjects);
     })
   }
 }

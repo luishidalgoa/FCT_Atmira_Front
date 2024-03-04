@@ -27,6 +27,7 @@ export class ProjectViewAllComponent {
       if(this.parent.id_code != undefined){
         this._task.getTaskByProject(this.parent.id_code).subscribe((data: Task[]) => {
           this.values = data;
+          console.log(this.values);
         });
       }
     });
