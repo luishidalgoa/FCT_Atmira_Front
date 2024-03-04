@@ -15,9 +15,26 @@ export class AuthService {
   constructor(private _http: HttpClient) {}
 
   login(credentials: { email: string; password: string }): Observable<boolean> {
+
     const url: string = `${environment.apiUrl}/auth/login`;
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
+
+    
+    return new Observable<boolean>((observer) => {
+      this.currentUser$ = signal<Colaborator>({
+        id_alias: 'sampleId',
+        Name: 'John',
+        Surname: 'Doe',
+        Email: credentials.email,
+        Expense: true,
+        Guards: true,
+        Hours: 8,
+        isActive: true,
+        relaseDate: new Date(),
+      });
+      observer.next(true);
+
     });
 
     return this._http.post<any>(url, credentials, { headers: header }).pipe(
@@ -31,6 +48,7 @@ export class AuthService {
       })
     );
   }
+
 
   logout() {
     // Eliminar el token de autenticación y los datos del usuario actual
@@ -47,5 +65,21 @@ export class AuthService {
   setCurrentUser(user: Colaborator) {
     // Almacenar los datos del usuario actual en el almacenamiento local
     localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+
+  register(credentials: { Name: string, Surname: string;Username: string;email: string; password: string }): Observable<Colaborator>{
+    return new Observable<Colaborator>((observer) => {
+      const user: Colaborator = {
+        Email: credentials.email,
+        Name: credentials.Name,
+        Surname: credentials.Surname,
+        id_alias: credentials.Username,
+        relaseDate: new Date(),
+        Password: credentials.password,
+        isActive: false,
+      };
+      this.currentUser$ = signal<Colaborator>(user);
+      observer.next(user);
+    });
+
   }
 }

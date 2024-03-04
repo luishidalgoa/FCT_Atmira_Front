@@ -66,9 +66,26 @@ export class TaskBoardComponent {
    * posteriormente la guarda en el array de tareas del componente para que se renderice en el html
    * @param event 
    */
+
   newTask(event: Event): void {
     event.preventDefault();
     this.newT = true; // Mostrar el formulario para crear una nueva tarea
+  newTask(event:any): void {
+
+    const task: Task = {
+      description: this.formGroup.get('title')?.value,
+      Asigned: this._auth.currentUser$(),
+      closed: false,
+      ID_Code_Project: this.value.project.id_code as string,
+      task: null,
+      project: this.value.project,
+      objective: this.formGroup.get('objective')?.value
+    };
+    this._task.save(task).subscribe((data:Task)=>{
+      if(data)this.tasks.push(data)
+    })
+    event.preventDefault()
+
   }
 
   @ViewChild('form') form!: ElementRef;

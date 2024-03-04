@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({ //Signal que contiene los datos del usuario actual
-    ID_Alias: 'sampleId',
+    id_alias: 'sampleId',
     Name: 'John',
     Surname: 'Doe',
     Email: '',

@@ -2,7 +2,7 @@ import { Colaborator } from "./colaborator";
 import { Task } from "./task";
 
 export interface Project {
-    id_code?: number;
+    id_code?: string;
     typeOfService: string;
     name: string;
     initialDate: Date;
