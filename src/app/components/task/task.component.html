@@ -25,7 +25,7 @@
                 @defer (when this.value.project.colaboratorProjects) {
                     @if (this.value.project.colaboratorProjects !== undefined) {
                         @for (item of this.value.project.colaboratorProjects; track $index){
-                            <p>{{item.id_alias ?? 'nada'}}</p>
+                            <p>{{item.id_alias}}</p>
                         }
                     }
                 }@loading {

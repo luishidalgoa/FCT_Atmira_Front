@@ -8,12 +8,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({ //Signal que contiene los datos del usuario actual
-    id_alias: 'sampleId',
-    Name: 'John',
-    Surname: 'Doe',
+  public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({
     Email: '',
-    Expense: true,
+    Name: '',
+    id_alias: '',
+    Surname: '',
   });
 
   public authorization$: WritableSignal<{ //Signal que contiene el token de autenticacion
@@ -24,6 +23,12 @@ export class AuthService {
       this.authorization$ = signal({
         token: sessionStorage.getItem('token'),
       });
+      if(sessionStorage.getItem('id_alias')){ //TEMPORAL
+        this.getUserByIdAlias(sessionStorage.getItem('id_alias') as string).subscribe((data: Colaborator)=>{
+          console.log(data);
+          this.currentUser$.set(data);
+        });
+      }
     } else {
       this.authorization$ = signal({
         token: null,
@@ -51,10 +56,10 @@ export class AuthService {
       this._http
         .post(url, credentials, { headers: header, observe: observe })
         .subscribe((response: any) => {
+          console.log(response.body)
           if (response.ok) {
-            console.log('response', response);
             sessionStorage.setItem('token', response.body.token);
-            this.authorization$.set({ token: response.body.token });
+            this.setUser(response.body);
           }
           observer.next(response.ok);
         });
@@ -75,8 +80,26 @@ export class AuthService {
       this._http
         .post<Colaborator>(url, credentials)
         .subscribe((response: any) => {
+          if(response.ok)this.setUser(response.body);
           observer.next(response.ok);
       });
     });
+  }
+  setUser(user: any){
+    const result: Colaborator = {
+      Email: user.email,
+      Name: user.name,
+      Surname: user.surname,
+      id_alias: user.id_alias,
+      role: user.role
+    }
+    this.currentUser$.set(result);
+    sessionStorage.setItem('id_alias', user.id_alias);
+    this.authorization$.set({ token: user.token });
+  }
+
+  getUserByIdAlias(id_alias:string):Observable<Colaborator>{
+    const url: string = `${environment.apiUrl}/auth/user/${id_alias}`;
+    return this._http.get<Colaborator>(url);
   }
 }

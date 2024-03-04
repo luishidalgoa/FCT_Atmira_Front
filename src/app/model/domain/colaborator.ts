@@ -13,4 +13,5 @@ export interface Colaborator {
     Surname: string;
     Password?: string;
     Responsible?: Colaborator;
+    role?: string;
 }
