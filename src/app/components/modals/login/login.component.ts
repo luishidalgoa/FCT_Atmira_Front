@@ -16,34 +16,30 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  form: FormGroup;
-
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {
-    this.form = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    });
+  form!: FormGroup;
+  constructor(public dialogRef: MatDialogRef<LoginComponent>,private _formBuilder: FormBuilder,private _auth:AuthService,private _router:Router){
+    this.form = this._formBuilder.group({
+      email: new FormControl('',Validators.required),
+      password: new FormControl('',Validators.required)
+    })
   }
-
-  login(): void {
-    if (this.form.valid) {
-      const credentials = {
-        email: this.form.value.email,
-        password: this.form.value.password
-      };
-
-      this.authService.login(credentials).subscribe((loggedIn: boolean) => {
-        if (loggedIn) {
-          const currentUser = this.authService.getCurrentUser();
-          if (currentUser) {
-            this.router.navigate(['/projects']); // Redirige al usuario a la página de proyectos
-          }
-        } else {
-          this.form.setErrors({ invalidCredentials: true }); // Marca el formulario como inválido debido a credenciales incorrectas
+  /**
+   * comprobamos si el formulario es valido, si es asi, creamos un objeto con las credenciales del usuario
+   * y llamamos al metodo login del servicio de autenticacion, si el resultado es true, redirigimos al usuario a la pagina de proyectos
+   * @method login
+   */
+  login():void{
+    if(this.form.valid){
+      const credentials: {email:string,password:string} = {
+        email: this.form.get('email')?.value,
+        password: this.form.get('password')?.value
+      }
+      this._auth.login(credentials).subscribe((result:boolean)=>{
+        if(result){
+          this._router.navigateByUrl('projects');
+          this.dialogRef.close();
+        }else{
+          this.form.setErrors({invalidCredentials:true});
         }
       });
     }
