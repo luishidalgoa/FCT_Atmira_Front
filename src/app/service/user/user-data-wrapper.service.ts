@@ -3,6 +3,8 @@ import { Project } from '../../model/domain/project';
 import { ProjectService } from '../common/Project/project.service';
 import { AuthService } from '../user/auth.service';
 import { Task } from '../../model/domain/task';
+import { Colaborator } from '../../model/domain/colaborator';
+import { switchMap,pipe } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +18,23 @@ export class UserDataWrapperService {
    * @param _auth 
    * @param _projectService 
    */
+  constructor(private _auth: AuthService, private _projectService: ProjectService, private _) { 
+    // Espera a que el usuario esté autenticado y luego obtiene los proyectos del usuario actual
+    this.projects$ = this._auth.currentUser$.pipe(
+      switchMap(user => {
+        if (user.ID_Alias) {
+          return this._projectService.getUserProjects(user.ID_Alias);
+        } else {
+          return of([]); // Devuelve un Observable vacío si el usuario no está autenticado
+        }
+      })
+    );
+
   constructor(private _auth: AuthService, private _projectService: ProjectService) { 
     this._projectService.getUserProjects(this._auth.currentUser$().id_alias).subscribe((projects: Project[]) => {
       this.projects$.update(()=>projects);
     });
+
   }
 
   getProjects(): Project[] {
