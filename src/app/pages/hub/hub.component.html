@@ -15,7 +15,7 @@
           <mat-menu #work="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
             <p class="font-semibold text-[#707070] p-2">Your Works</p>
             <hr class="">
-            @for (task of this.getUserTasks() | async; track $index) {
+            @for (task of tasksByUser; track $index) {
               <button mat-menu-item>
                 <div class="flex gap-1 items-center">
                   <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
