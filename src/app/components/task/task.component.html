@@ -1,4 +1,4 @@
-<li class="">
+<li class="hover:bg-[#E22C79]/20 px-2 rounded-md transition-colors">
     <article class="flex justify-between">
         <section class="flex items-center gap-4">
             <div class="checkbox-wrapper-13 flex items-center">
@@ -6,13 +6,13 @@
                 <label [for]="this.index"></label>
             </div>
 
-            <div (click)="this.goToTask()" class="text-xl w-4/6 flex items-center overflow-hidden gap-1 cursor-pointer">
+            <div (click)="this.goToTask()" class="text-xl min-w-fit max-w-full flex items-center overflow-hidden gap-1 cursor-pointer">
                 <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(value.objective)"></div>
                 <p class="text-ellipsis text-nowrap font-semibold">{{value.description}}</p>
             </div>
         </section>
         <section class="flex justify-between gap-5 items-center">
-            <mat-form-field>
+            <mat-form-field class="py-1">
                 <mat-select [value]="selected">
                     <mat-option (click)="this.status(true)" value="true">Closed</mat-option>
                     <mat-option (click)="this.status(false)" value="false">Open</mat-option>

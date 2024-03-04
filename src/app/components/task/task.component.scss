@@ -10,12 +10,6 @@ p,label{
     color: #172B4D;
 }
 
-li::after{ 
-    content: '';
-    height: 1px;
-    margin-top: 5px;
-    @apply w-full bg-[#707070] block
-}
 
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
