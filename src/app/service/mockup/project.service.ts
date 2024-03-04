@@ -122,7 +122,7 @@ export class ProjectService {
             'Content-Type': 'application/json'
           })
         };
-        const url: string = `${environment.apiUrl}/project/list/${id}`;
+        const url: string = `${environment.apiUrl}/colaborator/${id}/projects`;
         return this._http.get<Project>(url, header).subscribe((data) => {
           observer.next(data);
         });
