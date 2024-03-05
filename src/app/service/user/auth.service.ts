@@ -24,6 +24,12 @@ export class AuthService {
         token: sessionStorage.getItem('token'),
       });
       if(sessionStorage.getItem('id_alias')){ //TEMPORAL
+        this.currentUser$.set({
+          Email: '',
+          Name: '',
+          id_alias: sessionStorage.getItem('id_alias') as string,
+          Surname: '',
+        })
         this.getUserByIdAlias(sessionStorage.getItem('id_alias') as string).subscribe((data: Colaborator)=>{
           console.log(data);
           this.currentUser$.set(data);
