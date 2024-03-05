@@ -1,7 +1,7 @@
 // environment.dev.ts
 export const environment = {
     production: false,
-    apiUrl: 'https://atmira-backend.onrender.com',
+    apiUrl: 'http://localhost:8080',
     url: 'http://localhost:4200'
   };
   
