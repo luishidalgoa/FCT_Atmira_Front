@@ -24,7 +24,7 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${task.task == undefined ? task.ID_Code_Project : task.task.idCode}`; //TEMPORAL el id sera el del proyecto
+    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${task.task == undefined || task.task == null ? task.ID_Code_Project : task.task.idCode}`; //TEMPORAL el id sera el del proyecto
     return this._http.post<Task>(url, task, header);
   }
   /**
