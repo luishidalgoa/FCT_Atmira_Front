@@ -3,7 +3,7 @@ import { Task } from '../../../model/domain/task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../mockup/auth.service';
+import { AuthService } from '../../user/auth.service';
 import { TypeOfService } from '../../../model/enum/type-of-service';
 import { Colaborator } from '../../../model/domain/colaborator';
 

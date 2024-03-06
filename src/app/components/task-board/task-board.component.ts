@@ -13,14 +13,14 @@ import { TaskService } from '../../service/common/Task/task.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
-
+import { WritableSignal } from '@angular/core';
 @Component({
   selector: 'app-task-board',
   standalone: true,
   imports: [CommonModule, MatMenuModule,TaskComponent,ReactiveFormsModule,MatSelect,MatOption],
   templateUrl: './task-board.component.html',
   styleUrl: './task-board.component.scss'
-})
+}) 
 export class TaskBoardComponent {
   @Input({required: true})
   value!: Task; // tarea padre
@@ -55,18 +55,33 @@ export class TaskBoardComponent {
     */
   ngOnInit(): void {
     const id = this.routerActive.snapshot.params['id'];
-    this._task.getTaskByProject(id).subscribe((data:Task[])=>{
-      this.tasks = data;
-    });
-  }
-   
+    console.log('hola',this.value);
+    if(this.value.task == null){
+      this._task.getTaskByProject(this.value.project.id_code as string).subscribe((data:Task[])=>{
+        this.tasks = data;
+        console.log('PROJECT',this.tasks);
+        for (let aux of this.tasks){
+          aux.task = this.value
+        }
+      })
+    }else{
+      this._task.getSubTasksByTask(this.value.task.idCode as string).subscribe((data:Task[])=>{
+        this.tasks = data;
+        console.log('Task',this.tasks);
+      })
+    }
+     
+  } 
 
   /**
    * crea una nueva tarea en base a los datos del formulario y la guarda en la base de datos a traves del servicio de TaskService
    * posteriormente la guarda en el array de tareas del componente para que se renderice en el html
    * @param event 
    */
-  newTask(event:any): void {
+
+  newTask(event: Event): void {
+    event.preventDefault();
+    this.newT = true; // Mostrar el formulario para crear una nueva tarea
 
     const task: Task = {
       description: this.formGroup.get('title')?.value,
@@ -81,7 +96,9 @@ export class TaskBoardComponent {
       if(data)this.tasks.push(data)
     })
     event.preventDefault()
+
   }
+
   @ViewChild('form') form!: ElementRef;
   /**
    * cierra el formulario para crear una nueva tarea si el usuario hace click fuera de el
@@ -139,5 +156,23 @@ export class TaskBoardComponent {
         this.tasks = this.tasks.map((t:Task)=>t.idCode === result.idCode ? result : t);
       }
     }
+  }
+
+  
+   // Método para guardar los cambios al crear una nueva tarea
+   saveChanges(): void {
+    // Evita que el formulario se envíe automáticamente
+    const task: Task = {
+      description: this.formGroup.get('title')?.value,
+      closed: false,
+      ID_Code_Project: this.value.project.id_code as string,
+      task: null,
+      project: this.value.project,
+      objective: this.formGroup.get('objective')?.value
+    };
+    this._task.save(task).subscribe((data: Task) => {
+      if (data) this.tasks.push(data);
+    });
+    this.newT = false; // Oculta el formulario después de guardar la tarea
   }
 }

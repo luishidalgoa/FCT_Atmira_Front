@@ -3,12 +3,14 @@ import { Project } from '../../model/domain/project';
 import { ProjectService } from '../common/Project/project.service';
 import { AuthService } from '../user/auth.service';
 import { Task } from '../../model/domain/task';
+import { Colaborator } from '../../model/domain/colaborator';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataWrapperService {
   public projects$: WritableSignal<Project[]> = signal<Project[]>([]); //array de proyectos del usuario
+  public currentColaborators$: WritableSignal<Colaborator[]> = signal<Colaborator[]>([]); //array de colaboradores del usuario
   public currentItem$: WritableSignal<Project | Task> = signal<Project | Task>({} as Project | Task); //proyecto o tarea actual (se usa en distintos componentes de la aplicacion para saber cual es el proyecto o tarea actual que se esta visualizando)
 
   /**
