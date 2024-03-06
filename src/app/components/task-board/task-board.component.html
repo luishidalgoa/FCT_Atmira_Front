@@ -50,7 +50,7 @@
                 <p>New task</p>
             </div>
             @if(newT){
-            <form [formGroup]="this.formGroup" (submit)="this.newTask($event);" class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md">
+                <form [formGroup]="formGroup" class="flex items-center gap-2 border-2 border-blue-500 h-full w-full px-5 py-3 rounded-b-md" (ngSubmit)="saveChanges()">
                 <div mat-button [matMenuTriggerFor]="menu"
                     class="min-w-6 h-full cursor-pointer flex items-center gap-2">
                     <label>Objetive</label>
@@ -59,7 +59,7 @@
                             d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
                             transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
                     </svg>
-                    <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
+                    <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48 py-2 shadow rounded-md">
                         <p class="font-semibold text-[#707070] p-2">Objetives</p>
                         <hr class="">
                         <mat-select formControlName="objective">
@@ -71,10 +71,11 @@
                                 </mat-option>
                             }
                         </mat-select>
+                        <button (click)="newTask($event)" mat-menu-item class="font-normal text-[#707070] p-2" [disabled]="!formGroup.get('objective')">Save</button>
                     </mat-menu>
                 </div>
                 <input formControlName="title" placeholder="Write any description about task" #input type="text"
-                    class="outline-none w-full h-full">
+                    class="outline-none w-full h-full">      
             </form>
             }
         </section>

@@ -13,5 +13,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 })
 export class TaskDetailsComponent {
   @Input() project?: Project;
+  @Input() colaborator?: Colaborator;
 
 }

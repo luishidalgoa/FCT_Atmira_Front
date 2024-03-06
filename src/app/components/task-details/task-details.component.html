@@ -1,22 +1,22 @@
 <div *ngIf="project as p"> 
-<div class="bg-gray-200 p-4">
-   <div class="flex mb-2"> 
-    <div class="flex flex-col">
-       <p class="text-gray-600">Detalles</p> 
-      </div> 
-    </div>
-    <div class="flex flex-col">
-       <div class="flex flex-row">
-         <p class="text-gray-600">Asignado:</p> 
-         <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.name">
-         </div> <div class="flex flex-row"> <p class="text-gray-600">Tipo:</p> 
-          <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.typeOfService">
-         </div>
-          <div class="flex flex-row"> <p class="text-gray-600">Fecha inicio:</p> <p class="text-gray-600">{{ project!.initialDate | date: 'short' }}</p> 
-          </div> <div class="flex flex-row"> 
-            <p class="text-gray-600">Fecha fin:</p> <p class="text-gray-600">{{ project!.endDate | date: 'short' }}</p> </div>
-           </div> <div class="flex flex-row"> <p class="text-gray-600">Status</p> 
-              <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.active ? 'Active' : 'Inactive'">
+   <div class="bg-gray-200 p-4">
+      <div class="flex mb-2"> 
+       <div class="flex flex-col">
+          <p class="text-gray-600">Detalles</p> 
          </div> 
-        </div>
-        </div>
+       </div>
+       <div class="flex flex-col">
+          <div class="flex flex-row">
+            <p class="text-gray-600">Nombre el proyecto:</p> 
+            <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.name">
+            </div> <div class="flex flex-row"> <p class="text-gray-600">Tipo:</p> 
+             <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.typeOfService">
+            </div>
+             <div class="flex flex-row"> <p class="text-gray-600">Fecha inicio:</p> <p class="text-gray-600">{{ project!.initialDate | date: 'short' }}</p> 
+             </div> <div class="flex flex-row"> 
+               <p class="text-gray-600">Fecha fin:</p> <p class="text-gray-600">{{ project!.endDate | date: 'short' }}</p> </div>
+              </div> <div class="flex flex-row"> <p class="text-gray-600">Status</p> 
+                 <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.active ? 'Active' : 'Inactive'">
+            </div> 
+           </div>
+           </div>
