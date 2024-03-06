@@ -1,7 +1,7 @@
 // environment.prod.ts
 export const environment = {
     production: false,
-    apiUrl: 'https://atmira-backend.onrender.com',
-    url: 'http://localhost:4200'
+    apiUrl: 'https://atmira-backend.onrender.com:8080',
+    url: 'https://fct-atmira-front.vercel.app'
   };
   
