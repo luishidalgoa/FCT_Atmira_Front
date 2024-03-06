@@ -155,14 +155,17 @@ export class TaskBoardComponent implements OnInit{
     // Evita que el formulario se envíe automáticamente
     const task: Task = {
       description: this.formGroup.get('title')?.value,
+      Asigned: this._auth.currentUser$(),
       closed: false,
       ID_Code_Project: this.value.project.id_code as string,
-      task: null,
+      task: this.value.idCode ? this.value : null,
       project: this.value.project,
-      objective: this.formGroup.get('objective')?.value
+      objective: TypeOfService.DESARROLLO
     };
+    console.log(task)
     this._task.save(task).subscribe((data: Task) => {
-      //if (data) this.tasks.push(data);
+      console.log(data)
+      if (data) this.value.tasks?.push(data);
     });
     this.newT = false; // Oculta el formulario después de guardar la tarea
   }
