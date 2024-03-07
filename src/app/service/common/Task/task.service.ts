@@ -24,9 +24,18 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${task.task == undefined || task.task == null ? task.ID_Code_Project : task.task.idCode}`; //TEMPORAL el id sera el del proyecto
-    return this._http.post<Task>(url, task, header);
+  
+    // Verificar si la tarea tiene una tarea principal asociada
+    const parentTaskId = task.task ? task.task.idCode : task.ID_Code_Project;
+  
+    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${parentTaskId}`;
+    
+    // Si la tarea tiene una tarea principal asociada, no necesitamos enviarla en la solicitud
+    const taskToSend = task.task ? { ...task, task: null } : task;
+  
+    return this._http.post<Task>(url, taskToSend, header);
   }
+  
   /**
    * metodo que se encarga de obtener las tareas de un proyecto en base al id del proyecto (IMPORTANTE: solo admite id del proyecto
    * @param id id del proyecto del que se quieren obtener las tareas

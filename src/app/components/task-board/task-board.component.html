@@ -23,22 +23,29 @@
         </mat-menu>
     </header>
     <section [style]=" !details ? 'display: none' : ''">
-        @if(this.value && this.value.tasks !== undefined) {
-            <ul class="px-5 py-3 flex flex-col gap-1">
-                @for (task of this.value.tasks; track $index) {
-                    @defer (on idle) {
-                        <app-task (delete)="this.deleteSubTask($event)" (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
-                    }@placeholder {
-                        <p>SKELETON...</p>
-                    }@loading {
-                        <p>SKELETON...</p>
-                    }
-                    @error {
+        <ul class="px-5 py-3 flex flex-col gap-1">
+            <ng-container *ngIf="value && tasks">
+                <ng-container *ngFor="let task of tasks; let index = index">
+                    <app-task *ngIf="!task.task" 
+                              (delete)="this.deleteSubTask($event)" 
+                              (Checkbox)="this.selectTasksGroup($event)" 
+                              [value]="task" 
+                              [index]="index">
+                    </app-task>
+                    <ng-container *ngIf="task.task && task.task.idCode === value.idCode">
+                        <ng-container *ngFor="let subTask of task.tasks; let subIndex = index">
+                            <app-task (delete)="this.deleteSubTask(subTask)" 
+                                      (Checkbox)="this.selectTasksGroup(subTask)" 
+                                      [value]="subTask" 
+                                      [index]="subIndex">
+                            </app-task>
+                        </ng-container>
+                    </ng-container>
+
+                </ng-container>
+            </ng-container>
+        </ul>
         
-                    }
-                }
-            </ul>
-        }
         <section [className]="this.newT ? '' :'px-5 py-3'">
             <div (click)="newT=true" class=""
                 [className]="newT ? 'hidden' : 'flex items-center gap-2 text-lg font-bold cursor-pointer'">
@@ -74,7 +81,8 @@
                     </mat-menu>
                 </div>
                 <input formControlName="title" placeholder="Write any description about task" #input type="text"
-                    class="outline-none w-full h-full">      
+                    class="outline-none w-full h-full">
+                    
             </form>
             }
         </section>
