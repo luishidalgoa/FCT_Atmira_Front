@@ -20,7 +20,7 @@ export class UserDataWrapperService {
    */
   constructor(private _auth: AuthService, private _projectService: ProjectService) { 
     effect(()=>{
-      this._projectService.getUserProjects(this._auth.currentUser$().id_alias).subscribe((projects: Project[]) => {
+      this._projectService.getUserProjects(sessionStorage.getItem('id_alias') as string).subscribe((projects: Project[]) => {
         this.projects$.update(()=>projects);
       });
     })
