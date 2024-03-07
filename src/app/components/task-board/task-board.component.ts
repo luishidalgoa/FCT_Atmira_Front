@@ -174,11 +174,7 @@ export class TaskBoardComponent {
       description: this.formGroup.get('title')?.value,
       closed: false,
       ID_Code_Project: this.value.project.id_code as string,
-
-      task: null,
-
       task: this.value,
-
       project: this.value.project,
       objective: this.formGroup.get('objective')?.value
     };
