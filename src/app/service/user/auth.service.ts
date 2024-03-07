@@ -82,10 +82,19 @@ export class AuthService {
       const url: string = `${environment.apiUrl}/auth/register`;
 
       this._http
-        .post<Colaborator>(url, credentials)
+        .post<boolean>(url, credentials)
         .subscribe((response: any) => {
-          if(response.ok)this.setUser(response.body);
-          observer.next(response.ok);
+          if(response.token !== undefined){
+            const user:Colaborator = {
+              Email: response.email,
+              Name: response.name,
+              Surname: response.surname,
+              id_alias: response.id_alias,
+            }
+            this.setUser(user);
+            this.authorization$.set({ token: response.token });
+          }
+          observer.next(response.token !== undefined);
       });
     });
   }
@@ -94,8 +103,7 @@ export class AuthService {
       Email: user.email,
       Name: user.name,
       Surname: user.surname,
-      id_alias: user.id_alias,
-      role: user.role
+      id_alias: user.id_alias
     }
     this.currentUser$.set(result);
     sessionStorage.setItem('id_alias', user.id_alias);

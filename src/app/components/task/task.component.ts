@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ProjectService } from '../../service/common/Project/project.service';
 import { Colaborator } from '../../model/domain/colaborator';
 import { Observable } from 'rxjs';
+import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
 
 @Component({
   selector: 'app-task',
@@ -67,12 +68,14 @@ export class TaskComponent {
   deleteEvent() {
     this.delete.emit(this.value);
   }
+  private _userDataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
   /**
    * redirige al usuario a la ruta /projects/project/{id}/task/{id} donde id es el id del proyecto y el id de la tarea
    */
   goToTask() {
     //imprimimos el :id de la ruta de navegacion
     this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    this._userDataWrapper.currentItem$.set(this.value)
   }
 
   getColaborators(): void {

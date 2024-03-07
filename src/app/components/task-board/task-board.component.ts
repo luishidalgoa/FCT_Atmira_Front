@@ -14,6 +14,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
 import { WritableSignal } from '@angular/core';
+import { NewTaskComponent } from '../modals/new-task/new-task.component';
 @Component({
   selector: 'app-task-board',
   standalone: true,
@@ -61,6 +62,7 @@ export class TaskBoardComponent {
   }
    
 
+
   /**
    * crea una nueva tarea en base a los datos del formulario y la guarda en la base de datos a traves del servicio de TaskService
    * posteriormente la guarda en el array de tareas del componente para que se renderice en el html
@@ -104,6 +106,7 @@ export class TaskBoardComponent {
   });
   event.preventDefault();
 }
+
 
   @ViewChild('form') form!: ElementRef;
   /**
@@ -165,18 +168,26 @@ export class TaskBoardComponent {
   }
 
    // Método para guardar los cambios al crear una nueva tarea
-   saveChanges(): void {
+   saveSubTask(): void {
     // Evita que el formulario se envíe automáticamente
     const task: Task = {
       description: this.formGroup.get('title')?.value,
       closed: false,
       ID_Code_Project: this.value.project.id_code as string,
+
       task: null,
+
+      task: this.value,
+
       project: this.value.project,
       objective: this.formGroup.get('objective')?.value
     };
     this._task.save(task).subscribe((data: Task) => {
+
       if (data) this.tasks.push(data);
+
+      if (data) this.value.tasks?.push(data);
+
     });
     this.newT = false; // Oculta el formulario después de guardar la tarea
   }
