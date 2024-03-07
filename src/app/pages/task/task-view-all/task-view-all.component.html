@@ -1,6 +1,6 @@
 <div class="grid gap-10">
     <header class="flex justify-between items-center">
-      <p class="font-medium text-5xl mb-1 text-[#172B4D]"></p>
+      <p class="font-medium text-5xl mb-1 text-[#172B4D]">{{this.value.description}}</p>
       <nav class="">
         <div class="flex gap-3">
           <div class="flex items-center relative gap-[0.1rem]">
@@ -43,11 +43,12 @@
         </div>
       </nav>
     </header>
-    <article class="flex justify-between items-start gap-10">
+    <article class="flex justify-between items-start gap-20">
       <section class="flex flex-col gap-5 w-full">
-        <app-task-description></app-task-description>
+        <app-task-description [value]="value"></app-task-description>
         @for (item of this.values; track $index) {
-      }
+          <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board>
+        }
       </section>
       <section class="max-w-5xl">
         <app-task-details  [project]="parent" colaboratorProjects="this.parent.colaboratorProjects"></app-task-details>

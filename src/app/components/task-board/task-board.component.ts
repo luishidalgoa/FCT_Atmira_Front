@@ -53,7 +53,6 @@ export class TaskBoardComponent implements OnInit{
    * [BUG]
    */
   ngOnInit(): void {
-    console.log(this.value.description);
     this._task.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
       if(data.length<=0){
         this.value.tasks = undefined

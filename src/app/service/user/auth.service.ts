@@ -31,7 +31,6 @@ export class AuthService {
           Surname: '',
         })
         this.getUserByIdAlias(sessionStorage.getItem('id_alias') as string).subscribe((data: Colaborator)=>{
-          console.log(data);
           this.currentUser$.set(data);
         });
       }
@@ -62,7 +61,6 @@ export class AuthService {
       this._http
         .post(url, credentials, { headers: header, observe: observe })
         .subscribe((response: any) => {
-          console.log(response.body)
           if (response.ok) {
             sessionStorage.setItem('token', response.body.token);
             this.setUser(response.body);

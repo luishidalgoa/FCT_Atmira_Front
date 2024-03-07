@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild, viewChild } from '@angular/core';
+import { Task } from '../../model/domain/task';
 
 @Component({
   selector: 'app-task-description',
@@ -8,11 +9,26 @@ import { Component } from '@angular/core';
   styleUrl: './task-description.component.scss'
 })
 export class TaskDescriptionComponent {
+  @Input({ required: true }) 
+  value!: Task;
+  edit:boolean = false;
   constructor() { }
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     // Aquí puedes hacer lo que quieras con el archivo seleccionado, como subirlo a un servidor.
     console.log('Archivo seleccionado:', file);
+  }
+
+  textSize!: number;
+
+  hola(){
+    this.edit = !this.edit
+    console.log(this.value)
+    this.textSize = 256 - this.value.description.length
+  }
+  @ViewChild('textarea') textarea!: any
+  write(event: any){
+    this.textSize = 256 - event.target.value.length
   }
 }

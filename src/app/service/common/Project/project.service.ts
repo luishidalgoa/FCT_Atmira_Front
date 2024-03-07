@@ -80,7 +80,7 @@ export class ProjectService {
    * @returns lista de colaboradores
    */
   getColaboratos(id:string):Observable<Colaborator[]>{
-    const url : string =`http://localhost:8080/project/${id}/colaborators`
+    const url : string =`${environment.apiUrl}/project/${id}/colaborators`
     return this._http.get<Colaborator[]>(url)
   }
 

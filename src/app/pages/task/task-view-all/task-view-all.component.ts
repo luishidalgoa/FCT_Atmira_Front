@@ -23,6 +23,7 @@ import { AuthService } from '../../../service/user/auth.service';
 export class TaskViewAllComponent {
   public parent!: Project;
   public values: Task[] = [];
+  public value!: Task;
   public colaborators$: WritableSignal<Colaborator[]> = signal<Colaborator[]>([]);
 
   private _task: TaskService = inject(TaskService);
@@ -40,42 +41,18 @@ export class TaskViewAllComponent {
         });
       });
     });
-
-  }
-  /**
-   * recive del servicio project el proyecto indicado en la ruta con el parametro id y lo guarda en la variable parent
-   * posteriormente recive del servicio task las tareas asociadas a ese proyecto y las guarda en la variable values
-   */
-  ngOnInit(): void {
-    // Obtener el ID del proyecto de los parámetros de la ruta
-    const projectId = this.route.snapshot.params['id'];
-
-    // Obtener el proyecto por su ID
-    this.projectService.getById(projectId).subscribe(
-      (data: Project) => {
-        // Asignar el proyecto obtenido a la variable parent
-        this.parent = data;
-
-        // Obtener las tareas asociadas a este proyecto
-        this.taskService.getTaskByProject(this.parent.id_code as string).subscribe(
-          (tasks: Task[]) => {
-            // Asignar las tareas obtenidas a la variable values
-            this.values = tasks;
-          },
-          (error: any) => {
-            console.error('Error fetching tasks:', error);
-          }
-        );
-      },
-      (error: any) => {
-        console.error('Error fetching project:', error);
-      }
-    );
+    this.route.params.subscribe((params) => {
+      const taskId = params['taskId'];
+      this._task.getById(taskId).subscribe((data: Task) => {
+        this.value = data;
+      })
+    });
+    
   }
 
   loadTasks(): void {
     if (this.parent.id_code != undefined) {
-      this.taskService.getTaskByProject(this.parent.id_code as string).subscribe((data: Task[]) => {
+      this.taskService.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
         this.values = data;
       });
     }

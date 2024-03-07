@@ -61,7 +61,7 @@ export class TaskService {
    * @returns retorna true si la tarea ha sido eliminada correctamente, false en caso contrario
    */
   delete(task: Task): Observable<boolean> {
-    const url: string = `http://localhost:8080/taskDelete/${task.idCode}`;
+    const url: string = `${environment.apiUrl}/taskDelete/${task.idCode}`;
     return this._http.delete<boolean>(url);
   }
   /**
