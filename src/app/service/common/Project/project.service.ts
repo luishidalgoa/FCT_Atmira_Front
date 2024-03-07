@@ -57,7 +57,7 @@ export class ProjectService {
       }).set('Authorization', `Bearer ${this._auth.authorization$().token}`)
     };
     const url: string = `${environment.apiUrl}/project/delete/${project.id_code}`;
-
+ 
     return this._http.delete<boolean>(url, header);
   }
   /**
@@ -82,6 +82,14 @@ export class ProjectService {
   getColaboratos(id:string):Observable<Colaborator[]>{
     const url : string =`http://localhost:8080/project/${id}/colaborators`
     return this._http.get<Colaborator[]>(url)
+  }
+
+  /**
+   * actualiza un proyecto
+   */
+  updateProject(project:Project,id:string):Observable<Project>{
+    const url : string =`${environment.apiUrl}/projects/${id}`
+    return this._http.put<Project>(url,project)
   }
 
 }
