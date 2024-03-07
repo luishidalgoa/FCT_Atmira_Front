@@ -22,13 +22,12 @@ export class TaskDescriptionComponent {
 
   textSize!: number;
 
-  hola(){
+  write(){
     this.edit = !this.edit
-    console.log(this.value)
     this.textSize = 256 - this.value.description.length
   }
   @ViewChild('textarea') textarea!: any
-  write(event: any){
+  writing(event: any){
     this.textSize = 256 - event.target.value.length
   }
 }

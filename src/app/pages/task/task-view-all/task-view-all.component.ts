@@ -42,7 +42,6 @@ export class TaskViewAllComponent {
       });
     });
     if(this._userDataWrapper.currentItem$()){
-      console.log(this._userDataWrapper.currentItem$())
       this.value = this._userDataWrapper.currentItem$() as Task
     }else{
       this.route.params.subscribe((params) => {

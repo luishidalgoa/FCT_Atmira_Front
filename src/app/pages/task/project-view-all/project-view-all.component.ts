@@ -24,10 +24,9 @@ export class ProjectViewAllComponent {
   constructor(private route: ActivatedRoute,private _project: ProjectService, private dialog:MatDialog,private _user_dataWrapper: UserDataWrapperService) {
     effect(()=>{
       this.parent = this._user_dataWrapper.currentItem$() as Project;
-      if(this.parent.id_code != undefined){
+      if(this.parent && this.parent.id_code != undefined){
         this._task.getTaskByProject(this.parent.id_code).subscribe((data: Task[]) => {
           this.values = data;
-          console.log(this.values);
         });
       }
     });

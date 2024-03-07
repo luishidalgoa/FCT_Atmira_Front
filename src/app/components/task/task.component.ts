@@ -66,7 +66,11 @@ export class TaskComponent {
    * emite el evento delete con el valor de la tarea para indicar que ha sido eliminada
    */
   deleteEvent() {
-    this.delete.emit(this.value);
+    this._task.delete(this.value).subscribe((data: boolean) => {
+      if(data){
+        this.delete.emit(this.value);
+      }
+    });
   }
   private _userDataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
   /**
