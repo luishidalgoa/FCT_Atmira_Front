@@ -1,22 +1,46 @@
-<div *ngIf="project as p"> 
-   <div class="bg-gray-200 p-4">
-      <div class="flex mb-2"> 
-       <div class="flex flex-col">
-          <p class="text-gray-600">Detalles</p> 
-         </div> 
-       </div>
-       <div class="flex flex-col">
-          <div class="flex flex-row">
-            <p class="text-gray-600">Nombre el proyecto:</p> 
-            <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.name">
-            </div> <div class="flex flex-row"> <p class="text-gray-600">Tipo:</p> 
-             <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.typeOfService">
-            </div>
-             <div class="flex flex-row"> <p class="text-gray-600">Fecha inicio:</p> <p class="text-gray-600">{{ project!.initialDate | date: 'short' }}</p> 
-             </div> <div class="flex flex-row"> 
-               <p class="text-gray-600">Fecha fin:</p> <p class="text-gray-600">{{ project!.endDate | date: 'short' }}</p> </div>
-              </div> <div class="flex flex-row"> <p class="text-gray-600">Status</p> 
-                 <input type="text" class="w-full p-2 border border-gray-300 rounded" [value]="project!.active ? 'Active' : 'Inactive'">
-            </div> 
-           </div>
-           </div>
+<form [formGroup]="form" (submit)="updateProject()" class="w-full">
+   <h3 class="font-medium text-lg text-[#172B4D]/90" style="font-size: 1.5rem;">Details</h3>
+   <div class="grid grid-cols-2 gap-2">
+     <div class="flex items-center gap-2">
+       <p class="text-[#172B4D]/90 text-[1.25rem]">Nombre del proyecto:</p>
+     </div>
+     <div class="flex items-center">
+       <input [value]="project?.name" type="text" formControlName="name" placeholder="Escribe un nombre para el proyecto" class="w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis focus:outline-2 focus:outline-blue-500" required>
+     </div>
+     <div class="flex items-center gap-2">
+       <p class="text-[#172B4D]/90 text-[1.25rem]">Fecha de inicio:</p>
+     </div>
+     <div class="flex items-center w-56">
+       <mat-form-field class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
+         <input [min]="minDate" [value]="project!.initialDate " formControlName="initialDate" matInput [matDatepicker]="picker" placeholder="Elige una fecha">
+         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+         <mat-datepicker #picker></mat-datepicker>
+       </mat-form-field>
+     </div>
+     <div class="flex items-center gap-2">
+       <p class="text-[#172B4D]/90 text-[1.25rem]">Fecha de fin:</p>
+     </div>
+     <div class="flex items-center w-56">
+       <mat-form-field class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
+         <input [min]="minDate" [value]="project!.endDate " formControlName="endDate" matInput [matDatepicker]="picker2" placeholder="Elige una fecha">
+         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+         <mat-datepicker #picker2></mat-datepicker>
+       </mat-form-field>
+     </div>
+     <div class="flex items-center gap-2">
+       <p class="text-[#172B4D]/90 text-[1.25rem]">Tipo de servicio:</p>
+     </div>
+     <div class="flex items-center">
+       <mat-form-field class="w-full">
+         <mat-label><p class="text-[#A8587B]">Selecciona un tipo de servicio...</p></mat-label>
+         <mat-select formControlName="typeOfService" [value]="project?.typeOfService">
+           <mat-option *ngFor="let type of typeOfServiceValues" [value]="project!.typeOfService">{{typeOfServiceValues}}</mat-option>
+         </mat-select>
+       </mat-form-field>
+     </div> 
+     <div></div>
+     <div>
+       <button type="submit"  class="w-56 text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Actualizar</button>
+     </div>
+   </div>
+ </form>
