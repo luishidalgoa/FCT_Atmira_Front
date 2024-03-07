@@ -49,8 +49,11 @@
         @for (item of this.values; track $index) {
           <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board>
         }
+        <div class="flex justify-end">
+          <button (click)="this.saveChildTask()" class="bg-[#06B6D4]/50 border border-[#06B6D4]/50 rounded-md px-4 py-1 w-fit shadow-lg"><p class="text-xl font-semibold text-white mb-1">New task</p></button>
+        </div>
       </section>
       <section class="max-w-5xl">
-        <app-task-details  [project]="parent" colaboratorProjects="this.parent.colaboratorProjects"></app-task-details>
+        <app-task-details [value]="this.value"></app-task-details>
       </section>
     </article>

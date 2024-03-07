@@ -41,12 +41,17 @@ export class TaskViewAllComponent {
         });
       });
     });
-    this.route.params.subscribe((params) => {
-      const taskId = params['taskId'];
-      this._task.getById(taskId).subscribe((data: Task) => {
-        this.value = data;
-      })
-    });
+    if(this._userDataWrapper.currentItem$()){
+      console.log(this._userDataWrapper.currentItem$())
+      this.value = this._userDataWrapper.currentItem$() as Task
+    }else{
+      this.route.params.subscribe((params) => {
+        const taskId = params['taskId'];
+        this._task.getById(taskId).subscribe((data: Task) => {
+          this.value = data;
+        })
+      });
+    }
     
   }
 
@@ -66,13 +71,13 @@ export class TaskViewAllComponent {
     const dialogRef = this.dialog.open(NewTaskComponent, {
       width: 'auto',
       maxWidth: '60rem',
-      data: this.parent
+      data: this.value
     });
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // If a task was saved, reload the tasks
-        this.taskService.getTaskByProject(this.parent.id_code as string).subscribe((data: Task[]) => {
+        this.taskService.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
           this.values = data;
         });
       }
