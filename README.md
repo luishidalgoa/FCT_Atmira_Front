@@ -1,27 +1,80 @@
-# FCTAtmira
+# ATMIRA FTC SISTEMA GESTION PROYECTOS
+<div align="center">
+   <a href="https://github.com/luishidalgoa/FCT_Atmira_Front"></a>
+      <img src="https://github.com/luishidalgoa/FCT_Atmira_Front/blob/master/src/assets/atmira_logo.png" alt="Logo" width="200" />
+   </a>
+</div>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.6.
+## Índice:
 
-## Development server
+1. [Acerca de](#acerca-de)
+2. [Caracteristicas principales](#características-principales)
+    - [Detalles específicos del trabajo por proyecto](#detalles-especifícos-del-trabajo-por-proyecto)
+    - [Registro eficiente de horas trabajadas](#registro-eficiente-de-horas-trabajadas)
+    - [Gestión integrada de gastos de empresa](#gestión-integrada-de-gastos-de-empresa)
+    - [Análisis predictivo con IA](#análisis-predictivo-con-ia)
+3. [Pre requisitos](#pre-requisitos)
+    - [Node.js](#nodejs-httpsnodejsorgen)
+    - [API (Back-End)](#api-back-end)
+4. [Instalacíon](#instalacíon)
+5. [Colaboradores](#colaboradores)
+6. [Stack Tecnologías](#stack-tecnologías)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Acerca de:
+La usabilidad de nuestra aplicación de gestión de proyectos se centra en proporcionar una experiencia intuitiva y eficiente para los usuarios, permitiéndoles gestionar proyectos y tareas de manera fluida y colaborativa. Desde la creación de proyectos hasta la asignación y seguimiento de tareas, cada paso se ha diseñado cuidadosamente para ser accesible y fácil de entender.
 
-## Code scaffolding
+![screely-1710101872192](https://github.com/luishidalgoa/FCT_Atmira_Front/assets/119078933/9f3ba9ff-1310-4c6f-a887-ea69186722a6)
+<footer>
+  
+> Relased Version V-1.0
+  
+</footer>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Características principales:
+### Detalles especifícos del trabajo por proyecto:
+  - Posibilidad de registrar detalles específicos sobre el trabajo realizado en cada proyecto.
+  - Organización clara y detallada de tareas y subtareas dentro de cada proyecto, similar a herramientas de gestión de proyectos como Jira.
+### Registro Eficiente de Horas Trabajadas:
+  - Interfaz intuitiva que facilita el ingreso de las horas trabajadas diariamente.
+  - Seguimiento preciso de la carga laboral en cada jornada, lo que ayuda a gestionar el tiempo de manera efectiva.
+### Gestión Integrada de Gastos de Empresa:
+  - Registro de gastos asociados a proyectos específicos de manera sencilla.
+  - Información detallada sobre cada gasto, incluyendo descripción, fecha y monto gastado, para un seguimiento preciso de los costos del proyecto.
+### Análisis Predictivo con IA:
+  - Utilización de inteligencia artificial para obtener estadísticas y previsión de gastos, tiempos de demora, y otros indicadores relevantes.
+  - Facilita la toma de decisiones mediante una visión analítica que mejora la eficiencia en la gestión del proyecto.
+## Pre requisitos:
+### Node.JS: [https://nodejs.org/en](https://nodejs.org/en)
+### API (BACK-END):
+Para el Back-end te ofrecemos 2 alternativas. Una de ellas retroalimentarlo tu mismo a tu medida. En caso contrario podrás conectar el front-end al backend ya desplegado en un Hosting
+1. Clona el repositorio del Back: [luishidalgoa/Atmira_Backend](https://github.com/luishidalgoa/Atmira_Backend)
+  - Documentación de la Api en localhost [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+2. Usa nuestro Hosting
+  - Enlace de conexión: [https://atmira-backend.onrender.com](https://atmira-backend.onrender.com)
+  - Swagger con la documentación de la API: [https://atmira-backend.onrender.com/swagger-ui/index.html#/](https://atmira-backend.onrender.com/swagger-ui/index.html#/)
+## Instalacíon:
+1. Clona el repositorio [https://github.com/luishidalgoa/FCT_Atmira_Front](https://github.com/luishidalgoa/FCT_Atmira_Front)
+2.	Instala los paquetes NPM:
+```sh
+Npm install
+```
+3.	Instala Angular Materials manualmente
+```sh
+ng add @angular/material
+```
+4.	Ejecuta el compilador automatico de Angular
+```sh
+Ng serve
+```
+> [!WARNING]
+> Hemos detectado un Bug de Angular materials. Probablemente el compilador después de haber ejecutado todos los pasos anteriores te imprima por pantalla un error de que no compila el Style.SCSS. Desconocemos el motivo de este error. Pero para solucionarlo elimina el package.lock.json dentro del directorio raíz del proyecto, además del directorio node_module. Acto seguido vuelve a ejecutar `Npm install` y `ng add @angular/material`
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Colaboradores:
+[![Contribuidores](https://contrib.rocks/image?repo=luishidalgoa/FCT_Atmira_Front)](https://github.com/luishidalgoa/FCT_Atmira_Front/graphs/contributors)
+## Stack Tecnologías:
+![image](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![image](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
+![image](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![image](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![image](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![image](https://img.shields.io/badge/Adobe%20XD-470137?style=for-the-badge&logo=Adobe%20XD&logoColor=#FF61F6)
