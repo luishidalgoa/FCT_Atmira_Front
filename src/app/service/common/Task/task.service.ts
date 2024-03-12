@@ -24,18 +24,18 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-  
+
     // Verificar si la tarea tiene una tarea principal asociada
     const parentTaskId = task.task ? task.task.idCode : task.ID_Code_Project;
-  
+
     const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${parentTaskId}`;
-    
+
     // Si la tarea tiene una tarea principal asociada, no necesitamos enviarla en la solicitud
     const taskToSend = task.task ? { ...task, task: null } : task;
-  
+
     return this._http.post<Task>(url, taskToSend, header);
   }
-  
+
   /**
    * metodo que se encarga de obtener las tareas de un proyecto en base al id del proyecto (IMPORTANTE: solo admite id del proyecto
    * @param id id del proyecto del que se quieren obtener las tareas
@@ -91,48 +91,13 @@ export class TaskService {
    * @param status 
    * @returns 
    */
-  status(id: string, status: boolean): Observable<Task> {
-    return new Observable<Task>((observe) => {
-      observe.next(
-        {
-          idCode: id,
-          description: 'Tarea 1',
-          ID_Code_Project: '1',
-          objective: TypeOfService.FINANZAS,
-          closed: status,
-          task: {
-            idCode: '1_1',
-            description: 'Tarea 1',
-            ID_Code_Project: '1',
-            objective: TypeOfService.MANTENIMIENTO,
-            closed: false,
-            task: null,
-            project: {
-              id_code: '1',
-              name: 'Proyecto 1',
-              active: true,
-              endDate: new Date(),
-              initialDate: new Date(),
-              typeOfService: TypeOfService.DESARROLLO,
-              colaboratorProjects: [],
-              tasks: [],
-              expenses: true,
-            },
-          },
-          project: {
-            id_code: '1',
-            name: 'Proyecto 1',
-            active: true,
-            endDate: new Date(),
-            initialDate: new Date(),
-            typeOfService: TypeOfService.DESARROLLO,
-            colaboratorProjects: [],
-            tasks: [],
-            expenses: true,
-          },
-        },
-      );
-    });
+  status(task:Task): Observable<Task> {
+    const url: string = `${environment.apiUrl}/task/${task.idCode}/${task.closed}`;
+    return this._http.put<Task>(url,task);
+  }
+  assigned(task: Task, colaborator: Colaborator): Observable<Task> {
+    const url: string = `${environment.apiUrl}/task/${task.idCode}/colaborator/${colaborator.id_alias}`;
+    return this._http.put<Task>(url,task);
   }
 
 }

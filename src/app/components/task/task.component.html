@@ -21,12 +21,21 @@
             <span mat-button [matMenuTriggerFor]="work" class="relative h-7 w-7 rounded-full bg-[#707070] border border-black/40 shadow-lg">
                 <svg class="absolute top-0 left-0 right-0 bottom-0 m-auto" width="24" height="24" viewBox="0 0 24 24" role="presentation"><g fill="white" fill-rule="evenodd"><path d="M6 14c0-1.105.902-2 2.009-2h7.982c1.11 0 2.009.894 2.009 2.006v4.44c0 3.405-12 3.405-12 0V14z"></path><circle cx="12" cy="7" r="4"></circle></g></svg>
             </span>
-            <mat-menu #work="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
+            <mat-menu #work="matMenu" class="min-w-full max-w-48  py-2 shadow rounded-md">
                 @defer (when this.value.project.colaboratorProjects) {
                     @if (this.value.project.colaboratorProjects !== undefined) {
-                        @for (item of this.value.project.colaboratorProjects; track $index){
-                            <p>{{item.id_alias}}</p>
-                        }
+                        <ul class="px-2 py-1">
+                            @for (item of this.value.project.colaboratorProjects; track $index){
+                                <li [classList]="'cursor-pointer select-none px-2 py-1 rounded-md flex items-center gap-2 hover:bg-[#E22C79]/20'" [style]="item.id_alias == this.value.Asigned?.id_alias ? 'background-color: #E22C79' : ''">
+                                    <span class="relative h-5 w-5 rounded-full bg-[#707070] border border-black/40 shadow-lg">
+                                        <svg class="absolute top-0 left-0 right-0 bottom-0 m-auto -ml-[1px]" width="20" height="20" viewBox="0 0 24 24" role="presentation"><g fill="white" fill-rule="evenodd"><path d="M6 14c0-1.105.902-2 2.009-2h7.982c1.11 0 2.009.894 2.009 2.006v4.44c0 3.405-12 3.405-12 0V14z"></path><circle cx="12" cy="7" r="4"></circle></g></svg>
+                                    </span>
+                                    <div class="flex items-center">
+                                        <p>{{item.id_alias}}</p>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
                     }
                 }@loading {
                     <p>loading...</p>

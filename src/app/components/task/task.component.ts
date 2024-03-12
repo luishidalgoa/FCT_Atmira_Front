@@ -39,8 +39,8 @@ export class TaskComponent {
    */
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
-
     this.getColaborators();
+    console.log(this.value.Asigned,this.value.project.colaboratorProjects)
     
   }
   private _task: TaskService = inject(TaskService);
@@ -51,7 +51,8 @@ export class TaskComponent {
    * @param status  indica si la tarea esta cerrada o no
    */
   status(status: boolean) {
-    this._task.status(this.value.idCode as string, status).subscribe((data: Task) => {
+    this.value.closed = status;
+    this._task.status(this.value).subscribe((data: Task) => {
       this.value = data;
       this.selected = data.closed ? 'true' : 'false';
     });
@@ -86,5 +87,9 @@ export class TaskComponent {
     this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
       this.value.project.colaboratorProjects = data
     })
+  }
+
+  assigned(colaborator: Colaborator): void{
+    this._task.assigned(this.value, colaborator)
   }
 }
