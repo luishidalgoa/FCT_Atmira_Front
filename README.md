@@ -48,13 +48,13 @@ La usabilidad de nuestra aplicación de gestión de proyectos se centra en propo
 ### API (BACK-END):
 Para el Back-end te ofrecemos 2 alternativas. Una de ellas retroalimentarlo tu mismo a tu medida. En caso contrario podrás conectar el front-end al backend ya desplegado en un Hosting
 1. Clona el repositorio del Back: [luishidalgoa/Atmira_Backend](https://github.com/luishidalgoa/Atmira_Backend)
-  - Documentación de la Api en localhost [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+    - Documentación de la Api en localhost [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
 2. Usa nuestro Hosting
-  - Enlace de conexión: [https://atmira-backend.onrender.com](https://atmira-backend.onrender.com)
-  - Swagger con la documentación de la API: [https://atmira-backend.onrender.com/swagger-ui/index.html#/](https://atmira-backend.onrender.com/swagger-ui/index.html#/)
+    - Enlace de conexión: [https://atmira-backend.onrender.com](https://atmira-backend.onrender.com)
+    - Swagger con la documentación de la API: [https://atmira-backend.onrender.com/swagger-ui/index.html#/](https://atmira-backend.onrender.com/swagger-ui/index.html#/)
 ## Instalacíon:
 1. Clona el repositorio [https://github.com/luishidalgoa/FCT_Atmira_Front](https://github.com/luishidalgoa/FCT_Atmira_Front)
-2.	Instala los paquetes NPM:
+2. Instala los paquetes NPM:
 ```sh
 Npm install
 ```
@@ -69,7 +69,17 @@ Ng serve
 > [!WARNING]
 > Hemos detectado un Bug de Angular materials. Probablemente el compilador después de haber ejecutado todos los pasos anteriores te imprima por pantalla un error de que no compila el Style.SCSS. Desconocemos el motivo de este error. Pero para solucionarlo elimina el package.lock.json dentro del directorio raíz del proyecto, además del directorio node_module. Acto seguido vuelve a ejecutar `Npm install` y `ng add @angular/material`
 
-## Colaboradores:
+## Colaborar:
+### Guía rápida:
+
+1. Haz un [_fork_](https://github.com/luishidalgoa/FCT_Atmira_Front/fork) del Proyecto
+2. Clona tu [_fork_](https://github.com/luishidalgoa/FCT_Atmira_Front/fork) (`git clone <URL del fork>`)
+3. Añade el repositorio original como remoto (`git remote add upstream <URL del repositorio original>`)
+4. Crea tu Rama de Funcionalidad (`git switch -c feature/CaracteristicaIncreible`)
+5. Realiza tus Cambios (`git commit -m 'Add: alguna CaracterísticaIncreible'`)
+6. Haz Push a la Rama (`git push origin feature/CaracteristicaIncreible`)
+7. Abre una [_pull request_](https://github.com/luishidalgoa/FCT_Atmira_Front/pulls)
+### Colaboradores:
 [![Contribuidores](https://contrib.rocks/image?repo=luishidalgoa/FCT_Atmira_Front)](https://github.com/luishidalgoa/FCT_Atmira_Front/graphs/contributors)
 ## Stack Tecnologías:
 ![image](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
