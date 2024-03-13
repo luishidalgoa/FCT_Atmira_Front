@@ -31,6 +31,7 @@ export class TaskViewAllComponent {
   private _auth: AuthService = inject(AuthService);
   constructor(  private userDataWrapper: UserDataWrapperService,  private projectService: ProjectService, private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
     effect(() => {
+      console.log('hola')
       const colaborators = this._userDataWrapper.currentColaborators$();
       this.colaborators$ = signal(colaborators);
       this.route.params.subscribe((params) => {

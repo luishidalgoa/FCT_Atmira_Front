@@ -24,9 +24,9 @@ export class NewTaskComponent {
   form: FormGroup;
   typeOfServiceValues = Object.values(TypeOfService);
   @Input({required:true})
-  parent!: Task | Project;
+  value!: Task | Project;
   constructor(@Inject(MAT_DIALOG_DATA) public data: Task | Project,public dialogRef: MatDialogRef<NewTaskComponent>,private _formBuilder: FormBuilder,private _task:TaskService){
-    this.parent = data;
+    this.value = data;
     this.form = this._formBuilder.group({
       title: new FormControl('',[Validators.required]),
       objective: new FormControl('',[Validators.required]),
@@ -36,21 +36,20 @@ export class NewTaskComponent {
   private _auth:AuthService = inject(AuthService);
   private _userDataWrapper:UserDataWrapperService = inject(UserDataWrapperService);
   create():void {
-    const isProject = (this.parent as Project)
     const task: Task = {
       description: this.form.get('title')?.value,
       colaborator: this._auth.currentUser$(),
       closed: false,
-      task: !isProject ? (this.parent as Task) : null,
-      project: isProject ? (this.parent as Project) : (this.parent as Task).project,
+      task: (this.value as Task).description ? (this.value as Task) : null,
+      project: (this.value as Task).project!== undefined ? (this.value as Task).project : this.value as Project,
       objective: this.form.get('objective')?.value
     };
   
     this._task.save(task).subscribe((data:Task)=>{
       if(data){
-        if(this.parent.tasks == undefined) this.parent.tasks = [];
-        this.parent.tasks.push(data);
-        this._userDataWrapper.currentItem$.set(this.parent)
+        if(this.value.tasks == undefined) this.value.tasks = [];
+        this.value.tasks.push(data);
+        this._userDataWrapper.currentItem$.set(this.value)
         this.dialogRef.close();
       }
     });

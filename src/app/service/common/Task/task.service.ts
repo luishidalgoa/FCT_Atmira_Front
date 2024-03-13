@@ -24,7 +24,7 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-
+    console.log(task)
     // Verificar si la tarea tiene una tarea principal asociada
     const parentTaskId = task.task ? task.task.idCode : task.project.id_code;
 
