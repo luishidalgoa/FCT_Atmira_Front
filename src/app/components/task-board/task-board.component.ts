@@ -130,7 +130,6 @@ export class TaskBoardComponent implements OnInit{
     const task: Task = {
       description: this.formGroup.get('title')?.value,
       closed: false,
-      ID_Code_Project: this.value.project.id_code as string,
       task: this.value,
       project: this.value.project,
       objective: this.formGroup.get('objective')?.value

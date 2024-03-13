@@ -26,7 +26,7 @@ export class TaskService {
     };
 
     // Verificar si la tarea tiene una tarea principal asociada
-    const parentTaskId = task.task ? task.task.idCode : task.ID_Code_Project;
+    const parentTaskId = task.task ? task.task.idCode : task.project.id_code;
 
     const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${parentTaskId}`;
 

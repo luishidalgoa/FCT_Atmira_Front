@@ -60,12 +60,13 @@ export class TaskDetailsComponent {
   _objective: ObjetiveService = inject(ObjetiveService);
   _auth: AuthService = inject(AuthService)
   updateProject() {
+
     this.value.objective = this._objective.convertStringToTypeOfService(this.selected);
     this.value.closed = this.selectedClose === 'true';
     this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
-    this.value.description = this.form.get('name')?.value;
+    this.value.description = this.form.get('name')?.value !== '' && this.form.get('name')?.value !== null ? this.form.get('name')?.value : this.value.description;
+
     this._task.update(this.value).subscribe((data: Task) => {
-      console.log(data);
       this._userDataWrapper.currentItem$.set(data)
     });
   }
