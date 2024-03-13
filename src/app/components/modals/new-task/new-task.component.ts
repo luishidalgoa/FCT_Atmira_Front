@@ -49,7 +49,7 @@ export class NewTaskComponent {
       if(data){
         if(this.value.tasks == undefined) this.value.tasks = [];
         this.value.tasks.push(data);
-        this._userDataWrapper.currentItem$.set(this.value)
+        this._userDataWrapper.setCurrentItem(this.value)
         this.dialogRef.close();
       }
     });

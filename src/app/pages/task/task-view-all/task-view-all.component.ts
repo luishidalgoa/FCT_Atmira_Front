@@ -1,4 +1,4 @@
-import { Component,inject, effect, WritableSignal, signal } from '@angular/core';
+import { Component, inject, effect, WritableSignal, signal } from '@angular/core';
 import { TaskDescriptionComponent } from '../../../components/task-description/task-description.component';
 import { TaskBoardComponent } from '../../../components/task-board/task-board.component';
 import { Task } from '../../../model/domain/task';
@@ -16,22 +16,20 @@ import { AuthService } from '../../../service/user/auth.service';
 @Component({
   selector: 'app-task-view-all',
   standalone: true,
-  imports: [TaskDescriptionComponent,TaskBoardComponent,TaskDetailsComponent],
+  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent],
   templateUrl: './task-view-all.component.html',
   styleUrl: './task-view-all.component.scss'
 })
 export class TaskViewAllComponent {
   public parent!: Project;
-  public values: Task[] = [];
   public value!: Task;
   public colaborators$: WritableSignal<Colaborator[]> = signal<Colaborator[]>([]);
 
   private _task: TaskService = inject(TaskService);
   private _userDataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
   private _auth: AuthService = inject(AuthService);
-  constructor(  private userDataWrapper: UserDataWrapperService,  private projectService: ProjectService, private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
+  constructor(private userDataWrapper: UserDataWrapperService, private projectService: ProjectService, private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
     effect(() => {
-      console.log('hola')
       const colaborators = this._userDataWrapper.currentColaborators$();
       this.colaborators$ = signal(colaborators);
       this.route.params.subscribe((params) => {
@@ -42,24 +40,32 @@ export class TaskViewAllComponent {
         });
       });
     });
-    if(this._userDataWrapper.currentItem$()){
-      this.value = this._userDataWrapper.currentItem$() as Task
-    }else{
-      this.route.params.subscribe((params) => {
-        const taskId = params['taskId'];
-        this._task.getById(taskId).subscribe((data: Task) => {
-          this._userDataWrapper.currentItem$.set(data);
-          this.value = data
-        })
-      });
-    }
-    
+
+
+
+    this._userDataWrapper.currentItem$.subscribe(() => {
+      if (this._userDataWrapper.getCurrentItem().value) {
+        this.value = this._userDataWrapper.getCurrentItem().value as Task
+        if(this.value.tasks == undefined || this.value.tasks?.length == 0){
+          this.loadTasks();
+        }
+      } else {
+        this.route.params.subscribe((params) => {
+          const taskId = params['taskId'];
+          this._task.getById(taskId).subscribe((data: Task) => {
+            this._userDataWrapper.setCurrentItem(data)
+            this.value = data
+          })
+        });
+      }
+    })
   }
 
+
   loadTasks(): void {
-    if (this.parent.id_code != undefined) {
+    if (this.parent && this.parent.id_code != undefined) {
       this.taskService.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
-        this.values = data;
+        this.value.tasks = data;
       });
     }
   }
@@ -74,23 +80,14 @@ export class TaskViewAllComponent {
       maxWidth: '60rem',
       data: this.value
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // If a task was saved, reload the tasks
-        this.taskService.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
-          this.values = data;
-        });
-      }
-    });
   }
   /**
    * Este metodo es llamado por el OutPut del componente hijo TaskBoardComponent. Elimina la tarea del array de tareas
    * para que se deje de renderizar en el html
    * @param task tarea que se desea eliminar del array de tareas
    */
-  deleteTask(task:Task): void{
-    this.values = this.values.filter((t:Task)=>t.idCode!=task.idCode);
+  deleteTask(task: Task): void {
+    this.value.tasks = this.value.tasks && this.value.tasks.length > 0 ? this.value.tasks.filter((t: Task) => t.idCode != task.idCode) : [];
   }
 
 }

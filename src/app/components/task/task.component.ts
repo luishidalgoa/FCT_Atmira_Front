@@ -81,7 +81,7 @@ export class TaskComponent {
   goToTask() {
     //imprimimos el :id de la ruta de navegacion
     this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
-    this._userDataWrapper.currentItem$.set(this.value)
+    this._userDataWrapper.setCurrentItem(this.value)
   }
 
   getColaborators(): void {

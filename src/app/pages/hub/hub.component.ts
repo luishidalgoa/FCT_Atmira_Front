@@ -87,7 +87,7 @@ export class HubComponent{
    * @param project 
    */
   goProject(project: Project): void {
-    this._user_dataWrapper.currentItem$.set(project);
+    this._user_dataWrapper.setCurrentItem(project);
     this.router.navigateByUrl(`projects/project/${project.id_code}`);
   }
 

@@ -20,16 +20,14 @@ export class ProjectViewAllComponent {
   public parent!: Project;
   public values!: Task[];
 
-  private _task:TaskService = inject(TaskService);
-  constructor(private route: ActivatedRoute,private _project: ProjectService, private dialog:MatDialog,private _user_dataWrapper: UserDataWrapperService) {
-    effect(()=>{
-      this.parent = this._user_dataWrapper.currentItem$() as Project;
-      if(this.parent && this.parent.id_code != undefined){
-        this._task.getTaskByProject(this.parent.id_code).subscribe((data: Task[]) => {
-          this.values = data;
-        });
-      }
-    });
+  private _task: TaskService = inject(TaskService);
+  constructor(private route: ActivatedRoute, private _project: ProjectService, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
+    this.parent = this._user_dataWrapper.getCurrentItem().value as Project;
+    if (this.parent && this.parent.id_code != undefined) {
+      this._task.getTaskByProject(this.parent.id_code).subscribe((data: Task[]) => {
+        this.values = data;
+      });
+    }
   }
   /**
    * recive del servicio project el proyecto indicado en la ruta con el parametro id y lo guarda en la variable parent
@@ -45,14 +43,14 @@ export class ProjectViewAllComponent {
         });
       }
     )
-    
+
   }
   /**
    * abre el modal de nueva tarea al proyecto y le pasa el proyecto actual.
    * @param enterAnimationDuration indica la duracion de la animacion de entrada
    * @param exitAnimationDuration indica la duracion de la animacion de salida
    */
-  saveChildTask(enterAnimationDuration: string, exitAnimationDuration: string){
+  saveChildTask(enterAnimationDuration: string, exitAnimationDuration: string) {
     this.dialog.open(NewTaskComponent, {
       width: 'auto',
       enterAnimationDuration,
@@ -66,7 +64,7 @@ export class ProjectViewAllComponent {
    * para que se deje de renderizar en el html
    * @param task tarea que se desea eliminar del array de tareas
    */
-  deleteTask(task:Task): void{
-    this.values = this.values.filter((t:Task)=>t.idCode!=task.idCode);
+  deleteTask(task: Task): void {
+    this.values = this.values.filter((t: Task) => t.idCode != task.idCode);
   }
 }

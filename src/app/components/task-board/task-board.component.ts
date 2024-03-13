@@ -13,6 +13,7 @@ import { TaskService } from '../../service/common/Task/task.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
+import { UpdateTaskComponent } from '../modals/update-task/update-task.component';
 @Component({
   selector: 'app-task-board',
   standalone: true,
@@ -77,6 +78,15 @@ export class TaskBoardComponent implements OnInit{
     }
   }
 
+  update():void {
+    this.dialog.open(UpdateTaskComponent, {
+      width: 'auto',
+      enterAnimationDuration: '300ms',
+      maxWidth: '60rem',
+      exitAnimationDuration: '300ms',
+      data: this.value
+    });
+  }
   /**
    * llama al metodo delete del servicio de TaskService para eliminar la tarea de la base de datos. posteriormente emite el evento deleteEvent
    * para que el componente padre elimine la tarea del array de tareas si la eliminacion en la bbdd ha sido exitosa
@@ -147,6 +157,6 @@ export class TaskBoardComponent implements OnInit{
     }else{
       this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
     }
-    this._user_dataWrapper.currentItem$.set(this.value)
+    this._user_dataWrapper.setCurrentItem(this.value)
   }
 }

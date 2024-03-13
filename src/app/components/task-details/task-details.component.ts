@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, effect, inject } from '@angular/core';
 import { Colaborator } from '../../model/domain/colaborator';
 import { FormGroup, FormBuilder } from '@angular/forms'; // Importa FormGroup y FormBuilder
 import { ProjectService } from '../../service/common/Project/project.service';
@@ -46,9 +46,11 @@ export class TaskDetailsComponent {
       colaborator: ['',],
     });
 
-    effect(() => {
-      this.value = this._userDataWrapper.currentItem$() as Task
+    this._userDataWrapper.currentItem$.subscribe(data => {
+      data = data as Task
+      this.value = data
       if (this.value) {
+        this.title.nativeElement.value = this.value.description
         this.selected = this.value.objective.valueOf()
         this.selectedColaborator = this.value.colaborator?.id_alias as string
         this.selectedClose = this.value.closed ? 'true' : 'false'
@@ -57,6 +59,15 @@ export class TaskDetailsComponent {
     })
   }
 
+  @ViewChild('title') title!: ElementRef;
+  private colaborator!: MatSelect;
+  @ViewChild('colaborator') set content(content: MatSelect) {
+    if(content) { // initially setter gets called with undefined
+        this.colaborator = content;
+        this.colaborator.value = this.value.colaborator?.id_alias as string
+    }
+ }
+
   _objective: ObjetiveService = inject(ObjetiveService);
   _auth: AuthService = inject(AuthService)
   updateProject() {
@@ -64,17 +75,20 @@ export class TaskDetailsComponent {
     this.value.objective = this._objective.convertStringToTypeOfService(this.selected);
     this.value.closed = this.selectedClose === 'true';
     this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
-    this.value.description = this.form.get('name')?.value !== '' && this.form.get('name')?.value !== null ? this.form.get('name')?.value : this.value.description;
+    this.value.description = this.title.nativeElement.value;
 
     this._task.update(this.value).subscribe((data: Task) => {
-      this._userDataWrapper.currentItem$.set(data)
+      this._userDataWrapper.setCurrentItem(data)
     });
   }
 
-  getColaborators(): void {
-    this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
-      this.value.project.colaboratorProjects = data
-    })
+  getColaborators(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
+        this.value.project.colaboratorProjects = data
+        resolve()
+      })
+    });
   }
 
   assigned(colaborator: Colaborator): void {
