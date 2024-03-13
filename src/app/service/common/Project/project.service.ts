@@ -4,6 +4,7 @@ import { Project } from '../../../model/domain/project';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environment/environment';
 import { AuthService } from '../../user/auth.service';
+import { Colaborator } from '../../../model/domain/colaborator';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,7 @@ export class ProjectService {
       }).set('Authorization', `Bearer ${this._auth.authorization$().token}`)
     };
     const url: string = `${environment.apiUrl}/project/delete/${project.id_code}`;
-
+ 
     return this._http.delete<boolean>(url, header);
   }
   /**
@@ -72,6 +73,23 @@ export class ProjectService {
     };
     const url: string = `${environment.apiUrl}/project/list/${id}`;
     return this._http.get<Project>(url, header);
+  }
+  /**
+   * retornara una coleccion de Colaboradores asociados a un proyecto
+   * @param id id del proyecto
+   * @returns lista de colaboradores
+   */
+  getColaboratos(id:string):Observable<Colaborator[]>{
+    const url : string =`${environment.apiUrl}/project/${id}/colaborators`
+    return this._http.get<Colaborator[]>(url)
+  }
+
+  /**
+   * actualiza un proyecto
+   */
+  updateProject(project:Project,id:string):Observable<Project>{
+    const url : string =`${environment.apiUrl}/projects/${id}`
+    return this._http.put<Project>(url,project)
   }
 
 }

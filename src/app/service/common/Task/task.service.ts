@@ -3,34 +3,45 @@ import { Task } from '../../../model/domain/task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../mockup/auth.service';
+import { AuthService } from '../../user/auth.service';
+import { TypeOfService } from '../../../model/enum/type-of-service';
+import { Colaborator } from '../../../model/domain/colaborator';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  constructor(private _http:HttpClient,private _auth:AuthService) { }
+  constructor(private _http: HttpClient, private _auth: AuthService) { }
   /**
    * metodo que se encarga de guardar una tarea en la base de datos
    * @param task tarea que se quiere guardar
    * @returns retorna la tarea guardada en la base de datos
    */
-  save(task:Task): Observable<Task> {
+  save(task: Task): Observable<Task> {
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().ID_Alias}/${task.task == undefined ? task.ID_Code_Project : task.task}`; //TEMPORAL el id sera el del proyecto
-    return this._http.post<Task>(url, task, header);
+
+    // Verificar si la tarea tiene una tarea principal asociada
+    const parentTaskId = task.task ? task.task.idCode : task.ID_Code_Project;
+
+    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${parentTaskId}`;
+
+    // Si la tarea tiene una tarea principal asociada, no necesitamos enviarla en la solicitud
+    const taskToSend = task.task ? { ...task, task: null } : task;
+
+    return this._http.post<Task>(url, taskToSend, header);
   }
+
   /**
    * metodo que se encarga de obtener las tareas de un proyecto en base al id del proyecto (IMPORTANTE: solo admite id del proyecto
    * @param id id del proyecto del que se quieren obtener las tareas
    * @returns retorna un array de tareas del proyecto extraidas de la base de datos
    */
-  getTaskByProject(id:number): Observable<Task[]>{
+  getTaskByProject(id: string): Observable<Task[]> {
     const url: string = `${environment.apiUrl}/task/byProject/${id}`;
     return this._http.get<Task[]>(url);
   }
@@ -39,17 +50,17 @@ export class TaskService {
    * @param id id de la tarea que se quiere obtener
    * @returns retorna la tarea extraida de la base de datos
    */
-  getById(id:string): Observable<Task>{
+  getById(id: string): Observable<Task> {
     const url: string = `${environment.apiUrl}/task/${id}`;
     return this._http.get<Task>(url);
-  
+
   }
   /**
    * metodo que se encarga de obtener las subtareas de una tarea en base a su id (IMPORTANTE: solo admite id de la tarea)
    * @param id id de la tarea de la que se quieren obtener las subtareas
    * @returns retorna un array de subtareas de la tarea extraidas de la base de datos
    */
-  getSubTasksByTask(id:string): Observable<Task[]>{
+  getSubTasksByTask(id: string): Observable<Task[]> {
     const url: string = `${environment.apiUrl}/task/bySubTask/${id}`;
     return this._http.get<Task[]>(url);
   }
@@ -58,8 +69,8 @@ export class TaskService {
    * @param task tarea que se quiere eliminar
    * @returns retorna true si la tarea ha sido eliminada correctamente, false en caso contrario
    */
-  delete(task:Task): Observable<boolean>{
-    const url: string = `http://localhost:8080/taskDelete/${task.idCode}`;
+  delete(task: Task): Observable<boolean> {
+    const url: string = `${environment.apiUrl}/taskDelete/${task.idCode}`;
     return this._http.delete<boolean>(url);
   }
   /**
@@ -71,4 +82,22 @@ export class TaskService {
     const url: string = `${environment.apiUrl}/task/byColaborator/${alias_Id}`;
     return this._http.get<Task[]>(url);
   }
+
+
+
+  /**
+   * FALSO
+   * @param id 
+   * @param status 
+   * @returns 
+   */
+  status(task:Task): Observable<Task> {
+    const url: string = `${environment.apiUrl}/task/${task.idCode}/${task.closed}`;
+    return this._http.put<Task>(url,task);
+  }
+  assigned(task: Task, colaborator: Colaborator): Observable<Task> {
+    const url: string = `${environment.apiUrl}/task/${task.idCode}/colaborator/${colaborator.id_alias}`;
+    return this._http.put<Task>(url,task);
+  }
+
 }

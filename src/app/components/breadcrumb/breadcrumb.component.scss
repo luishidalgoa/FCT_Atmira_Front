@@ -1,8 +1,14 @@
+a{
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: larger;
+    @apply text-gray-400 hover:text-gray-500
+}
+p{
+    @apply text-gray-400
+}
 .active{
-    color: #000;
-    font-weight: bold;
     text-decoration: none;
-    &:hover{
-        color: #000;
-    }
+    font-size: 1.5rem;
+    @apply text-[#09f]/85 hover:text-[#09f] font-extrabold
 }

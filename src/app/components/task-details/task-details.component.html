@@ -1,0 +1,26 @@
+<form [formGroup]="form" (submit)="updateProject()" class="w-full">
+   <h3 class="font-medium text-lg text-[#172B4D]/90" style="font-size: 1.5rem;">Details</h3>
+   <div class="grid grid-cols-2 gap-2">
+     <div class="flex items-center gap-2">
+       <p class="text-[#172B4D]/90 text-[1.25rem]">Nombre de la tarea:</p>
+     </div>
+     <div class="flex items-center">
+       <input [value]="value?.description" type="text" formControlName="name" placeholder="Escribe un nombre para el proyecto" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis focus:outline-2 focus:outline-blue-500" required>
+     </div>
+     <div class="flex items-center gap-2">
+       <p class="text-[#172B4D]/90 text-[1.25rem]">Tipo de servicio:</p>
+     </div>
+     <div class="flex items-center">
+       <mat-form-field class="w-full">
+         <mat-label><p class="text-[#A8587B]">Selecciona un tipo de servicio...</p></mat-label>
+         <mat-select formControlName="typeOfService" [value]="value?.objective">
+           <mat-option *ngFor="let type of typeOfServiceValues" [value]="value?.objective">{{typeOfServiceValues}}</mat-option>
+         </mat-select>
+       </mat-form-field>
+     </div> 
+     <div></div>
+     <div>
+       <button type="submit"  class="w-full text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Actualizar</button>
+     </div>
+   </div>
+ </form>

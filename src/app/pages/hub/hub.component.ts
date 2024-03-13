@@ -15,7 +15,7 @@ import { TaskBoardComponent } from '../../components/task-board/task-board.compo
 import { ProjectDashboardComponent } from '../../components/project-dashboard/project-dashboard.component';
 import { AuthService } from '../../service/user/auth.service';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
-import { TaskService } from '../../service/mockup/task.service';
+import { TaskService } from '../../service/common/Task/task.service';
 import { Task } from '../../model/domain/task';
 import { ObjetiveService } from '../../service/objetive.service';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
@@ -35,7 +35,7 @@ export class HubComponent{
    * @returns retorna un array de proyectos del usuario actual
    */
   getUserProjects(): Observable<Item[]> | void {
-    return this._ProjectS.getUserProjects(this._auth.currentUser$().ID_Alias).pipe(
+    return this._ProjectS.getUserProjects(this._auth.currentUser$().id_alias).pipe(
       map((data: Project[]) => {
         return data.map(project => ({
           title: project.name,
@@ -47,7 +47,9 @@ export class HubComponent{
     );
   }
 
-  constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService, public _objetive: ObjetiveService) { }
+  constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService, public _objetive: ObjetiveService) {
+    this.getUserTasks()
+  }
   
   /**
    * abre el modal de configuracion
@@ -88,18 +90,19 @@ export class HubComponent{
     this._user_dataWrapper.currentItem$.set(project);
     this.router.navigateByUrl(`projects/project/${project.id_code}`);
   }
+
+
+  tasksByUser: Task[] = [];
   /**
    * obtiene una lista de tareas a los que un usuario ha sido asignado.
    * Los devuelve en forma de observable para que el componente que lo llame pueda subscribirse a el y 
    * renderice las tareas del usuario en un menu desplegable
    * @returns observable de un array de tareas
    */
-  getUserTasks(): Observable<Task[]> {
-    return new Observable<Task[]>((observable)=>{
-      this._task.getTaskByUser(this._auth.currentUser$().ID_Alias).subscribe((data: Task[]) => {
-        observable.next(data)
-      });
-    })
+  getUserTasks(): void {
+    this._task.getTaskByUser(this._auth.currentUser$().id_alias).subscribe((data: Task[]) => {
+      this.tasksByUser = data;
+    });
   }
 
   

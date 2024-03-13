@@ -42,9 +42,45 @@
               </div>
           </nav>
       </header>
-      <div class="flex flex-col gap-4">
-          @for (item of this.values; track $index) {
-              <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board>
+      <div class="flex flex-col gap-4 min-h-96">
+          @if (this.values) {
+            @for (item of this.values; track item) {
+              @defer () {
+                <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board>
+              }@loading {
+                <article class="bg-white w-full rounded-md shadow-lg">
+                  <header class="bg-[#ADADAE]/30 px-5 py-3 w-full flex h-14 justify-between items-center rounded-t-md">
+                    <div  class="flex gap-3 items-center cursor-pointer w-full">
+                      <svg [style]="'transform: rotate(0deg)'"
+                          class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089"
+                          viewBox="0 0 9.192 16.089">
+                          <path id="Trazado_47" data-name="Trazado 47"
+                              d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
+                              transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
+                      </svg>
+                      <div class="bg-[#ADADAE]/70 h-6 w-full rounded-lg"></div>
+                  </div>
+                  </header>
+                </article>
+              }@placeholder {
+                <article class="bg-white rounded-md w-full shadow-lg">
+                  <header class="bg-[#ADADAE]/30 px-5 py-3 w-full flex h-14 justify-between items-center rounded-t-md">
+                    <div  class="flex gap-3 items-center cursor-pointer w-full">
+                      <svg [style]="'transform: rotate(0deg)'"
+                          class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089"
+                          viewBox="0 0 9.192 16.089">
+                          <path id="Trazado_47" data-name="Trazado 47"
+                              d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
+                              transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
+                      </svg>
+                      <div class="bg-[#ADADAE]/70 h-6 w-full rounded-lg"></div>
+                  </div>
+                  </header>
+                </article>
+              }
+            }
+          }@else {
+            <div class="w-full h-full rounded-md loading bg-[#ADADAE]/30"></div>
           }
       </div>
       <div class="flex justify-end">

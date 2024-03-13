@@ -22,7 +22,7 @@ export class AuthService {
     
     return new Observable<boolean>((observer) => {
       this.currentUser$ = signal<Colaborator>({
-        ID_Alias: 'sampleId',
+        id_alias: 'sampleId',
         Name: 'John',
         Surname: 'Doe',
         Email: credentials.email,
@@ -42,7 +42,7 @@ export class AuthService {
         Email: credentials.email,
         Name: credentials.Name,
         Surname: credentials.Surname,
-        ID_Alias: credentials.Username,
+        id_alias: credentials.Username,
         relaseDate: new Date(),
         Password: credentials.password,
         isActive: false,
