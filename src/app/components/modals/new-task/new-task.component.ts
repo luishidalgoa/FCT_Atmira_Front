@@ -39,7 +39,7 @@ export class NewTaskComponent {
     const isProject = (this.parent as Project)
     const task: Task = {
       description: this.form.get('title')?.value,
-      Asigned: this._auth.currentUser$(),
+      colaborator: this._auth.currentUser$(),
       closed: false,
       ID_Code_Project: isProject ? (this.parent as Project).id_code as string : (this.parent as Task).ID_Code_Project,
       task: !isProject ? (this.parent as Task) : null,

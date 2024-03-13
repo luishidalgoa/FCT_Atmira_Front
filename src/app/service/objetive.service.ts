@@ -29,4 +29,21 @@ export class ObjetiveService {
         return '';
     }
   }
+
+  convertStringToTypeOfService(value: string): TypeOfService {
+    switch (value) {
+      case 'OPERACIONES':
+        return TypeOfService.OPERACIONES;
+      case 'MANTENIMIENTO':
+        return TypeOfService.MANTENIMIENTO;
+      case 'DESARROLLO':
+        return TypeOfService.DESARROLLO;
+      case 'FINANZAS':
+        return TypeOfService.FINANZAS;
+      case 'MARKETING':
+        return TypeOfService.MARKETING;
+      default:
+        return TypeOfService.OPERACIONES;
+    }
+  }
 }

@@ -100,4 +100,14 @@ export class TaskService {
     return this._http.put<Task>(url,task);
   }
 
+  update(task:Task): Observable<Task>{
+    const header = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    const url: string = `${environment.apiUrl}/task/update/${task.idCode}`;
+    return this._http.put<Task>(url,task,header);
+  }
+
 }

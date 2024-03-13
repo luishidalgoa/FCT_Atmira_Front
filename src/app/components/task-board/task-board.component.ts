@@ -140,4 +140,14 @@ export class TaskBoardComponent implements OnInit{
     });
     this.newT = false; // Oculta el formulario después de guardar la tarea
   }
+
+  goToTask(): void {
+    //si la ruta actual contiene task, no se lo agregamos a la ruta
+    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
+      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    }else{
+      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
+    }
+    this._user_dataWrapper.currentItem$.set(this.value)
+  }
 }

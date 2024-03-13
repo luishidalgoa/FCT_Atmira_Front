@@ -47,7 +47,8 @@ export class TaskViewAllComponent {
       this.route.params.subscribe((params) => {
         const taskId = params['taskId'];
         this._task.getById(taskId).subscribe((data: Task) => {
-          this.value = data;
+          this._userDataWrapper.currentItem$.set(data);
+          this.value = data
         })
       });
     }

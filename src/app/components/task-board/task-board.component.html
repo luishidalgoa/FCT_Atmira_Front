@@ -1,14 +1,16 @@
 <article class="bg-white rounded-md shadow-lg">
     <header class="bg-[#ADADAE]/30 px-5 py-3 flex justify-between items-center rounded-t-md">
-        <div (click)="details=!details" class="flex gap-3 items-center cursor-pointer">
-            <svg [style]="!details ? 'transform: rotate(0deg)' : 'transform: rotate(90deg)'"
-                class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089"
-                viewBox="0 0 9.192 16.089">
-                <path id="Trazado_47" data-name="Trazado 47"
-                    d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
-                    transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
-            </svg>
-            <p class="text-xl font-semibold">{{this.value.description}}</p>
+        <div class="flex gap-3 cursor-pointer items-center w-full">
+            <div (click)="details=!details">
+                <svg [style]="!details ? 'transform: rotate(0deg)' : 'transform: rotate(90deg)'"
+                    class="mt-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="9.192" height="16.089"
+                    viewBox="0 0 9.192 16.089">
+                    <path id="Trazado_47" data-name="Trazado 47"
+                        d="M39.158,168.781a1.151,1.151,0,0,0,1.626,0l6.893-6.893a1.15,1.15,0,0,0-1.626-1.626l-6.081,6.081-6.081-6.078a1.15,1.15,0,1,0-1.626,1.626l6.893,6.893Z"
+                        transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
+                </svg>
+            </div>
+            <p class="text-xl font-semibold w-full select-none" (click)="this.goToTask()">{{this.value.description}}</p>
         </div>
         <div mat-button [matMenuTriggerFor]="menu" class="px-2 py-3 rounded-lg hover:bg-gray-300/50 active:bg-gray-300 w-fit cursor-pointer" (click)="$event.stopPropagation()">
             <svg  xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">

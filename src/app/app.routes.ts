@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { authGuard } from './guards/auth.guard';
+import { welcomeGuard } from './guards/welcome.guard';
 
 export const routes: Routes = [
     {
         path: 'Welcome',
         title: 'FCT_Atmira - Welcome',
-        component: WelcomeComponent
+        component: WelcomeComponent,
+        canActivate: [welcomeGuard]
     },
     {
         path: '',

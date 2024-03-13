@@ -1,0 +1,57 @@
+<form [formGroup]="form" (submit)="updateProject()" class="p-5 h-auto w-auto flex flex-col gap-3">
+    <h3 class="font-medium text-lg text-[#172B4D]/90" style="font-size: 1.5rem;">Details</h3>
+    <div class="grid gap-2">
+      <section class="grid grid-cols-2 items-center">
+        <p class="text-[#172B4D]/90 text-[1.25rem]">Task name</p>
+        <div class="flex items-center">
+          <input [value]="value.description" type="text" formControlName="name" placeholder="Write a title for the task" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis focus:outline-2 focus:outline-blue-500" required>
+        </div>    
+      </section>
+      <section class="grid grid-cols-2 items-center">
+        <p class="text-[#172B4D]/90 text-[1.25rem]">Status of task</p>
+        <mat-form-field class="py-1">
+          <mat-select [(value)]="selectedClose">
+              <mat-option value="true">Closed</mat-option>
+              <mat-option value="false">Open</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section class="grid grid-cols-2 items-center">
+        <p class="text-[#172B4D]/90 text-[1.25rem]">Type of service</p>
+        <div class="flex items-center">
+          <mat-form-field class="w-full">
+            <mat-label><p class="text-[#A8587B]">Select any type...</p></mat-label>
+            <mat-select [(value)]="selected" formControlName="objective">
+              @for (type of this.typeOfServiceValues; track type) {
+                <mat-option [value]="type.valueOf()">{{type}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section class="grid grid-cols-2 items-center">
+          <p class="text-[#172B4D]/90 text-[1.25rem]">Asigned any colaborator</p>
+          @if(this.value && this.value.project.colaboratorProjects){
+            <mat-form-field class="w-full">
+              <mat-label><p class="text-[#A8587B]">Select any colaborator...</p></mat-label>
+              <mat-select formControlName="colaborator" [value]="value.colaborator?.id_alias">
+                @for (item of this.value.project.colaboratorProjects; track $index){
+                  <mat-option [value]="item.id_alias">{{item.id_alias}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          }@else {
+            <mat-form-field class="w-full">
+              <mat-label><p class="text-[#A8587B]">Select any colaborator...</p></mat-label>
+              <mat-select formControlName="colaborator"></mat-select>
+            </mat-form-field>
+          }
+      </section>
+      <section class="grid grid-cols-2 items-center">
+        <div></div>
+        <div>
+          <button type="submit"  class="w-full text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Actualizar</button>
+        </div>
+      </section>
+    </div>
+   </form>

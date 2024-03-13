@@ -11,6 +11,8 @@ import { ProjectService } from '../../service/common/Project/project.service';
 import { Colaborator } from '../../model/domain/colaborator';
 import { Observable } from 'rxjs';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateTaskComponent } from '../modals/update-task/update-task.component';
 
 @Component({
   selector: 'app-task',
@@ -31,7 +33,7 @@ export class TaskComponent {
 
   selected!: string; // indica si la tarea esta cerrada o no
 
-  constructor(public _objetive: ObjetiveService, private _router: Router, private _project: ProjectService) {
+  constructor(public _objetive: ObjetiveService, private _router: Router, private _project: ProjectService,private dialog:MatDialog) {
 
   }
   /**
@@ -40,7 +42,6 @@ export class TaskComponent {
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
     this.getColaborators();
-    console.log(this.value.Asigned,this.value.project.colaboratorProjects)
     
   }
   private _task: TaskService = inject(TaskService);
@@ -91,5 +92,15 @@ export class TaskComponent {
 
   assigned(colaborator: Colaborator): void{
     this._task.assigned(this.value, colaborator)
+  }
+
+  update():void {
+    this.dialog.open(UpdateTaskComponent, {
+      width: 'auto',
+      enterAnimationDuration: '300ms',
+      maxWidth: '60rem',
+      exitAnimationDuration: '300ms',
+      data: this.value
+    });
   }
 }

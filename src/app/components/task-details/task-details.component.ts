@@ -1,20 +1,24 @@
-import { Component, Input } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { Colaborator } from '../../model/domain/colaborator';
-import { Project } from '../../model/domain/project';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // Importa FormGroup y FormBuilder
+import { FormGroup, FormBuilder } from '@angular/forms'; // Importa FormGroup y FormBuilder
 import { ProjectService } from '../../service/common/Project/project.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { TypeOfService } from '../../model/enum/type-of-service';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatOption, } from '@angular/material/core';
-import {  ReactiveFormsModule} from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOption, } from '@angular/material/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelect } from '@angular/material/select';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { Task } from '../../model/domain/task';
+import { TaskService } from '../../service/common/Task/task.service';
+import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { ObjetiveService } from '../../service/objetive.service';
+import { AuthService } from '../../service/mockup/auth.service';
 
 
 
@@ -23,25 +27,57 @@ import { Task } from '../../model/domain/task';
   templateUrl: './task-details.component.html',
   styleUrls: ['./task-details.component.scss'],
   standalone: true,
-  imports: [MatDialogModule,MatFormFieldModule, MatInputModule, MatDatepickerModule,ReactiveFormsModule,CommonModule,MatSelect,MatOption],
+  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, CommonModule, MatSelect, MatOption, MatMenuModule],
   providers: [provideNativeDateAdapter()]
 })
 export class TaskDetailsComponent {
- 
-  @Input({required: true}) value?: Task;
+
+  value!: Task;
   form: FormGroup; // formulario para crear un nuevo proyecto
   typeOfServiceValues = Object.values(TypeOfService); // obtiene los valores del enum para mostrarlos en el html a través de un bucle for
-  constructor( private projectService: ProjectService, private formBuilder: FormBuilder) {
+
+  selected!: string
+  selectedColaborator!: string
+  selectedClose!: string
+  constructor(private _userDataWrapper: UserDataWrapperService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) {
     this.form = this.formBuilder.group({
-      id_code: ['',Validators.required],
-      name: ['', Validators.maxLength(20)],
-      typeOfService: ['', Validators.required]
+      name: ['',],
+      objective: ['',],
+      colaborator: ['',],
+    });
+
+    effect(() => {
+      this.value = this._userDataWrapper.currentItem$() as Task
+      if (this.value) {
+        this.selected = this.value.objective.valueOf()
+        this.selectedColaborator = this.value.colaborator?.id_alias as string
+        this.selectedClose = this.value.closed ? 'true' : 'false'
+        this.getColaborators()
+      }
+    })
+  }
+
+  _objective: ObjetiveService = inject(ObjetiveService);
+  _auth: AuthService = inject(AuthService)
+  updateProject() {
+    this.value.objective = this._objective.convertStringToTypeOfService(this.selected);
+    this.value.closed = this.selectedClose === 'true';
+    this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
+    this.value.description = this.form.get('name')?.value;
+    this._task.update(this.value).subscribe((data: Task) => {
+      console.log(data);
+      this._userDataWrapper.currentItem$.set(data)
     });
   }
 
-  updateProject() {
-    if (this.form.valid) {
-    }
+  getColaborators(): void {
+    this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
+      this.value.project.colaboratorProjects = data
+    })
+  }
+
+  assigned(colaborator: Colaborator): void {
+    this._task.assigned(this.value, colaborator)
   }
 
 }

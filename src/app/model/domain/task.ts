@@ -11,5 +11,5 @@ export interface Task {
     tasks?: Task[];
     ID_Code_Project: string;
     project: Project;
-    Asigned?: Colaborator;
+    colaborator?: Colaborator;
 }

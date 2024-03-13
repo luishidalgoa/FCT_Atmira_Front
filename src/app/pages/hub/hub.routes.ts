@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
-import { ViewAllComponent} from '../project/view-all/view-all.component';
-import {ProjectViewAllComponent} from '../task/project-view-all/project-view-all.component';
-import { LoginComponent } from '../../components/modals/login/login.component';
 import { HubComponent } from './hub.component';
-
 export const hubRoutes: Routes = [
     {
         path: '',
@@ -25,8 +21,7 @@ export const hubRoutes: Routes = [
                 data: { breadcrumb: 'Task', parent:{breadcrumb: 'Project Dash',url:'/projects'} },
             }
         ]
-    }
-    ,
+    },
     {
         path: '',
         redirectTo: 'projects',
