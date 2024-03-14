@@ -8,11 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { NewTaskComponent } from '../../../components/modals/new-task/new-task.component';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
 import { ProjectService } from '../../../service/common/Project/project.service';
+import { TashBoardComponentSkeleton } from '../../../components/skeletons/tash-board/tash-board.component';
 
 @Component({
   selector: 'app-view-all',
   standalone: true,
-  imports: [TaskBoardComponent],
+  imports: [TaskBoardComponent,TashBoardComponentSkeleton],
   templateUrl: './project-view-all.component.html',
   styleUrl: './project-view-all.component.scss'
 })

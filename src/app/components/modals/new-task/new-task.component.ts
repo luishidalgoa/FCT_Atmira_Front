@@ -12,6 +12,7 @@ import { Project } from '../../../model/domain/project';
 import { TaskService } from '../../../service/common/Task/task.service';
 import { AuthService } from '../../../service/user/auth.service';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-task',
@@ -25,6 +26,7 @@ export class NewTaskComponent {
   typeOfServiceValues = Object.values(TypeOfService);
   @Input({required:true})
   value!: Task | Project;
+  @Output() save = new EventEmitter<boolean>(); // evento para enviar el estado de la creacion de la tarea
   constructor(@Inject(MAT_DIALOG_DATA) public data: Task | Project,public dialogRef: MatDialogRef<NewTaskComponent>,private _formBuilder: FormBuilder,private _task:TaskService){
     this.value = data;
     this.form = this._formBuilder.group({
@@ -50,17 +52,16 @@ export class NewTaskComponent {
         if(this.value.tasks == undefined) this.value.tasks = [];
         this.value.tasks.push(data);
         this._userDataWrapper.setCurrentItem(this.value)
+        this.openSnackBar('Task created successfully','app-notification-success');
+      }else{
+        this.openSnackBar('Error creating task','app-notification-error');
       }
       this.saveTask(false);
     });
     this.saveTask(true);
     this.dialogRef.close();
   }
-
-
-
-  //OUTPUT
-  @Output() save = new EventEmitter<boolean>();
+  
   /**
    * Creamos un evento el cual indica si se esta procesando la creacion de la tarea. enviara una notificacion de que se esta procesando
    * de este modo podran saber el componente padre si se esta creando y cuando se ha creado finalmente
@@ -70,4 +71,17 @@ export class NewTaskComponent {
     this.save.emit(status);
   }
   
+
+  /**
+   * Indicara la notificacion de si la tarea se ha creado con exito o no
+   * @param message 
+   * @param action 
+   */
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
+  openSnackBar(message: string, status: 'app-notification-success' | 'app-notification-error') {
+    this._snackBar.open(message,'Hidden', {
+      duration: 2500,
+      panelClass: status
+    });
+  }
 }

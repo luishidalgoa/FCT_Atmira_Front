@@ -1,22 +1,20 @@
-import { Component, inject, effect, WritableSignal, signal } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { TaskDescriptionComponent } from '../../../components/task-description/task-description.component';
 import { TaskBoardComponent } from '../../../components/task-board/task-board.component';
 import { Task } from '../../../model/domain/task';
 import { TaskDetailsComponent } from '../../../components/task-details/task-details.component';
 import { ActivatedRoute } from '@angular/router';
 import { TaskService } from '../../../service/common/Task/task.service';
-import { Project } from '../../../model/domain/project';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTaskComponent } from '../../../components/modals/new-task/new-task.component';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
 import { ProjectService } from '../../../service/common/Project/project.service';
-import { Colaborator } from '../../../model/domain/colaborator';
-import { AuthService } from '../../../service/user/auth.service';
+import { TashBoardComponentSkeleton } from '../../../components/skeletons/tash-board/tash-board.component';
 
 @Component({
   selector: 'app-task-view-all',
   standalone: true,
-  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent],
+  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent,TashBoardComponentSkeleton],
   templateUrl: './task-view-all.component.html',
   styleUrl: './task-view-all.component.scss'
 })
@@ -24,7 +22,7 @@ export class TaskViewAllComponent {
   public value!: Task;
   private _task: TaskService = inject(TaskService);
   private _userDataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
-  constructor(private userDataWrapper: UserDataWrapperService, private projectService: ProjectService, private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
+  constructor(private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog) {
     this._userDataWrapper.currentItem$.subscribe(() => {
       if (this._userDataWrapper.getCurrentItem().value) {
         this.value = this._userDataWrapper.getCurrentItem().value as Task
