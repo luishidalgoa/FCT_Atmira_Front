@@ -21,28 +21,10 @@ import { AuthService } from '../../../service/user/auth.service';
   styleUrl: './task-view-all.component.scss'
 })
 export class TaskViewAllComponent {
-  public parent!: Project;
   public value!: Task;
-  public colaborators$: WritableSignal<Colaborator[]> = signal<Colaborator[]>([]);
-
   private _task: TaskService = inject(TaskService);
   private _userDataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
-  private _auth: AuthService = inject(AuthService);
   constructor(private userDataWrapper: UserDataWrapperService, private projectService: ProjectService, private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
-    effect(() => {
-      const colaborators = this._userDataWrapper.currentColaborators$();
-      this.colaborators$ = signal(colaborators);
-      this.route.params.subscribe((params) => {
-        const projectId = params['id'];
-        this.projectService.getById(projectId).subscribe((data: Project) => {
-          this.parent = data;
-          this.loadTasks();
-        });
-      });
-    });
-
-
-
     this._userDataWrapper.currentItem$.subscribe(() => {
       if (this._userDataWrapper.getCurrentItem().value) {
         this.value = this._userDataWrapper.getCurrentItem().value as Task
@@ -63,12 +45,14 @@ export class TaskViewAllComponent {
 
 
   loadTasks(): void {
-    if (this.parent && this.parent.id_code != undefined) {
+    if (this.value) {
       this.taskService.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
         this.value.tasks = data;
       });
     }
   }
+
+  newTask: boolean = false;
   /**
    * abre el modal de nueva tarea al proyecto y le pasa el proyecto actual.
    * @param enterAnimationDuration indica la duracion de la animacion de entrada
@@ -80,6 +64,9 @@ export class TaskViewAllComponent {
       maxWidth: '60rem',
       data: this.value
     });
+    dialogRef.componentInstance.save.subscribe((data: boolean) => {
+      this.newTask = data;
+    })
   }
   /**
    * Este metodo es llamado por el OutPut del componente hijo TaskBoardComponent. Elimina la tarea del array de tareas

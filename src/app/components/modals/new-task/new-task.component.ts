@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -50,9 +50,24 @@ export class NewTaskComponent {
         if(this.value.tasks == undefined) this.value.tasks = [];
         this.value.tasks.push(data);
         this._userDataWrapper.setCurrentItem(this.value)
-        this.dialogRef.close();
       }
+      this.saveTask(false);
     });
+    this.saveTask(true);
+    this.dialogRef.close();
+  }
+
+
+
+  //OUTPUT
+  @Output() save = new EventEmitter<boolean>();
+  /**
+   * Creamos un evento el cual indica si se esta procesando la creacion de la tarea. enviara una notificacion de que se esta procesando
+   * de este modo podran saber el componente padre si se esta creando y cuando se ha creado finalmente
+   * @param status 
+   */
+  saveTask(status:boolean):void{
+    this.save.emit(status);
   }
   
 }
