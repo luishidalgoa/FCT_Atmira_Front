@@ -34,7 +34,7 @@
         @if(this.value && this.value.project.colaboratorProjects){
           <mat-form-field class="w-full">
             <mat-label><p class="text-[#A8587B]">Select any colaborator...</p></mat-label>
-            <mat-select #colaborator formControlName="colaborator" [value]="value.colaborator?.id_alias">
+            <mat-select #colaborator formControlName="colaborator" [(value)]="this.selectedColaborator">
               @for (item of this.value.project.colaboratorProjects; track $index){
                 <mat-option [value]="item.id_alias">{{item.id_alias}}</mat-option>
               }

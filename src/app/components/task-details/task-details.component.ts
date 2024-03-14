@@ -50,7 +50,6 @@ export class TaskDetailsComponent {
       data = data as Task
       this.value = data
       if (this.value) {
-        this.title.nativeElement.value = this.value.description
         this.selected = this.value.objective.valueOf()
         this.selectedColaborator = this.value.colaborator?.id_alias as string
         this.selectedClose = this.value.closed ? 'true' : 'false'
@@ -58,8 +57,13 @@ export class TaskDetailsComponent {
       }
     })
   }
-
-  @ViewChild('title') title!: ElementRef;
+  private title!: ElementRef
+  @ViewChild('title') set contentTitle(content: ElementRef) {
+    if(content) { // initially setter gets called with undefined
+      this.title = content
+      this.title.nativeElement.value = this.value?.description ?? ''
+    }
+ };
   private colaborator!: MatSelect;
   @ViewChild('colaborator') set content(content: MatSelect) {
     if(content) { // initially setter gets called with undefined
@@ -71,12 +75,12 @@ export class TaskDetailsComponent {
   _objective: ObjetiveService = inject(ObjetiveService);
   _auth: AuthService = inject(AuthService)
   updateProject() {
-
+    this.value.description = this.title.nativeElement.value;
     this.value.objective = this._objective.convertStringToTypeOfService(this.selected);
     this.value.closed = this.selectedClose === 'true';
     this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
-    this.value.description = this.title.nativeElement.value;
 
+    console.log(this.value)
     this._task.update(this.value).subscribe((data: Task) => {
       this._userDataWrapper.setCurrentItem(data)
     });

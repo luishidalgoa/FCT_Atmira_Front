@@ -27,6 +27,7 @@ export class UpdateTaskComponent {
   form: FormGroup; // formulario para crear un nuevo proyecto
   typeOfServiceValues = Object.values(TypeOfService); // obtiene los valores del enum para mostrarlos en el html a través de un bucle for
 
+  selected!: string
   selectedColaborator!: string
   selectedClose!: string
   constructor(@Inject(MAT_DIALOG_DATA) public data: Task, private _userDataWrapper: UserDataWrapperService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService,public dialogRef: MatDialogRef<UpdateTaskComponent>) {
@@ -37,6 +38,7 @@ export class UpdateTaskComponent {
       colaborator: ['',],
     });
     if (this.value) {
+      this.selected = this.value.objective.valueOf()
       this.selectedColaborator = this.value.colaborator?.id_alias as string
       this.selectedClose = this.value.closed ? 'true' : 'false'
       this.getColaborators()
@@ -49,13 +51,13 @@ export class UpdateTaskComponent {
       this.type.value = this.value.objective.valueOf()
     }
   }
-  private title!: ElementRef;
+  private title!: ElementRef
   @ViewChild('title') set contentTitle(content: ElementRef) {
-    if (content) { // initially setter gets called with undefined
-      this.title = content;
+    if(content) { // initially setter gets called with undefined
+      this.title = content
       this.title.nativeElement.value = this.value.description
     }
-  }
+ };
   private colaborator!: MatSelect;
   @ViewChild('colaborator') set content(content: MatSelect) {
     if (content) { // initially setter gets called with undefined
@@ -71,15 +73,14 @@ export class UpdateTaskComponent {
   }
   _objective: ObjetiveService = inject(ObjetiveService);
   updateProject() {
-
-    this.value.objective = this._objective.convertStringToTypeOfService(this.type.value);
+    this.value.description = this.title.nativeElement.value;
+    this.value.objective = this._objective.convertStringToTypeOfService(this.selected);
     this.value.closed = this.selectedClose === 'true';
     this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
-    this.value.description = this.title.nativeElement.value
 
+    console.log(this.value)
     this._task.update(this.value).subscribe((data: Task) => {
-      console.log(data)
-    })
-    this.dialogRef.close();
+      this._userDataWrapper.setCurrentItem(data)
+    });
   }
 }

@@ -106,6 +106,7 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     }
+    console.log(task)
     const url: string = `${environment.apiUrl}/task/update/${task.idCode}`;
     return this._http.put<Task>(url,task,header);
   }
