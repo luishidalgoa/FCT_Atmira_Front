@@ -21,7 +21,7 @@
       <div class="flex items-center">
         <mat-form-field class="w-full">
           <mat-label><p class="text-[#A8587B]">Select any type...</p></mat-label>
-          <mat-select [(value)]="selected" formControlName="objective">
+          <mat-select #type [(value)]="selected" formControlName="objective">
             @for (type of this.typeOfServiceValues; track type) {
               <mat-option [value]="type.valueOf()">{{type}}</mat-option>
             }

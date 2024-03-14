@@ -1,17 +1,21 @@
 <header class="bg-[#ADADAE]/25 p-3 rounded-t-md">
-  <h1 class="font-semibold text-lg text-[#172B4D]/90">Task description</h1>
+  <h1 class="font-semibold text-2xl text-[#172B4D]/90">Task description</h1>
 </header>
 <article class="bg-white rounded-b-md">
   <section [classList]="'p-3 min-h-14 flex items-center' + (this.value && this.value.description == undefined ? ' max-h-14' : '')">
     
     <form class="w-full h-full" (submit)="null">
-      @if(this.value && this.value.description == undefined || this.edit){
-        <button class="bg-slate-400 rounded-md w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg">Upload File</button>
-        <textarea maxlength="256" #textarea (input)="this.writing($event)" [value]="this.value.description !== undefined ? this.value.description : ''" [placeholder]="this.value.description == undefined ? 'Write a description...' : ''" class="resize-none w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg" type="text" ></textarea>
-        <p>{{this.textSize}}</p>
-        <button class="bg-slate-400 rounded-md w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg">Actualizar</button>
-      }@else {
-        <p (dblclick)="this.write()" class="w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg">{{this.value && this.value.description ? this.value.description : 'Write a description...'}}</p>
+      @defer (when this.value) {
+        @if(this.value && this.value.description == undefined || this.edit){
+          <button class="bg-slate-400 rounded-md w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg">Upload File</button>
+          <textarea maxlength="256" #textarea (input)="this.writing($event)" [value]="this.value.description !== undefined ? this.value.description : ''" [placeholder]="this.value.description == undefined ? 'Write a description...' : ''" class="resize-none w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg" type="text" ></textarea>
+          <p>{{this.textSize}}</p>
+          <button class="bg-slate-400 rounded-md w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg">Actualizar</button>
+        }@else {
+          <p (dblclick)="this.write()" class="w-full h-full bg-transparent select-none text-[#172B4D]/90 outline-none font-medium text-lg">{{this.value.description ? this.value.description : 'Write a description...'}}</p>
+        }
+      }@placeholder {
+        <p class="text-black">Loading...</p>
       }
     </form>
   </section>

@@ -1,9 +1,9 @@
 <nav class="flex gap-1 text-center items-center">
   @for (breadcrumb of breadcrumbs; track $index) {
     @if ($index < breadcrumbs.length -1) {
-        <a class="cursor-pointer" routerLinkActive="active" [routerLink]="breadcrumb.url" [routerLinkActiveOptions]="{exact: true}">{{ breadcrumb.label }} </a><p>/</p>
+        <a (click)="navigate(breadcrumb)" class="cursor-pointer" routerLinkActive="active"  [routerLink]="breadcrumb.url" [routerLinkActiveOptions]="{exact: true}">{{ breadcrumb.label }} </a><p>/</p>
     }@else if($index === breadcrumbs.length -1) {
-        <a class="cursor-pointer" routerLinkActive="active" [routerLink]="breadcrumb.url" [routerLinkActiveOptions]="{exact: true}">{{ breadcrumb.label }}</a>
+        <a (click)="navigate(breadcrumb)" class="cursor-pointer" routerLinkActive="active" [routerLink]="breadcrumb.url" [routerLinkActiveOptions]="{exact: true}">{{ breadcrumb.label }}</a>
     }
   }
 </nav>

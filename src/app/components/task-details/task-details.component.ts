@@ -57,6 +57,14 @@ export class TaskDetailsComponent {
       }
     })
   }
+  private type!: MatSelect;
+  @ViewChild('type') set contentType(content: MatSelect) {
+    if (content) { // initially setter gets called with undefined
+      this.type = content;
+      this.type.value = this.selected
+    }
+  }
+
   private title!: ElementRef
   @ViewChild('title') set contentTitle(content: ElementRef) {
     if(content) { // initially setter gets called with undefined
