@@ -9,11 +9,12 @@ import { NewTaskComponent } from '../../../components/modals/new-task/new-task.c
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
 import { ProjectService } from '../../../service/common/Project/project.service';
 import { TashBoardComponentSkeleton } from '../../../components/skeletons/tash-board/tash-board.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-view-all',
   standalone: true,
-  imports: [TaskBoardComponent,TashBoardComponentSkeleton],
+  imports: [TaskBoardComponent,TashBoardComponentSkeleton,MatProgressSpinner],
   templateUrl: './project-view-all.component.html',
   styleUrl: './project-view-all.component.scss'
 })

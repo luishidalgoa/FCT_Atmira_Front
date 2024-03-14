@@ -44,23 +44,33 @@
       </nav>
     </header>
     <article class="flex justify-between items-start gap-14">
-      <section class="flex flex-col gap-5 w-full">
-        <app-task-description [value]="value"></app-task-description>
-        @defer (when this.value) {
-          @for (item of this.value.tasks; track this.value) {
-            <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board>
-          }
-          @if (this.newTask) {
-            <app-tash-board-skeleton></app-tash-board-skeleton>
-          }
-        }@placeholder {
-          <app-tash-board-skeleton/>
-        }
-        <div class="flex justify-end">
-          <button (click)="this.saveChildTask()" class="bg-[#06B6D4]/50 border border-[#06B6D4]/50 rounded-md px-4 py-1 w-fit shadow-lg"><p class="text-xl font-semibold text-white mb-1">New task</p></button>
+      @defer (when this.value && this.value.idCode == this.id) {
+        <section class="flex flex-col gap-5 w-full">
+          <app-task-description [value]="value!"></app-task-description>
+          @defer (when this.value!.tasks) {
+            @for (item of this.value!.tasks; track this.value) {
+              <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board>
+            }
+            @if (this.newTask) {
+              <app-tash-board-skeleton></app-tash-board-skeleton>
+            }
+            }@placeholder {
+              <app-tash-board-skeleton />
+            }
+          <div class="flex justify-end">
+            <button (click)="this.saveChildTask()"
+              class="bg-[#06B6D4]/50 border border-[#06B6D4]/50 rounded-md px-4 py-1 w-fit shadow-lg">
+              <p class="text-xl font-semibold text-white mb-1">New task</p>
+            </button>
+          </div>
+        </section>
+      }@placeholder {
+        <div class="w-full flex justify-center mt-32">
+          <mat-spinner [diameter]="50" ></mat-spinner>
         </div>
-      </section>
+      }
       <section class="max-w-[25rem] w-full">
         <app-task-details></app-task-details>
       </section>
     </article>
+</div>
