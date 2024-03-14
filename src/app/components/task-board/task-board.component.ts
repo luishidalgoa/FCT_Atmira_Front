@@ -13,6 +13,9 @@ import { TaskService } from '../../service/common/Task/task.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
+import { UpdateTaskComponent } from '../modals/update-task/update-task.component';
+import { ConfirmComponent } from '../modals/confirm/confirm.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-task-board',
   standalone: true,
@@ -77,16 +80,43 @@ export class TaskBoardComponent implements OnInit{
     }
   }
 
+  update():void {
+    this.dialog.open(UpdateTaskComponent, {
+      width: 'auto',
+      enterAnimationDuration: '300ms',
+      maxWidth: '60rem',
+      exitAnimationDuration: '300ms',
+      data: this.value
+    });
+  }
   /**
    * llama al metodo delete del servicio de TaskService para eliminar la tarea de la base de datos. posteriormente emite el evento deleteEvent
    * para que el componente padre elimine la tarea del array de tareas si la eliminacion en la bbdd ha sido exitosa
    */
   delete(): void {
-    this._task.delete(this.value).subscribe((result: boolean) => {
-      if (result) {
+    const dialog =this.dialog.open(ConfirmComponent, {
+      width: 'auto',
+      maxWidth: '60rem',
+      ariaLabel: 'Are you sure ?',
+      role: 'alertdialog',
+      ariaDescribedBy: 'Are you sure that you want to delete this task ?'
+    })
+    dialog.afterClosed().subscribe((result:boolean) =>{
+      if(result){
         this.deleteEvent.emit(this.value);
+        this._task.delete(this.value).subscribe((result2: boolean) => {
+          if(result2){
+            this.openSnackBar('Task deleted successfully','app-notification-success');
+          }else{
+            this.openSnackBar('Task could not be deleted','app-notification-error');
+            this._task.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
+              (this.value.task as Task).tasks = data
+              this._user_dataWrapper.currentItem$.next(this.value.task);
+            })
+          }
+        });
       }
-    });
+    })
   }
 
   /**
@@ -130,7 +160,6 @@ export class TaskBoardComponent implements OnInit{
     const task: Task = {
       description: this.formGroup.get('title')?.value,
       closed: false,
-      ID_Code_Project: this.value.project.id_code as string,
       task: this.value,
       project: this.value.project,
       objective: this.formGroup.get('objective')?.value
@@ -139,5 +168,29 @@ export class TaskBoardComponent implements OnInit{
       if (data) this.value.tasks?.push(data);
     });
     this.newT = false; // Oculta el formulario después de guardar la tarea
+  }
+
+  goToTask(): void {
+    //si la ruta actual contiene task, no se lo agregamos a la ruta
+    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
+      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    }else{
+      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
+    }
+    this._user_dataWrapper.setCurrentItem(this.value)
+  }
+
+
+  /**
+   * Indicara la notificacion de si la tarea se ha creado con exito o no
+   * @param message 
+   * @param action 
+   */
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
+  openSnackBar(message: string, status: 'app-notification-success' | 'app-notification-error') {
+    this._snackBar.open(message,'Hidden', {
+      duration: 2500,
+      panelClass: status
+    });
   }
 }

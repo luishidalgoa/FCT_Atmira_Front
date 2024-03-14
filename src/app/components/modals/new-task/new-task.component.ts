@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { Project } from '../../../model/domain/project';
 import { TaskService } from '../../../service/common/Task/task.service';
 import { AuthService } from '../../../service/user/auth.service';
 import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-task',
@@ -24,9 +25,10 @@ export class NewTaskComponent {
   form: FormGroup;
   typeOfServiceValues = Object.values(TypeOfService);
   @Input({required:true})
-  parent!: Task | Project;
+  value!: Task | Project;
+  @Output() save = new EventEmitter<boolean>(); // evento para enviar el estado de la creacion de la tarea
   constructor(@Inject(MAT_DIALOG_DATA) public data: Task | Project,public dialogRef: MatDialogRef<NewTaskComponent>,private _formBuilder: FormBuilder,private _task:TaskService){
-    this.parent = data;
+    this.value = data;
     this.form = this._formBuilder.group({
       title: new FormControl('',[Validators.required]),
       objective: new FormControl('',[Validators.required]),
@@ -36,25 +38,50 @@ export class NewTaskComponent {
   private _auth:AuthService = inject(AuthService);
   private _userDataWrapper:UserDataWrapperService = inject(UserDataWrapperService);
   create():void {
-    const isProject = (this.parent as Project)
     const task: Task = {
       description: this.form.get('title')?.value,
-      Asigned: this._auth.currentUser$(),
+      colaborator: this._auth.currentUser$(),
       closed: false,
-      ID_Code_Project: isProject ? (this.parent as Project).id_code as string : (this.parent as Task).ID_Code_Project,
-      task: !isProject ? (this.parent as Task) : null,
-      project: isProject ? (this.parent as Project) : (this.parent as Task).project,
+      task: (this.value as Task).description ? (this.value as Task) : null,
+      project: (this.value as Task).project!== undefined ? (this.value as Task).project : this.value as Project,
       objective: this.form.get('objective')?.value
     };
   
     this._task.save(task).subscribe((data:Task)=>{
       if(data){
-        if(this.parent.tasks == undefined) this.parent.tasks = [];
-        this.parent.tasks.push(data);
-        this._userDataWrapper.currentItem$.set(this.parent)
-        this.dialogRef.close();
+        if(this.value.tasks == undefined) this.value.tasks = [];
+        this.value.tasks.push(data);
+        this._userDataWrapper.setCurrentItem(this.value)
+        this.openSnackBar('Task created successfully','app-notification-success');
+      }else{
+        this.openSnackBar('Error creating task','app-notification-error');
       }
+      this.saveTask(false);
     });
+    this.saveTask(true);
+    this.dialogRef.close();
   }
   
+  /**
+   * Creamos un evento el cual indica si se esta procesando la creacion de la tarea. enviara una notificacion de que se esta procesando
+   * de este modo podran saber el componente padre si se esta creando y cuando se ha creado finalmente
+   * @param status 
+   */
+  saveTask(status:boolean):void{
+    this.save.emit(status);
+  }
+  
+
+  /**
+   * Indicara la notificacion de si la tarea se ha creado con exito o no
+   * @param message 
+   * @param action 
+   */
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
+  openSnackBar(message: string, status: 'app-notification-success' | 'app-notification-error') {
+    this._snackBar.open(message,'Hidden', {
+      duration: 2500,
+      panelClass: status
+    });
+  }
 }

@@ -16,7 +16,7 @@
             <p class="font-semibold text-[#707070] p-2">Your Works</p>
             <hr class="">
             @for (task of tasksByUser; track $index) {
-              <button mat-menu-item>
+              <button mat-menu-item (click)="goTask(task)">
                 <div class="flex gap-1 items-center">
                   <div class="w-5 h-5" [innerHTML]="this._objetive.getSvgByType(task.objective)"></div>
                   <div class="text-nowrap overflow-hidden modal-text-wrap">

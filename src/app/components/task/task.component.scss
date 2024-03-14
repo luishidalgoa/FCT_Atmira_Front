@@ -156,3 +156,10 @@ p,label{
 ::ng-deep .mdc-line-ripple{
   display:none;
 }
+
+::ng-deep .mat-mdc-menu-panel{
+  @apply bg-gray-200
+}
+::ng-deep .cdk-overlay-pane{
+  @apply shadow-md
+}

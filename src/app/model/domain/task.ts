@@ -9,7 +9,6 @@ export interface Task {
     closed: boolean;
     task: Task | null;
     tasks?: Task[];
-    ID_Code_Project: string;
     project: Project;
-    Asigned?: Colaborator;
+    colaborator?: Colaborator;
 }

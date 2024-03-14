@@ -11,6 +11,8 @@ import { ProjectService } from '../../service/common/Project/project.service';
 import { Colaborator } from '../../model/domain/colaborator';
 import { Observable } from 'rxjs';
 import { UserDataWrapperService } from '../../service/user/user-data-wrapper.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateTaskComponent } from '../modals/update-task/update-task.component';
 
 @Component({
   selector: 'app-task',
@@ -31,7 +33,7 @@ export class TaskComponent {
 
   selected!: string; // indica si la tarea esta cerrada o no
 
-  constructor(public _objetive: ObjetiveService, private _router: Router, private _project: ProjectService) {
+  constructor(public _objetive: ObjetiveService, private _router: Router, private _project: ProjectService,private dialog:MatDialog) {
 
   }
   /**
@@ -39,7 +41,6 @@ export class TaskComponent {
    */
   ngOnInit(): void {
     this.selected = this.value.closed ? 'true' : 'false';
-
     this.getColaborators();
     
   }
@@ -51,7 +52,8 @@ export class TaskComponent {
    * @param status  indica si la tarea esta cerrada o no
    */
   status(status: boolean) {
-    this._task.status(this.value.idCode as string, status).subscribe((data: Task) => {
+    this.value.closed = status;
+    this._task.status(this.value).subscribe((data: Task) => {
       this.value = data;
       this.selected = data.closed ? 'true' : 'false';
     });
@@ -79,12 +81,26 @@ export class TaskComponent {
   goToTask() {
     //imprimimos el :id de la ruta de navegacion
     this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
-    this._userDataWrapper.currentItem$.set(this.value)
+    this._userDataWrapper.setCurrentItem(this.value)
   }
 
   getColaborators(): void {
     this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
       this.value.project.colaboratorProjects = data
     })
+  }
+
+  assigned(colaborator: Colaborator): void{
+    this._task.assigned(this.value, colaborator)
+  }
+
+  update():void {
+    this.dialog.open(UpdateTaskComponent, {
+      width: 'auto',
+      enterAnimationDuration: '300ms',
+      maxWidth: '60rem',
+      exitAnimationDuration: '300ms',
+      data: this.value
+    });
   }
 }

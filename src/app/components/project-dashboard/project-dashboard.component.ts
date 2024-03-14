@@ -62,7 +62,7 @@ export class ProjectDashboardComponent {
    * @param project proyecto seleccionado por el usuario
    */
   show(project:Project){
-    this._user_dataWrapper.currentItem$.set(project)
+    this._user_dataWrapper.setCurrentItem(project)
     this._router.navigateByUrl(`projects/project/${project.id_code}`);
   }
 }

@@ -35,13 +35,11 @@ export class TaskService {
           {
             idCode: '1_1',
             description: 'Tarea 1',
-            ID_Code_Project: '1',
             objective: TypeOfService.FINANZAS,
             closed: true,
             task: {
               idCode: '1_1',
               description: 'Tarea 1',
-              ID_Code_Project: '1',
               objective: TypeOfService.MANTENIMIENTO,
               closed: false,
               task: null,
@@ -62,13 +60,11 @@ export class TaskService {
           {
             idCode: '1_2',
             description: 'Tarea 2',
-            ID_Code_Project: '1',
             objective: TypeOfService.MARKETING,
             closed: false,
             task: {
               idCode: '1_1',
               description: 'Tarea 1',
-              ID_Code_Project: '1',
               objective: TypeOfService.MANTENIMIENTO,
               closed: false,
               task: null,
@@ -89,13 +85,11 @@ export class TaskService {
           {
             idCode: '1_3',
             description: 'Tarea 3',
-            ID_Code_Project: '1',
             objective: TypeOfService.MANTENIMIENTO,
             closed: false,
             task: {
               idCode: '1_1',
               description: 'Tarea 1',
-              ID_Code_Project: '1',
               objective: TypeOfService.MANTENIMIENTO,
               closed: false,
               task: null,
@@ -116,13 +110,11 @@ export class TaskService {
           {
             idCode: '1_4',
             description: 'Tarea 4',
-            ID_Code_Project: '1',
             objective: TypeOfService.OPERACIONES,
             closed: false,
             task: {
               idCode: '1_1',
               description: 'Tarea 1',
-              ID_Code_Project: '1',
               objective: TypeOfService.MANTENIMIENTO,
               closed: false,
               task: null,
@@ -166,7 +158,6 @@ export class TaskService {
         {
           idCode: '1_1',
           description: 'Tarea 1',
-          ID_Code_Project: '1',
           objective: TypeOfService.MANTENIMIENTO,
           closed: false,
           task: null,
@@ -185,7 +176,6 @@ export class TaskService {
         {
           idCode: '1_2',
           description: 'Tarea 2',
-          ID_Code_Project: '1',
           objective: TypeOfService.MANTENIMIENTO,
           closed: false,
           task: null,
@@ -210,13 +200,11 @@ export class TaskService {
           {
             idCode: id,
             description: 'Tarea 1',
-            ID_Code_Project: '1',
             objective: TypeOfService.FINANZAS,
             closed: status,
             task: {
               idCode: '1_1',
               description: 'Tarea 1',
-              ID_Code_Project: '1',
               objective: TypeOfService.MANTENIMIENTO,
               closed: false,
               task: null,
