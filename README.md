@@ -19,6 +19,7 @@
 4. [Instalacíon](#instalacíon)
 5. [Colaborar](#colaborar)
    - [Guía rápida](#guía-rápida)
+6. [Colaboradores](#colaboradores)
 7. [Stack Tecnologías](#stack-tecnologías)
 
 ## Acerca de:
