@@ -25,15 +25,8 @@ export class TaskService {
       })
     };
     console.log(task)
-    // Verificar si la tarea tiene una tarea principal asociada
-    const parentTaskId = task.task ? task.task.idCode : task.project.id_code;
-
-    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}/${parentTaskId}`;
-
-    // Si la tarea tiene una tarea principal asociada, no necesitamos enviarla en la solicitud
-    const taskToSend = task.task ? { ...task, task: null } : task;
-
-    return this._http.post<Task>(url, taskToSend, header);
+    const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}`;
+    return this._http.post<Task>(url, task, header);
   }
 
   /**
