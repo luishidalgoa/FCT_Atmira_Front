@@ -50,7 +50,8 @@ La usabilidad de nuestra aplicación de gestión de proyectos se centra en propo
 ### API (BACK-END):
 Para el Back-end te ofrecemos 2 alternativas. Una de ellas retroalimentarlo tu mismo a tu medida. En caso contrario podrás conectar el front-end al backend ya desplegado en un Hosting
 1. Clona el repositorio del Back: [luishidalgoa/Atmira_Backend](https://github.com/luishidalgoa/Atmira_Backend)
-    - Documentación de la Api en localhost [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+    - Documentación SWAGGER de la Api en localhost [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+    - Documentación Postman de la Api [https://documenter.getpostman.com/view/32223959/2sA2xnwUY2#cce848b9-a06f-44de-8983-049db3496769](https://documenter.getpostman.com/view/32223959/2sA2xnwUY2#cce848b9-a06f-44de-8983-049db3496769)
 2. Usa nuestro Hosting
     - Enlace de conexión: [https://atmira-backend.onrender.com](https://atmira-backend.onrender.com)
     - Swagger con la documentación de la API: [https://atmira-backend.onrender.com/swagger-ui/index.html#/](https://atmira-backend.onrender.com/swagger-ui/index.html#/)
