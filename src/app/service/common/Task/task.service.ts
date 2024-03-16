@@ -72,7 +72,7 @@ export class TaskService {
    * @returns retorna un array de tareas del usuario extraidas de la base de datos
    */
   getTaskByUser(alias_Id: string): Observable<Task[]> {
-    const url: string = `${environment.apiUrl}/task/byColaborator/${alias_Id}`;
+    const url: string = `${environment.apiUrl}/taskAndSubtask/byColaborator/${alias_Id}`;
     return this._http.get<Task[]>(url);
   }
 
