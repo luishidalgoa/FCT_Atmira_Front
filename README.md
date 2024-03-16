@@ -17,8 +17,10 @@
     - [Node.js](#nodejs-httpsnodejsorgen)
     - [API (Back-End)](#api-back-end)
 4. [Instalacíon](#instalacíon)
-5. [Colaboradores](#colaboradores)
-6. [Stack Tecnologías](#stack-tecnologías)
+5. [Colaborar](#colaborar)
+   - [Guía rápida](#guía-rápida)
+6. [Colaboradores](#colaboradores)
+7. [Stack Tecnologías](#stack-tecnologías)
 
 ## Acerca de:
 La usabilidad de nuestra aplicación de gestión de proyectos se centra en proporcionar una experiencia intuitiva y eficiente para los usuarios, permitiéndoles gestionar proyectos y tareas de manera fluida y colaborativa. Desde la creación de proyectos hasta la asignación y seguimiento de tareas, cada paso se ha diseñado cuidadosamente para ser accesible y fácil de entender.
