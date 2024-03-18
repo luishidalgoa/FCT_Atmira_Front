@@ -57,6 +57,7 @@ export class NewProjectComponent {
         typeOfService: this.form.get('typeOfService')?.value,
         active: true 
       }
+      console.log(project);
       this._ProjectS.save(project,this._authService.currentUser$().id_alias).subscribe((data:Project)=>{
         if(data){
           this._user_dataWrapper.addProject(data);
@@ -64,7 +65,6 @@ export class NewProjectComponent {
       });
       this.dialogRef.close();
     }else{
-      
     }
   }
   /**

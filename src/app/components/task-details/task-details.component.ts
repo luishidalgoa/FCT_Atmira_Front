@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewChild, effect, inject } from '@angular/core';
 import { Colaborator } from '../../model/domain/colaborator';
-import { FormGroup, FormBuilder } from '@angular/forms'; // Importa FormGroup y FormBuilder
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // Importa FormGroup y FormBuilder
 import { ProjectService } from '../../service/common/Project/project.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
@@ -41,7 +41,7 @@ export class TaskDetailsComponent {
   selectedClose!: string
   constructor(private _userDataWrapper: UserDataWrapperService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) {
     this.form = this.formBuilder.group({
-      name: ['',],
+      name: ['',Validators.required],
       objective: ['',],
       colaborator: ['',],
     });
@@ -64,14 +64,6 @@ export class TaskDetailsComponent {
       this.type.value = this.selected
     }
   }
-
-  private title!: ElementRef
-  @ViewChild('title') set contentTitle(content: ElementRef) {
-    if(content) { // initially setter gets called with undefined
-      this.title = content
-      this.title.nativeElement.value = this.value?.description ?? ''
-    }
- };
   private colaborator!: MatSelect;
   @ViewChild('colaborator') set content(content: MatSelect) {
     if(content) { // initially setter gets called with undefined
@@ -83,7 +75,7 @@ export class TaskDetailsComponent {
   _objective: ObjetiveService = inject(ObjetiveService);
   _auth: AuthService = inject(AuthService)
   updateProject() {
-    this.value.description = this.title.nativeElement.value;
+    this.value.description = this.form.get('name')?.value
     this.value.objective = this._objective.convertStringToTypeOfService(this.selected);
     this.value.closed = this.selectedClose === 'true';
     this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
