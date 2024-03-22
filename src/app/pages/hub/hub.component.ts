@@ -87,12 +87,10 @@ export class HubComponent{
    * @param project 
    */
   goProject(project: Project): void {
-    this._user_dataWrapper.setCurrentItem(project);
     this.router.navigateByUrl(`projects/project/${project.id_code}`);
   }
 
   goTask(task: Task): void {
-    this._user_dataWrapper.setCurrentItem(task);
     this.router.navigateByUrl(`projects/project/${task.project.id_code}/task/${task.idCode}`);
   }
 

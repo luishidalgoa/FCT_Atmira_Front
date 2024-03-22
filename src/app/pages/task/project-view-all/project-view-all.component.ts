@@ -10,42 +10,28 @@ import { UserDataWrapperService } from '../../../service/user/user-data-wrapper.
 import { ProjectService } from '../../../service/common/Project/project.service';
 import { TashBoardComponentSkeleton } from '../../../components/skeletons/tash-board/tash-board.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-all',
   standalone: true,
-  imports: [TaskBoardComponent,TashBoardComponentSkeleton,MatProgressSpinner],
+  imports: [TaskBoardComponent, TashBoardComponentSkeleton, MatProgressSpinner],
   templateUrl: './project-view-all.component.html',
   styleUrl: './project-view-all.component.scss'
 })
 export class ProjectViewAllComponent {
-  public parent!: Project;
-  public values!: Task[];
-
-  private _task: TaskService = inject(TaskService);
-  constructor(private route: ActivatedRoute, private _project: ProjectService, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService) {
-    this.parent = this._user_dataWrapper.getCurrentItem().value as Project;
-    if (this.parent && this.parent.id_code != undefined) {
-      this._task.getTaskByProject(this.parent.id_code).subscribe((data: Task[]) => {
-        this.values = data;
-      });
-    }
-  }
-  /**
-   * recive del servicio project el proyecto indicado en la ruta con el parametro id y lo guarda en la variable parent
-   * posteriormente recive del servicio task las tareas asociadas a ese proyecto y las guarda en la variable values
-   */
-  ngOnInit(): void {
-    this._project.getById(this.route.snapshot.params['id']).subscribe(
-      (data: Project) => {
-        this.parent = data;
-
-        this._task.getTaskByProject(this.parent.id_code as string).subscribe((data: Task[]) => {
-          this.values = data;
-        });
-      }
-    )
-
+  public value!: Project;
+  constructor(private route: ActivatedRoute, private _project: ProjectService, private dialog: MatDialog, private _user_dataWrapper: UserDataWrapperService, private router: ActivatedRoute) {
+    this._user_dataWrapper.suscribe().subscribe((data: Project[]) => {
+      const projectId = this.route.snapshot.params['projectId'];
+      this._user_dataWrapper.getProjectById(projectId,false).then((data: Project | null) => {
+        if (data != null) this.value = data;
+      }).finally(()=>{
+        if(this.value && this.value.tasks == undefined){ // si no hay tareas se buscaran
+          this._user_dataWrapper.getTasksByProject(this.value)
+        }
+      })
+    })
   }
   /**
    * abre el modal de nueva tarea al proyecto y le pasa el proyecto actual.
@@ -58,7 +44,7 @@ export class ProjectViewAllComponent {
       enterAnimationDuration,
       maxWidth: '60rem',
       exitAnimationDuration,
-      data: this.parent
+      data: this.value
     });
   }
   /**
@@ -67,6 +53,25 @@ export class ProjectViewAllComponent {
    * @param task tarea que se desea eliminar del array de tareas
    */
   deleteTask(task: Task): void {
-    this.values = this.values.filter((t: Task) => t.idCode != task.idCode);
+    this._user_dataWrapper.deleteTask(this.value, task).then((result:boolean)=>{
+      if(result){
+        this.openSnackBar('Task deleted successfully','app-notification-success');
+      }else{
+        this.openSnackBar('Task could not be deleted','app-notification-error')
+      }
+    })
+  }
+
+  /**
+   * Indicara la notificacion de si la tarea se ha creado con exito o no
+   * @param message 
+   * @param action 
+   */
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
+  openSnackBar(message: string, status: 'app-notification-success' | 'app-notification-error') {
+    this._snackBar.open(message,'Hidden', {
+      duration: 2500,
+      panelClass: status
+    });
   }
 }

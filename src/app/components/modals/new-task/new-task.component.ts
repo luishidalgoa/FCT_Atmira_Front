@@ -49,9 +49,7 @@ export class NewTaskComponent {
   
     this._task.save(task).subscribe((data:Task)=>{
       if(data){
-        if(this.value.tasks == undefined) this.value.tasks = [];
-        this.value.tasks.push(data);
-        this._userDataWrapper.setCurrentItem(this.value)
+        this._userDataWrapper.overriteTask(data) // automaticamente el BehaviorSubject de projects se actualiza
         this.openSnackBar('Task created successfully','app-notification-success');
       }else{
         this.openSnackBar('Error creating task','app-notification-error');

@@ -1,11 +1,11 @@
-@defer (when this.parent) {
+@defer (when this.value) {
   <div class="grid gap-10">
       <header class="flex justify-between items-center">
-          <p class="font-medium text-5xl mb-1 text-[#172B4D]">{{this.parent.name}}</p>
+          <p class="font-medium text-5xl mb-1 text-[#172B4D]">{{this.value.name}}</p>
           <nav class="">
               <div class="flex gap-3">
                 <div class="flex items-center relative gap-[0.1rem]">
-                  @for (item of this.parent.colaboratorProjects; track $index) {
+                  @for (item of this.value.colaboratorProjects; track $index) {
                     @if($index < 3){
                       <div class="absolute colaborator h-6 w-6 overflow-hidden rounded-full border border-black/40 shadow-lg">
                         <img class="object-cover" src="https://avatars.githubusercontent.com/u/119078933?v=4" alt="">
@@ -42,9 +42,9 @@
               </div>
           </nav>
       </header>
-      <div class="flex flex-col gap-4 min-h-96">
-          @defer (when this.values) {
-            @for (item of this.values; track item) {
+      <div class="flex flex-col gap-4">
+          @defer (when this.value.tasks) {
+            @for (item of this.value.tasks; track item) {
                 <app-task-board (deleteEvent)="deleteTask($event)" [value]="item"></app-task-board> 
             }
           }@placeholder {

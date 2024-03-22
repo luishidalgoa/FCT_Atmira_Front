@@ -31,7 +31,7 @@ import { AuthService } from '../../service/mockup/auth.service';
   providers: [provideNativeDateAdapter()]
 })
 export class TaskDetailsComponent {
-
+  @Input({ required: true })
   value!: Task;
   form: FormGroup; // formulario para crear un nuevo proyecto
   typeOfServiceValues = Object.values(TypeOfService); // obtiene los valores del enum para mostrarlos en el html a través de un bucle for
@@ -41,21 +41,17 @@ export class TaskDetailsComponent {
   selectedClose!: string
   constructor(private _userDataWrapper: UserDataWrapperService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) {
     this.form = this.formBuilder.group({
-      name: ['',Validators.required],
+      name: ['', Validators.required],
       objective: ['',],
       colaborator: ['',],
     });
 
-    this._userDataWrapper.currentItem$.subscribe(data => {
-      data = data as Task
-      this.value = data
-      if (this.value) {
-        this.selected = this.value.objective.valueOf()
-        this.selectedColaborator = this.value.colaborator?.id_alias as string
-        this.selectedClose = this.value.closed ? 'true' : 'false'
-        this.getColaborators()
-      }
-    })
+    if (this.value) {
+      this.selected = this.value.objective.valueOf()
+      this.selectedColaborator = this.value.colaborator?.id_alias as string
+      this.selectedClose = this.value.closed ? 'true' : 'false'
+      this.getColaborators()
+    }
   }
   private type!: MatSelect;
   @ViewChild('type') set contentType(content: MatSelect) {
@@ -66,11 +62,11 @@ export class TaskDetailsComponent {
   }
   private colaborator!: MatSelect;
   @ViewChild('colaborator') set content(content: MatSelect) {
-    if(content) { // initially setter gets called with undefined
-        this.colaborator = content;
-        this.colaborator.value = this.value.colaborator?.id_alias as string
+    if (content) { // initially setter gets called with undefined
+      this.colaborator = content;
+      this.colaborator.value = this.value.colaborator?.id_alias as string
     }
- }
+  }
 
   _objective: ObjetiveService = inject(ObjetiveService);
   _auth: AuthService = inject(AuthService)
@@ -82,7 +78,7 @@ export class TaskDetailsComponent {
 
     console.log(this.value)
     this._task.update(this.value).subscribe((data: Task) => {
-      this._userDataWrapper.setCurrentItem(data)
+      //-----------------
     });
   }
 

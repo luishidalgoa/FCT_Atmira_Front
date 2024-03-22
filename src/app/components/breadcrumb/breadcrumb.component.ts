@@ -31,7 +31,6 @@ export class BreadcrumbComponent implements OnInit{
     });
   }
   navigate(bread : { label: string, url: string }){
-    this._userDataWrapper.currentItem$.next(null);
     this.router.navigate([bread.url]);
   }
 }
