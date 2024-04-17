@@ -3,6 +3,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TaskService } from '../Task/task.service';
 import { ProjectService } from '../Project/project.service';
+import { UserDataWrapperService } from '../../user/user-data-wrapper.service';
+import { Project } from '../../../model/domain/project';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class BreadCrumbService {
    * @param router
    * @param activatedRoute 
    */
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute,private _userDataWrapper: UserDataWrapperService) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -62,16 +64,16 @@ export class BreadCrumbService {
         //Debemos identificar si se trata de un proyecto o una tarea, o por si por el contrario ninguna de las dos
         if(!url.includes('_') && url.includes('/')){
           const uri: string = url.split('/').pop() as string;
-          this._project.getById(uri as unknown as number).subscribe((data)=>{
-            breadcrumbs.push({ label: data.name, url: '/'+url });
+          this._userDataWrapper.getProjectById(uri as unknown as string).then((data: Project | null)=>{
+            breadcrumbs.push({ label: (data as Project).name, url: '/'+url });
           });
         }else if(url.includes('_')){
           const uri: string = url.split('/').pop() as string;
           {
             const project_id = uri.split('_')[0];
-            this._project.getById(project_id as unknown as number).subscribe((data)=>{
-              breadcrumbs.push({ label: data.name, url: '/projects/project/'+project_id });
-            }).add(()=>{
+            this._userDataWrapper.getProjectById(project_id as unknown as string).then((data: Project | null)=>{
+              breadcrumbs.push({ label: (data as Project).name, url: '/projects/project/'+project_id });
+            }).finally(()=>{
               //extraemos todos los digitos que estan entre _ excepto el primero segmentandolos uno a uno mediante un bucle for
               const project_id = uri.split('_')[0];
               for(let i = 1; i < uri.split('_').length; i++){

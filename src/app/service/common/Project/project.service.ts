@@ -65,7 +65,7 @@ export class ProjectService {
    * @param id id del proyecto que se quiere obtener
    * @returns retorna un objeto completo del proyecto
    */
-  getById(id: number): Observable<Project> {
+  getById(id: string): Observable<Project> {
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

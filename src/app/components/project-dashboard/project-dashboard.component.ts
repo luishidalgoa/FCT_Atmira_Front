@@ -25,8 +25,8 @@ export class ProjectDashboardComponent {
   dataSource!: MatTableDataSource<Project>; // fuente de datos de la tabla. Se utiliza para mostrar los datos en la tabla y guardar los proyectos en la tabla
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private _router: Router,private _auth:AuthService,private _user_dataWrapper:UserDataWrapperService,private _project:ProjectService) {
-    effect(()=>{
-      this.Data = this._user_dataWrapper.projects$();
+    this._user_dataWrapper.suscribe().subscribe((data:Project[])=>{
+      this.Data = data;
       this.dataSource = new MatTableDataSource(this.Data);
     })
   }
@@ -50,7 +50,7 @@ export class ProjectDashboardComponent {
       this._project.delete(project).subscribe((result:boolean)=>{
         if(result){
           //devolvemos el array de projects sin el project eliminado
-          this._user_dataWrapper.projects$.set(this._user_dataWrapper.projects$().filter((p:Project)=>p!==project));
+          this._user_dataWrapper.deleteProject(project);
         }else{
           console.error('Error al eliminar el proyecto');
         }
@@ -62,7 +62,6 @@ export class ProjectDashboardComponent {
    * @param project proyecto seleccionado por el usuario
    */
   show(project:Project){
-    this._user_dataWrapper.setCurrentItem(project)
     this._router.navigateByUrl(`projects/project/${project.id_code}`);
   }
 }

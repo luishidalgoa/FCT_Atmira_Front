@@ -41,7 +41,7 @@ export class UpdateTaskComponent {
       this.selected = this.value.objective.valueOf()
       this.selectedColaborator = this.value.colaborator?.id_alias as string
       this.selectedClose = this.value.closed ? 'true' : 'false'
-      this.getColaborators()
+      if(this.value.project.colaboratorProjects == undefined)this.getColaborators()
     }
   }
   private type!: MatSelect;
@@ -67,9 +67,13 @@ export class UpdateTaskComponent {
   }
 
   getColaborators(): void {
-    this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
+    /*this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
+      this.value.project.colaboratorProjects = data
+    })*/
+    this._userDataWrapper.getColaboratorsByProject(this.value.project).then((data: Colaborator[]) => {
       this.value.project.colaboratorProjects = data
     })
+    
   }
   _objective: ObjetiveService = inject(ObjetiveService);
   updateProject() {
@@ -80,7 +84,7 @@ export class UpdateTaskComponent {
 
     console.log(this.value)
     this._task.update(this.value).subscribe((data: Task) => {
-      this._userDataWrapper.setCurrentItem(data)
+      this._userDataWrapper.overriteTask(data) // automaticamente el BehaviorSubject de projects se actualiza
     });
   }
 }

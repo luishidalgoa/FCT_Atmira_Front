@@ -104,17 +104,6 @@ export class TaskBoardComponent implements OnInit{
     dialog.afterClosed().subscribe((result:boolean) =>{
       if(result){
         this.deleteEvent.emit(this.value);
-        this._task.delete(this.value).subscribe((result2: boolean) => {
-          if(result2){
-            this.openSnackBar('Task deleted successfully','app-notification-success');
-          }else{
-            this.openSnackBar('Task could not be deleted','app-notification-error');
-            this._task.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
-              (this.value.task as Task).tasks = data
-              this._user_dataWrapper.currentItem$.next(this.value.task);
-            })
-          }
-        });
       }
     })
   }
@@ -177,7 +166,6 @@ export class TaskBoardComponent implements OnInit{
     }else{
       this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
     }
-    this._user_dataWrapper.setCurrentItem(this.value)
   }
 
 
