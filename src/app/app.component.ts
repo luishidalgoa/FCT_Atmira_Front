@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './service/mockup/auth.service';
-import { UserDataWrapperService } from './service/user/user-data-wrapper.service';
+import { UserDataWrapperService } from './shared/services/user-data-wrapper.service';
 
 @Component({
   selector: 'app-root',
