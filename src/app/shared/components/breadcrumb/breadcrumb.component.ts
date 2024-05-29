@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadCrumbService } from '../../services/breadCrumb/bread-crumb.service';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { UserDataWrapperService } from '../../services/user-data-wrapper.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -13,7 +12,7 @@ import { UserDataWrapperService } from '../../services/user-data-wrapper.service
 export class BreadcrumbComponent implements OnInit{
   breadcrumbs: Array<{ label: string, url: string }> = [];
 
-  constructor(private breadcrumbService: BreadCrumbService,private router:Router,private _userDataWrapper: UserDataWrapperService) {}
+  constructor(private breadcrumbService: BreadCrumbService,private router:Router) {}
   /**
    * unicamente estamos obteniendo el historial de navegacion de la aplicacion
    * posteriormente nos suscribimos a los eventos de navegacion para actualizar el historial de navegacion

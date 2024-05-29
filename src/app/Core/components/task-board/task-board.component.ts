@@ -12,12 +12,12 @@ import { TaskComponent } from '../task/task.component';
 import { TaskService } from '../../services/Task/task.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { UserDataWrapperService } from '../../../shared/services/user-data-wrapper.service';
 import { UpdateTaskComponent } from '../../modals/update-task/update-task.component';
 import { ConfirmComponent } from '../../../shared/modals/confirm/confirm.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CurrentProjectService } from '../../../shared/services/current-project.service';
 @Component({
-  selector: 'app-task-board',
+  selector: 'core-task-board',
   standalone: true,
   imports: [CommonModule, MatMenuModule, TaskComponent, ReactiveFormsModule, MatSelect, MatOption],
   templateUrl: './task-board.component.html',
@@ -40,7 +40,7 @@ export class TaskBoardComponent implements OnInit{
 
 
   private router: Router = inject(Router);
-  constructor(public _user_dataWrapper: UserDataWrapperService, public dialog: MatDialog, private _formBuilder: FormBuilder, private _auth: AuthService, private _task: TaskService) {
+  constructor(public _currentProject: CurrentProjectService, public dialog: MatDialog, private _formBuilder: FormBuilder, private _auth: AuthService, private _task: TaskService) {
 
     this.formGroup = this._formBuilder.group({
       title: new FormControl('', [Validators.required]),

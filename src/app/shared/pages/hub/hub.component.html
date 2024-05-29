@@ -35,7 +35,7 @@
           <mat-menu #menu="matMenu" class="bg-black min-w-full max-w-48  py-2 shadow rounded-md">
             <p class="font-semibold text-[#707070] p-2">Your Projects</p>
             <hr class="">
-            @for (item of this._user_dataWrapper.suscribe() | async ; track $index) {
+            @for (item of this._currentProject.repositoryValue ; track $index) {
               <button mat-menu-item (click)="this.goProject(item)">
                 <div class="flex gap-1 items-center">
                   <img class="h-7 w-7 rounded-sm" src="https://luishidalgoa.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10417?size=medium" alt="">

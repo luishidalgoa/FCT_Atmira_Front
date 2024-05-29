@@ -28,7 +28,7 @@
         @if(this.value && this.value.tasks!==undefined && this.value.tasks!.length > 0) {
             <ul class="px-5 py-3 flex flex-col gap-1">
                 @for (task of this.value.tasks; track $index) {
-                    <app-task (delete)="this.deleteSubTask($event)" (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></app-task>
+                    <core-task (delete)="this.deleteSubTask($event)" (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></core-task>
                 }
             </ul>
         }

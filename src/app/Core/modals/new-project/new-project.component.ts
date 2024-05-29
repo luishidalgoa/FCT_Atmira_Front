@@ -10,11 +10,12 @@ import { Project } from '../../../model/domain/project';
 import { CommonModule } from '@angular/common';
 import { MatSelect } from '@angular/material/select';
 import { TypeOfService } from '../../../model/enum/type-of-service';
-import { UserDataWrapperService } from '../../../shared/services/user-data-wrapper.service';
 import { AuthService } from '../../../Login/services/auth.service';
+import { CurrentProjectService } from '../../../shared/services/current-project.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-new-project',
+  selector: 'core-new-project',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule,ReactiveFormsModule,CommonModule,MatSelect,MatOption],
@@ -39,7 +40,7 @@ export class NewProjectComponent {
     })
   }
 
-  private _user_dataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
+  private _currentProject: CurrentProjectService = inject(CurrentProjectService);
   private _authService: AuthService = inject(AuthService);
 
   /**
@@ -57,12 +58,13 @@ export class NewProjectComponent {
         typeOfService: this.form.get('typeOfService')?.value,
         active: true 
       }
-      console.log(project);
-      this._ProjectS.save(project,this._authService.currentUser$().id_alias).subscribe((data:Project)=>{
-        if(data){
-          this._user_dataWrapper.overriteProject(data);
+      this._currentProject.save(project).then((result:boolean)=>{
+        if(result){
+          this.openSnackBar('Project created successfully','app-notification-success');
+        }else{
+          this.openSnackBar('Error creating project','app-notification-error');
         }
-      });
+      })
       this.dialogRef.close();
     }else{
     }
@@ -73,5 +75,12 @@ export class NewProjectComponent {
    */
   close(){
     this.dialogRef.close();
+  }
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
+  openSnackBar(message: string, status: 'app-notification-success' | 'app-notification-error') {
+    this._snackBar.open(message,'Hidden', {
+      duration: 2500,
+      panelClass: status
+    });
   }
 }

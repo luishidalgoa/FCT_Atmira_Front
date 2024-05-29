@@ -11,11 +11,11 @@ import { Task } from '../../../model/domain/task';
 import { Project } from '../../../model/domain/project';
 import { TaskService } from '../../services/Task/task.service';
 import { AuthService } from '../../../Login/services/auth.service';
-import { UserDataWrapperService } from '../../../shared/services/user-data-wrapper.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { CurrentProjectService } from '../../../shared/services/current-project.service';
 
 @Component({
-  selector: 'app-new-task',
+  selector: 'core-new-task',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule,ReactiveFormsModule,CommonModule,MatSelect,MatOption],
   templateUrl: './new-task.component.html',
@@ -36,7 +36,7 @@ export class NewTaskComponent {
   }
 
   private _auth:AuthService = inject(AuthService);
-  private _userDataWrapper:UserDataWrapperService = inject(UserDataWrapperService);
+  private _currentProject:CurrentProjectService = inject(CurrentProjectService);
   create():void {
     const task: Task = {
       description: this.form.get('title')?.value,
@@ -49,7 +49,7 @@ export class NewTaskComponent {
   
     this._task.save(task).subscribe((data:Task)=>{
       if(data){
-        this._userDataWrapper.overriteTask(data) // automaticamente el BehaviorSubject de projects se actualiza
+        this._currentProject.task = data // automaticamente el BehaviorSubject de projects se actualiza
         this.openSnackBar('Task created successfully','app-notification-success');
       }else{
         this.openSnackBar('Error creating task','app-notification-error');

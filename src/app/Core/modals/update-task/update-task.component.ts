@@ -2,7 +2,6 @@ import { Component, ElementRef, Inject, Input, ViewChild, effect, inject } from 
 import { Task } from '../../../model/domain/task';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TypeOfService } from '../../../model/enum/type-of-service';
-import { UserDataWrapperService } from '../../../shared/services/user-data-wrapper.service';
 import { ProjectService } from '../../services/Project/project.service';
 import { TaskService } from '../../services/Task/task.service';
 import { Colaborator } from '../../../model/domain/colaborator';
@@ -14,9 +13,10 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { ObjetiveService } from '../../../shared/services/objetive.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CurrentProjectService } from '../../../shared/services/current-project.service';
 
 @Component({
-  selector: 'app-update-task',
+  selector: 'core-update-task',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, CommonModule, MatSelect, MatOption],
   templateUrl: './update-task.component.html',
@@ -30,7 +30,7 @@ export class UpdateTaskComponent {
   selected!: string
   selectedColaborator!: string
   selectedClose!: string
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Task, private _userDataWrapper: UserDataWrapperService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService,public dialogRef: MatDialogRef<UpdateTaskComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Task, private _currentProject: CurrentProjectService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService,public dialogRef: MatDialogRef<UpdateTaskComponent>) {
     this.value = data
     this.form = this.formBuilder.group({
       name: ['',],
@@ -70,7 +70,7 @@ export class UpdateTaskComponent {
     /*this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
       this.value.project.colaboratorProjects = data
     })*/
-    this._userDataWrapper.getColaboratorsByProject(this.value.project).then((data: Colaborator[]) => {
+    this._currentProject.getColaboratorsByProject(this.value.project).then((data: Colaborator[]) => {
       this.value.project.colaboratorProjects = data
     })
     
@@ -82,9 +82,9 @@ export class UpdateTaskComponent {
     this.value.closed = this.selectedClose === 'true';
     this.value.colaborator = this.value.project.colaboratorProjects ? this.value.project.colaboratorProjects.find((colaborator: Colaborator) => colaborator.id_alias === this.selectedColaborator) : this.value.colaborator;
 
-    console.log(this.value)
+
     this._task.update(this.value).subscribe((data: Task) => {
-      this._userDataWrapper.overriteTask(data) // automaticamente el BehaviorSubject de projects se actualiza
+      //this._currentProject.overriteTask(data) // automaticamente el BehaviorSubject de projects se actualiza
     });
   }
 }

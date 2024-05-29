@@ -12,13 +12,13 @@ import { Observable, map } from 'rxjs';
 import { Project } from '../../../model/domain/project';
 import { Item } from '../../../model/domain/item';
 import { TaskBoardComponent } from '../../../Core/components/task-board/task-board.component';
-import { ProjectDashboardComponent } from '../../../Core/components/project-dashboard/project-dashboard.component';
 import { AuthService } from '../../../Login/services/auth.service';
-import { UserDataWrapperService } from '../../services/user-data-wrapper.service';
 import { TaskService } from '../../../Core/services/Task/task.service';
 import { Task } from '../../../model/domain/task';
 import { ObjetiveService } from '../../services/objetive.service';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
+import { CurrentProjectService } from '../../services/current-project.service';
+import { ProjectDashboardComponent } from '../../../Core/components/project-dashboard/project-dashboard.component';
 @Component({
   selector: 'app-hub',
   standalone: true,
@@ -30,24 +30,8 @@ import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.comp
 export class HubComponent{
 
   public _auth: AuthService = inject(AuthService);
-  /**
-   * Obtiene los proyectos del usuario actual a traves del servicio de ProjectService
-   * @returns retorna un array de proyectos del usuario actual
-   */
-  getUserProjects(): Observable<Item[]> | void {
-    return this._ProjectS.getUserProjects(this._auth.currentUser$().id_alias).pipe(
-      map((data: Project[]) => {
-        return data.map(project => ({
-          title: project.name,
-          callback: () => {
-            alert('FCT_Atmira');
-          }
-        }));
-      })
-    );
-  }
 
-  constructor(public dialog: MatDialog, private _ProjectS: ProjectService, public _user_dataWrapper:UserDataWrapperService, public _objetive: ObjetiveService) {
+  constructor(public dialog: MatDialog, public _currentProject:CurrentProjectService, public _objetive: ObjetiveService) {
     this.getUserTasks()
   }
   

@@ -9,13 +9,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { ProjectService } from '../../services/Project/project.service';
 import { Colaborator } from '../../../model/domain/colaborator';
-import { Observable } from 'rxjs';
-import { UserDataWrapperService } from '../../../shared/services/user-data-wrapper.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../../modals/update-task/update-task.component';
+import { CurrentProjectService } from '../../../shared/services/current-project.service';
 
 @Component({
-  selector: 'app-task',
+  selector: 'core-task',
   standalone: true,
   imports: [CommonModule, MatSelect, MatOption, MatFormField, MatLabel, ReactiveFormsModule, MatMenuModule],
   templateUrl: './task.component.html',
@@ -74,7 +73,6 @@ export class TaskComponent {
       }
     });
   }
-  private _userDataWrapper: UserDataWrapperService = inject(UserDataWrapperService);
   /**
    * redirige al usuario a la ruta /projects/project/{id}/task/{id} donde id es el id del proyecto y el id de la tarea
    */

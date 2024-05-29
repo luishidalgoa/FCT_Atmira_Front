@@ -15,7 +15,6 @@ import { MatSelect } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Task } from '../../../model/domain/task';
 import { TaskService } from '../../services/Task/task.service';
-import { UserDataWrapperService } from '../../../shared/services/user-data-wrapper.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { ObjetiveService } from '../../../shared/services/objetive.service';
 import { AuthService } from '../../../Login/services/auth.service';
@@ -23,7 +22,7 @@ import { AuthService } from '../../../Login/services/auth.service';
 
 
 @Component({
-  selector: 'app-task-details',
+  selector: 'core-task-details',
   templateUrl: './task-details.component.html',
   styleUrls: ['./task-details.component.scss'],
   standalone: true,
@@ -39,7 +38,7 @@ export class TaskDetailsComponent {
   selected!: string
   selectedColaborator!: string
   selectedClose!: string
-  constructor(private _userDataWrapper: UserDataWrapperService, private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) {
+  constructor( private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       objective: ['',],
