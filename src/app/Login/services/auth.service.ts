@@ -17,28 +17,8 @@ export class AuthService {
 
   public authorization$: WritableSignal<{ //Signal que contiene el token de autenticacion
     token: string | null;
-  }>;
+  }> = signal({ token: null });
   constructor(private _http: HttpClient) {
-    if (sessionStorage.getItem('token')) {
-      this.authorization$ = signal({
-        token: sessionStorage.getItem('token'),
-      });
-      if(sessionStorage.getItem('id_alias')){ //TEMPORAL
-        this.currentUser$.set({
-          Email: '',
-          Name: '',
-          id_alias: sessionStorage.getItem('id_alias') as string,
-          Surname: '',
-        })
-        this.getUserByIdAlias(sessionStorage.getItem('id_alias') as string).subscribe((data: Colaborator)=>{
-          this.currentUser$.set(data);
-        });
-      }
-    } else {
-      this.authorization$ = signal({
-        token: null,
-      });
-    }
   }
   /**
    * metodo que se encarga de autenticar al usuario en base a las credenciales que se le pasen
@@ -62,7 +42,6 @@ export class AuthService {
         .post(url, credentials, { headers: header, observe: observe })
         .subscribe((response: any) => {
           if (response.ok) {
-            sessionStorage.setItem('token', response.body.token);
             this.setUser(response.body);
           }
           observer.next(response.ok);
@@ -106,7 +85,6 @@ export class AuthService {
       id_alias: user.id_alias
     }
     this.currentUser$.set(result);
-    sessionStorage.setItem('id_alias', user.id_alias);
     this.authorization$.set({ token: user.token });
   }
 

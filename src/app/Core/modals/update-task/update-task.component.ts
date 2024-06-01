@@ -14,6 +14,7 @@ import { MatSelect } from '@angular/material/select';
 import { ObjetiveService } from '../../../shared/services/objetive.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CurrentProjectService } from '../../../shared/services/current-project.service';
+import { Project } from '../../../model/domain/project';
 
 @Component({
   selector: 'core-update-task',
@@ -67,11 +68,8 @@ export class UpdateTaskComponent {
   }
 
   getColaborators(): void {
-    /*this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
-      this.value.project.colaboratorProjects = data
-    })*/
-    this._currentProject.getColaboratorsByProject(this.value.project).then((data: Colaborator[]) => {
-      this.value.project.colaboratorProjects = data
+    this._currentProject.getColaboratorsByProject(this.value.project).then((data: Project) => {
+      this.value.project = data
     })
     
   }

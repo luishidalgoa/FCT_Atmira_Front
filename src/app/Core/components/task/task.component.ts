@@ -12,6 +12,8 @@ import { Colaborator } from '../../../model/domain/colaborator';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../../modals/update-task/update-task.component';
 import { CurrentProjectService } from '../../../shared/services/current-project.service';
+import { Project } from '../../../model/domain/project';
+import { AuthService } from '../../../Login/services/auth.service';
 
 @Component({
   selector: 'core-task',
@@ -29,12 +31,12 @@ export class TaskComponent {
   Checkbox: EventEmitter<Task> = new EventEmitter<Task>(); // evento que se dispara cuando se hace click en el checkbox de seleccionar tarea
   @Output()
   delete: EventEmitter<Task> = new EventEmitter<Task>(); // evento que se dispara cuando se hace click en el boton de eliminar tarea
+  @Output()
+  navigate: EventEmitter<Task> = new EventEmitter<Task>(); // evento que se dispara cuando se hace click en el nombre de la tarea
 
   selected!: string; // indica si la tarea esta cerrada o no
 
-  constructor(public _objetive: ObjetiveService, private _router: Router, private _project: ProjectService,private dialog:MatDialog) {
-
-  }
+  constructor(public _auth:AuthService,public _objetive: ObjetiveService, private _router: Router,private _currentProject:CurrentProjectService,private dialog:MatDialog) {}
   /**
    * inicializa el valor de la variable selected en base a si la tarea esta cerrada o no
    */
@@ -43,7 +45,6 @@ export class TaskComponent {
     this.getColaborators();
     
   }
-  private _task: TaskService = inject(TaskService);
 
   /**
    * Cambia el estado de la tarea a cerrada o no cerrada en base al valor del parametro status y actualiza el valor de la variable selected
@@ -52,7 +53,8 @@ export class TaskComponent {
    */
   status(status: boolean) {
     this.value.closed = status;
-    this._task.status(this.value).subscribe((data: Task) => {
+    this._currentProject.status(this.value).then((data: Task | null) => {
+      if(!data) return
       this.value = data;
       this.selected = data.closed ? 'true' : 'false';
     });
@@ -67,7 +69,7 @@ export class TaskComponent {
    * emite el evento delete con el valor de la tarea para indicar que ha sido eliminada
    */
   deleteEvent() {
-    this._task.delete(this.value).subscribe((data: boolean) => {
+    this._currentProject.deleteTask(this.value).then((data: boolean) => {
       if(data){
         this.delete.emit(this.value);
       }
@@ -78,17 +80,18 @@ export class TaskComponent {
    */
   goToTask() {
     //imprimimos el :id de la ruta de navegacion
-    this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    //this._router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    this.navigate.emit(this.value);
   }
 
   getColaborators(): void {
-    this._project.getColaboratos(this.value.project.id_code as string).subscribe((data: Colaborator[]) => {
-      this.value.project.colaboratorProjects = data
+    this._currentProject.getColaboratorsByProject(this.value.project).then((data: Project) => {
+      this.value.project = data
     })
   }
 
   assigned(colaborator: Colaborator): void{
-    this._task.assigned(this.value, colaborator)
+    this._currentProject.assigned(this.value, colaborator)
   }
 
   update():void {

@@ -1,10 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { TaskService } from '../../../Core/services/Task/task.service';
-import { ProjectService } from '../../../Core/services/Project/project.service';
 import { Project } from '../../../model/domain/project';
 import { CurrentProjectService } from '../current-project.service';
+import { Task } from '../../../model/domain/task';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +24,6 @@ export class BreadCrumbService {
       this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
     });
   }
-
-
-  _task: TaskService = inject(TaskService);
-  _project: ProjectService = inject(ProjectService);
 
   /**
    * crea un array de rutas a partir de la ruta actual
@@ -64,14 +59,14 @@ export class BreadCrumbService {
         //Debemos identificar si se trata de un proyecto o una tarea, o por si por el contrario ninguna de las dos
         if (!url.includes('_') && url.includes('/')) {
           const uri: string = url.split('/').pop() as string;
-          this._project.getById(uri as unknown as string).subscribe((data: Project | null) => {
+          this._currentProject.getProjectById(uri as unknown as string).then((data: Project | null) => {
             breadcrumbs.push({ label: (data as Project).name, url: '/' + url });
-          }).unsubscribe();
+          })
         } else if (url.includes('_')) {
           const uri: string = url.split('/').pop() as string;
           {
             const project_id = uri.split('_')[0];
-            this._project.getById(project_id as unknown as string).subscribe((data: Project | null) => {
+            this._currentProject.getProjectById(project_id as unknown as string).then((data: Project | null) => {
               {
                 breadcrumbs.push({ label: (data as Project).name, url: '/projects/project/' + project_id });
               }
@@ -83,12 +78,12 @@ export class BreadCrumbService {
                 for (let i = 1; i < uri.split('_').length; i++) {
                   //en el hipotetico caso de tener 0_1_1 nos interesaria que en la primera iteracion extraigamos 0_1 y en la segunda 0_1_1. y guardarlo dentro de task_id
                   const task_id = uri.split('_').slice(0, i + 1).join('_');
-                  this._task.getById(task_id).subscribe((data) => {
-                    breadcrumbs.push({ label: data.description, url: '/projects/project/' + project_id + '/task/' + task_id });
+                  this._currentProject.getTaskById(task_id).then((data: Task | null) => {
+                    breadcrumbs.push({ label: data!.description, url: '/projects/project/' + project_id + '/task/' + task_id });
                   });
                 }
               }
-            }).unsubscribe();
+            })
           }
         } else {
           breadcrumbs.push({ label: child.snapshot.data['breadcrumb'], url: '/' + url });

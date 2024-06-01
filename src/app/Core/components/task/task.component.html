@@ -26,7 +26,7 @@
                     @if (this.value.project.colaboratorProjects !== undefined) {
                         <ul class="px-2 py-1">
                             @for (item of this.value.project.colaboratorProjects; track $index){
-                                <li [classList]="'cursor-pointer select-none px-2 py-1 rounded-md flex items-center gap-2 hover:bg-[#E22C79]/20'" [style]="item.id_alias == this.value.colaborator?.id_alias ? 'background-color: #E22C79' : ''">
+                                <li [ngClass]="{ 'cursor-pointer select-none px-2 py-1 rounded-md flex items-center gap-2 hover:bg-[#E22C79]/20': true, 'bg-[#E22C79]/10': this.value.colaborator?.id_alias === item?.id_alias}">
                                     <span class="relative h-5 w-5 rounded-full bg-[#707070] border border-black/40 shadow-lg">
                                         <svg class="absolute top-0 left-0 right-0 bottom-0 m-auto -ml-[1px]" width="20" height="20" viewBox="0 0 24 24" role="presentation"><g fill="white" fill-rule="evenodd"><path d="M6 14c0-1.105.902-2 2.009-2h7.982c1.11 0 2.009.894 2.009 2.006v4.44c0 3.405-12 3.405-12 0V14z"></path><circle cx="12" cy="7" r="4"></circle></g></svg>
                                     </span>

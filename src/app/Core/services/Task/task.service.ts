@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../../Login/services/auth.service';
 import { TypeOfService } from '../../../model/enum/type-of-service';
 import { Colaborator } from '../../../model/domain/colaborator';
+import { Project } from '../../../model/domain/project';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,40 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-    console.log(task)
+    const taskClone:Task ={
+      closed:task.closed,
+      description:task.description,
+      idCode:task.idCode,
+      objective:task.objective,
+      project:{
+        active:task.project!.active,
+        endDate:task.project!.endDate,
+        id_code:task.project!.id_code,
+        name:task.project!.name,
+        initialDate:task.project!.initialDate,
+        typeOfService:task.project!.typeOfService,
+      },
+      task:{
+        idCode:task.task?.idCode,
+        closed:task.task!.closed,
+        description:task.task!.description,
+        objective:task.task!.objective,
+        project: {
+          active: task.task!.project!.active,
+          endDate: task.task!.project!.endDate,
+          id_code: task.task!.project!.id_code,
+          name: task.task!.project!.name,
+          initialDate: task.task!.project!.initialDate,
+          typeOfService: task.task!.project!.typeOfService,
+        },
+        task:null
+      },
+      colaborator: task.colaborator,
+    }
+
+    console.log(taskClone)
     const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}`;
-    return this._http.post<Task>(url, task, header);
+    return this._http.post<Task>(url, taskClone, header);
   }
 
   /**
@@ -84,9 +116,9 @@ export class TaskService {
    * @param status 
    * @returns 
    */
-  status(task:Task): Observable<Task> {
-    const url: string = `${environment.apiUrl}/task/${task.idCode}/${task.closed}`;
-    return this._http.put<Task>(url,task);
+  status(idCode: string, closed: boolean): Observable<Task> {
+    const url: string = `${environment.apiUrl}/task/${idCode}/${closed}`;
+    return this._http.put<Task>(url,{idCode,closed});
   }
   assigned(task: Task, colaborator: Colaborator): Observable<Task> {
     const url: string = `${environment.apiUrl}/task/${task.idCode}/colaborator/${colaborator.id_alias}`;

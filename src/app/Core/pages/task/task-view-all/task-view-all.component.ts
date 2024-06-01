@@ -1,9 +1,9 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TaskDescriptionComponent } from '../../../components/task-description/task-description.component';
 import { TaskBoardComponent } from '../../../components/task-board/task-board.component';
 import { Task } from '../../../../model/domain/task';
 import { TaskDetailsComponent } from '../../../components/task-details/task-details.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TaskService } from '../../../services/Task/task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTaskComponent } from '../../../modals/new-task/new-task.component';
@@ -17,34 +17,43 @@ import { CurrentProjectService } from '../../../../shared/services/current-proje
 @Component({
   selector: 'core-task-view-all',
   standalone: true,
-  imports: [TaskDescriptionComponent,TaskBoardComponent, TaskDetailsComponent, TaskBoardComponentSkeleton, MatProgressSpinnerModule],
+  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent, TaskBoardComponentSkeleton, MatProgressSpinnerModule],
   templateUrl: './task-view-all.component.html',
   styleUrl: './task-view-all.component.scss'
 })
-export class TaskViewAllComponent implements OnDestroy{
+export class TaskViewAllComponent implements OnDestroy, OnInit {
   public value!: Task | null;
   private _currentProject: CurrentProjectService = inject(CurrentProjectService);
-  private subscription: Subscription
+  private subscription!: Subscription
+  private subscription2!: Subscription
 
   public id: string | undefined = undefined;
-  constructor(private taskService: TaskService, private route: ActivatedRoute, private dialog: MatDialog) {
-    this.subscription = this._currentProject.getCurrentProject().subscribe((data: Project | null) => {
-      if(!data) return;
+  constructor(private route: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
 
+  ngOnInit() {
+    this.loadCurrentTask()
+    this.subscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.loadCurrentTask()
+      }
+    })
+  }
+
+  loadCurrentTask() {
+    this.subscription2 = this._currentProject.getCurrentProject().subscribe((data: Project | null) => {
       this.id = this.route.snapshot.paramMap.get('taskId') as string;
       this._currentProject.getProjectById(this.route.snapshot.paramMap.get('projectId') as string).then((project: Project | null) => {
         if (project == null) {
           this.openSnackBar('Project not found', 'app-notification-error');
         } else if (this.id && project) { //extraemos la tarea de la maqueta local
+          if (!this._currentProject.currentProjectId) this._currentProject.currentProjectId = project.id_code ? project.id_code : null;
           this._currentProject.getTaskById(this.id as string).then((task: Task | null) => {
             if (task == null) {
               this.openSnackBar('Task not found', 'app-notification-error');
             } else {
               this.value = task
               if (!this.value.tasks) {
-                this.loadTasks().then(()=>{
-                  console.log('se cargaron subtareas. comprobar el observable')
-                })
+                this.loadTasks()
               }
             }
           })
@@ -52,16 +61,17 @@ export class TaskViewAllComponent implements OnDestroy{
       })
 
     })
-
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
+    this.subscription2.unsubscribe()
   }
 
   loadTasks(): Promise<void> {
     return new Promise<void>((resolve) => {
       if (this.value?.idCode == this.id) {
-        this._currentProject.getSubtasksByTask(this.value as Task).then((task:Task)=>{
+        this._currentProject.getSubtasksByTask(this.value as Task).then((task: Task) => {
           this.value = task
           resolve()
         })

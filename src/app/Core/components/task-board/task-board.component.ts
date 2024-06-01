@@ -40,7 +40,7 @@ export class TaskBoardComponent implements OnInit{
 
 
   private router: Router = inject(Router);
-  constructor(public _currentProject: CurrentProjectService, public dialog: MatDialog, private _formBuilder: FormBuilder, private _auth: AuthService, private _task: TaskService) {
+  constructor(public _currentProject: CurrentProjectService, public dialog: MatDialog, private _formBuilder: FormBuilder, private _auth: AuthService) {
 
     this.formGroup = this._formBuilder.group({
       title: new FormControl('', [Validators.required]),
@@ -54,12 +54,8 @@ export class TaskBoardComponent implements OnInit{
    * [BUG]
    */
   ngOnInit(): void {
-    this._task.getSubTasksByTask(this.value.idCode as string).subscribe((data: Task[]) => {
-      if(data.length<=0){
-        this.value.tasks = []
-      }else{
-        this.value.tasks = data
-      }
+    this._currentProject.getSubtasksByTask(this.value).then((data: Task) => {
+      this.value=data
     })
 
 
@@ -151,21 +147,13 @@ export class TaskBoardComponent implements OnInit{
       closed: false,
       task: this.value,
       project: this.value.project,
-      objective: this.formGroup.get('objective')?.value
+      objective: this.formGroup.get('objective')?.value,
+      colaborator: this._auth.currentUser$(),
     };
-    this._task.save(task).subscribe((data: Task) => {
-      if (data) this.value.tasks?.push(data);
+    this._currentProject.saveTask(task).then((data: Task | null) => {
+      if (data) this.value = data;
     });
     this.newT = false; // Oculta el formulario después de guardar la tarea
-  }
-
-  goToTask(): void {
-    //si la ruta actual contiene task, no se lo agregamos a la ruta
-    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
-      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
-    }else{
-      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
-    }
   }
 
 
@@ -180,5 +168,14 @@ export class TaskBoardComponent implements OnInit{
       duration: 2500,
       panelClass: status
     });
+  }
+
+  _router: Router = inject(Router);
+  navigate(){
+    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
+      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    }else{
+      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
+    }
   }
 }

@@ -4,9 +4,16 @@ import { PreloadAllModules, provideRouter, withDebugTracing, withPreloading } fr
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withPreloading(PreloadAllModules)), provideClientHydration(), provideAnimations(), provideHttpClient(), provideAnimations(), provideAnimations(), provideAnimations(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()]
+  providers: [
+    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideClientHydration(),
+    provideAnimations(),
+    provideHttpClient(withFetch()), // Habilita el uso de fetch APIs
+    provideAnimations(),
+    provideAnimationsAsync()
+  ]
 };

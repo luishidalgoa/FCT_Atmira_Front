@@ -7,6 +7,7 @@ import { AuthService } from '../../Login/services/auth.service';
 import { TaskService } from '../../Core/services/Task/task.service';
 import { Colaborator } from '../../model/domain/colaborator';
 import { Router } from '@angular/router';
+import { resolve } from 'path';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class CurrentProjectService {
   set task(task: Task) {
     if (task) {
       this.getProjectById(task.project?.id_code as string).then((project: Project | null) => {
-
+        if(!task.idCode)return 
         if (task.idCode!.split('_').length > 1) { // si la nueva tarea es hija de un proyecto
           project?.tasks?.push(task)
         } else { // si la nueva tarea es una subtarea
@@ -93,7 +94,7 @@ export class CurrentProjectService {
    * @returns 
    */
   getTaskById(id: string): Promise<Task | null> {
-    if (!this.repository) return Promise.resolve(null);
+    if (!this.repository && !id) return Promise.resolve(null);
     return new Promise((resolve) => {
       this.getProjectById(id.split('_')[0]).then((project: Project | null) => {
         if (!project) resolve(null);
@@ -174,7 +175,7 @@ export class CurrentProjectService {
           let aux = this.repositoryValue
           if (aux?.find((p: Project) => p.id_code == data.id_code) == undefined) {
             aux?.push(data)
-          }else{
+          } else {
             aux = aux?.map((p: Project) => p.id_code == data.id_code ? data : p)
           }
           this.repository.next(aux)
@@ -213,11 +214,16 @@ export class CurrentProjectService {
     })
   }
 
-  getColaboratorsByProject(project: Project): Promise<Colaborator[]> {
-    return new Promise<Colaborator[]>((resolve) => {
-      this.getProjectById(project.id_code as string).then((project: Project | null) => {
-        if (project && project.colaboratorProjects) {
-          resolve(project.colaboratorProjects)
+  getColaboratorsByProject(project: Project): Promise<Project> {
+    return new Promise<Project>((resolve) => {
+      this.getProjectById(project.id_code as string).then((aux: Project | null) => {
+        if (aux && aux.colaboratorProjects) {
+          //AGREGAMOS LOS COLABORADORES EN EL project y nos aseguramos de que la instancia de project este guardada en repository y hacemos next()
+          project.colaboratorProjects = aux.colaboratorProjects
+
+          this.replaceProject(project).then((data:Project | null) => {
+            resolve(data as Project)
+          })
         }
       })
     })
@@ -236,11 +242,11 @@ export class CurrentProjectService {
    * @param projectValue 
    * @param task 
    */
-  deleteTask(project: Project, task: Task): Promise<boolean> {
+  deleteTask(task: Task): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       this._task.delete(task).subscribe((data: boolean) => {
         if (data) {
-          this.rebuildTaskGenealogic(project, task.task?.idCode as string).then((data: Task | null) => {
+          this.rebuildTaskGenealogic(task.project, task.task?.idCode as string).then((data: Task | null) => {
             if (data) {
               data.tasks = data.tasks?.filter((t: Task) => t.idCode !== task.idCode)
             }
@@ -259,7 +265,7 @@ export class CurrentProjectService {
   getSubtasksByTask(task: Task): Promise<Task> {
     return new Promise<Task>((resolve) => {
       this._task.getSubTasksByTask(task.idCode as string).subscribe((data: Task[]) => {
-        this.getTaskById(task.task?.idCode as string).then((aux: Task | null) => {
+        this.getTaskById(task.idCode as string).then((aux: Task | null) => {
           if (aux) {
             aux.tasks = data
             resolve(aux)
@@ -280,8 +286,77 @@ export class CurrentProjectService {
     return this.repository.pipe(
       map((data: Project[] | null) => {
         if (!data) return null;
-        return data.find((p: Project) => p.id_code === this.currentProjectId) || null;
+        
+        const project: Project | null = data.find((p: Project) => p.id_code === this.currentProjectId) || null
+        if(!project) return null;
+        return project
       })
     );
+  }
+
+
+  private replaceTask(task: Task): Promise<Task | null> {
+    if(!task.idCode)return Promise.resolve(null)
+    return new Promise<Task | null>((resolve) => {
+      this.getTaskById(task.task?.idCode as string).then((data: Task | null) => {
+        if(!data)resolve(null)
+        if(data!.task){ // si la tarea es hija de una tarea
+          data!.task.tasks = data!.task.tasks?.filter((t: Task) => t.idCode != task.idCode)
+          data!.task.tasks?.push(task)
+        }else if(data?.project.tasks && data?.project.tasks.length > 0){ // si la tarea es hija de un proyecto
+          data.project.tasks = data.project.tasks.filter((t: Task) => t.idCode != task.idCode)
+          data.project.tasks.push(task)
+        }
+        resolve(this.getTaskById(task.idCode as string))
+      })
+    })
+  }
+
+  status(task:Task):Promise<Task | null>{
+    if(!task.idCode)return Promise.resolve(null)
+    const idCode = task.idCode
+    return new Promise<Task | null>((resolve) => {
+      this._task.status(idCode,task.closed).subscribe((data: Task) => {
+        this.replaceTask(data).then((data: Task | null) => { // Sustituimos la tarea de la zona de memoria del repositorio por la actualizada
+          resolve(data)
+        })
+      })
+    })
+  }
+
+  assigned(task: Task, colaborator: Colaborator): Promise<Task | null> {
+    console.log('hola')
+    return new Promise<Task | null>((resolve) => {
+      this._task.assigned(task, colaborator).subscribe((data: Task) => {
+        this.replaceTask(data).then((data: Task | null) => { // Sustituimos la tarea de la zona de memoria del repositorio por la actualizada
+          resolve(data)
+        })
+      })
+    })
+  }
+  //_---------------------------DESARROLLAR
+
+  
+
+  private replaceProject(project: Project): Promise<Project | null> {
+    return new Promise<Project | null>((resolve) => {
+      this.getProjectById(project.id_code as string).then((data: Project | null) => {
+        resolve(data)
+      })
+    })
+  }
+  /**
+   * 
+   * @param task La nueva tarea que se va ha guardar
+   * @returns 
+   */
+  saveTask(task: Task): Promise<Task | null> {
+    return new Promise<Task | null>((resolve) => {
+      this._task.save(task).subscribe((data: Task) => {
+        this.replaceTask(data).then((aux: Task | null) => { // Sustituimos la tarea de la zona de memoria del repositorio por la actualizada
+          resolve(aux!.task)
+        })
+      })
+    })
   }
 }

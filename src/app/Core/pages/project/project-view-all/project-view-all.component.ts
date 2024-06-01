@@ -29,14 +29,15 @@ export class ProjectViewAllComponent implements OnInit, OnDestroy {
       this._currentProject.currentProjectId = projectId
       this.subscription = this._currentProject.getCurrentProject().subscribe((project: Project | null) => {
         this.currentProject = project
+
+
+        if (this.currentProject && this.currentProject.tasks == undefined) { // si no hay tareas se buscaran
+          this._currentProject.getTasksByProject(this.currentProject).then((tasks: Task[]) => {
+            if (!this.currentProject) return;
+            this.currentProject.tasks = tasks
+          })
+        }
       })
-    }).then(() => {
-      if (this.currentProject && this.currentProject.tasks == undefined) { // si no hay tareas se buscaran
-        this._currentProject.getTasksByProject(this.currentProject).then((tasks: Task[]) => {
-          if(!this.currentProject) return;
-          this.currentProject.tasks = tasks
-        })
-      }
     })
 
 
@@ -70,7 +71,7 @@ export class ProjectViewAllComponent implements OnInit, OnDestroy {
    */
   deleteTask(task: Task): void {
     if (!this.currentProject) return
-    this._currentProject.deleteTask(this.currentProject, task).then((result: boolean) => {
+    this._currentProject.deleteTask(task).then((result: boolean) => {
       if (result) {
         this.openSnackBar('Task deleted successfully', 'app-notification-success');
       } else {

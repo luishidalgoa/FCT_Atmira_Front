@@ -33,7 +33,7 @@ export class ProjectDashboardComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-    }, 10);
+    }, 100);
   }
 
   ngOnInit(): void {
