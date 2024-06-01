@@ -1,13 +1,11 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../model/domain/task';
 import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ObjetiveService } from '../../../shared/services/objetive.service';
-import { TaskService } from '../../services/Task/task.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
-import { ProjectService } from '../../services/Project/project.service';
 import { Colaborator } from '../../../model/domain/colaborator';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../../modals/update-task/update-task.component';

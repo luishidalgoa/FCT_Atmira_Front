@@ -5,12 +5,9 @@ import { Router, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ProjectService } from '../../../Core/services/Project/project.service';
 import { ConfigurationComponent } from '../../modals/Configuration/configuration.component';
 import { NewProjectComponent } from '../../../Core/modals/new-project/new-project.component';
-import { Observable, map } from 'rxjs';
 import { Project } from '../../../model/domain/project';
-import { Item } from '../../../model/domain/item';
 import { TaskBoardComponent } from '../../../Core/components/task-board/task-board.component';
 import { AuthService } from '../../../Login/services/auth.service';
 import { TaskService } from '../../../Core/services/Task/task.service';

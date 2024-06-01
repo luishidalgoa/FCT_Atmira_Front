@@ -4,7 +4,6 @@ import { TaskBoardComponent } from '../../../components/task-board/task-board.co
 import { Task } from '../../../../model/domain/task';
 import { TaskDetailsComponent } from '../../../components/task-details/task-details.component';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { TaskService } from '../../../services/Task/task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTaskComponent } from '../../../modals/new-task/new-task.component';
 import { TaskBoardComponentSkeleton } from '../../../skeletons/task-board/task-board.component';

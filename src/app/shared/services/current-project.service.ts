@@ -1,4 +1,4 @@
-import { inject, Injectable, OnInit } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Project } from '../../model/domain/project';
 import { Task } from '../../model/domain/task';
@@ -7,7 +7,6 @@ import { AuthService } from '../../Login/services/auth.service';
 import { TaskService } from '../../Core/services/Task/task.service';
 import { Colaborator } from '../../model/domain/colaborator';
 import { Router } from '@angular/router';
-import { resolve } from 'path';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild, effect, inject } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { Colaborator } from '../../../model/domain/colaborator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // Importa FormGroup y FormBuilder
 import { ProjectService } from '../../services/Project/project.service';

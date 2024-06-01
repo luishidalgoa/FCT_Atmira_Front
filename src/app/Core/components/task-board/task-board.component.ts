@@ -9,7 +9,6 @@ import { ProjectService } from '../../services/Project/project.service';
 import { AuthService } from '../../../Login/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskComponent } from '../task/task.component';
-import { TaskService } from '../../services/Task/task.service';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { UpdateTaskComponent } from '../../modals/update-task/update-task.component';

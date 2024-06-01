@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Input, ViewChild, effect, inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild, inject } from '@angular/core';
 import { Task } from '../../../model/domain/task';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TypeOfService } from '../../../model/enum/type-of-service';

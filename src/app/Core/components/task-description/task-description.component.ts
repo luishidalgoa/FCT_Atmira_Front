@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, viewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Task } from '../../../model/domain/task';
 
 @Component({
