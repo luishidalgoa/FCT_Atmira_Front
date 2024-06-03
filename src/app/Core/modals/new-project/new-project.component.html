@@ -1,0 +1,71 @@
+<article class="p-5 h-auto w-auto flex flex-col gap-3">
+    <header class="flex justify-between">
+        <h1 class="font-semibold text-lg text-[#172B4D]/90">New project</h1>
+        <div class="flex items-center gap-2">
+            <button (click)="this.dialogRef.close()" type="button" class=" border-none  end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-400/50 dark:hover:text-red-500" data-modal-hide="popup-modal">
+                <svg  class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+    </header>
+    <hr>
+    <form [formGroup]="this.form" (submit)="this.create()" class="w-full grid grid-cols-2 gap-2">
+        <h3 class="font-medium text-lg text-[#172B4D]/90" style="font-size: 1.5rem;">Details</h3><div></div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Title</p>
+        </div>
+        <div class="flex items-center">
+            <div>
+                <input [ngClass]="{ 'invalid': this.form.get('title')?.invalid && (this.form.get('title')?.dirty || this.form.get('title')?.touched) }" formControlName="title" placeholder="Write any name for the project" type="text" id="first_name" class=" w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-ellipsis focus:outline-2 focus:outline-blue-500" required>
+                @if( this.form.get('title')?.invalid && (this.form.get('title')?.dirty || this.form.get('title')?.touched) ){
+                    <p class="text-red-500 text-sm">Write a title for the project</p>
+                  }
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Initial Date</p>
+        </div>
+        <div class="w-56 ">
+            <mat-form-field [ngClass]="{ 'invalid': this.form.get('initialDate')?.invalid && (this.form.get('initialDate')?.dirty || this.form.get('initialDate')?.touched) }" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
+                <input class="focus:outline-2 focus:outline-blue-500" [min]="this.minDate" formControlName="initialDate" matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            @if (this.form.get('initialDate')?.invalid && (this.form.get('initialDate')?.dirty || this.form.get('initialDate')?.touched)) {
+                <p class="text-red-500 text-sm">Enter a valid date</p>
+            }
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Final Date</p>
+        </div>
+        <div class="w-56 ">
+            <mat-form-field [ngClass]="{ 'invalid': this.form.get('endDate')?.invalid && (this.form.get('endDate')?.dirty || this.form.get('endDate')?.touched) }" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:bg-white">
+                <input [min]="this.form.get('initialDate')?.value ? this.form.get('initialDate')?.value : this.minDate" formControlName="endDate" matInput [matDatepicker]="picker2" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            @if (this.form.get('endDate')?.invalid && (this.form.get('endDate')?.dirty || this.form.get('endDate')?.touched)) {
+                <p class="text-red-500 text-sm">Enter a date greater than or equal to the initial one</p>
+            }
+        </div>
+        <div class="flex items-center gap-2">
+            <p class="text-[#172B4D]/90 text-[1.25rem]">Type of service</p>
+        </div>
+        <div class="flex items-center">
+            <mat-form-field class="w-full">
+                <mat-label><p class="text-[#A8587B]">Select any type...</p></mat-label>
+                <mat-select formControlName="typeOfService">
+                  @for (type of this.typeOfServiceValues; track type) {
+                    <mat-option [value]="type">{{type}}</mat-option>
+                  }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div></div>
+        <div>
+            <button type="submit" class="w-56 text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create</button>
+        </div>
+    </form>
+</article>
