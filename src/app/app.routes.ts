@@ -13,7 +13,6 @@ export const routes: Routes = [
     {
         path: '',
         title: 'FCT_Atmira - Projects',
-       // loadComponent: () => import('./pages/hub/hub.component').then(m => m.HubComponent),
         loadChildren: () => import('./shared/pages/hub/hub.routes').then(mod => mod.hubRoutes),
         canActivate: [authGuard]
     },

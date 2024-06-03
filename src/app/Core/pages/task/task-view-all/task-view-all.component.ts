@@ -12,11 +12,12 @@ import { Project } from '../../../../model/domain/project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { CurrentProjectService } from '../../../../shared/services/current-project.service';
+import { ProjectSettingsComponent } from '../../../components/project-settings/project-settings.component';
 
 @Component({
   selector: 'core-task-view-all',
   standalone: true,
-  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent, TaskBoardComponentSkeleton, MatProgressSpinnerModule],
+  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent, TaskBoardComponentSkeleton, MatProgressSpinnerModule,ProjectSettingsComponent],
   templateUrl: './task-view-all.component.html',
   styleUrl: './task-view-all.component.scss'
 })

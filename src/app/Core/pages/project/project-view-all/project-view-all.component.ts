@@ -11,11 +11,12 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentProjectService } from '../../../../shared/services/current-project.service';
 import { Subscription } from 'rxjs';
+import { ProjectSettingsComponent } from '../../../components/project-settings/project-settings.component';
 
 @Component({
   selector: 'core-project-view-all',
   standalone: true,
-  imports: [TaskBoardComponent, TaskBoardComponentSkeleton, MatProgressSpinner],
+  imports: [TaskBoardComponent, TaskBoardComponentSkeleton, MatProgressSpinner,ProjectSettingsComponent],
   templateUrl: './project-view-all.component.html',
   styleUrl: './project-view-all.component.scss'
 })
@@ -90,6 +91,17 @@ export class ProjectViewAllComponent implements OnInit, OnDestroy {
     this._snackBar.open(message, 'Hidden', {
       duration: 2500,
       panelClass: status
+    });
+  }
+
+
+  openSettings(enterAnimationDuration: string, exitAnimationDuration: string){
+    this.dialog.open(ProjectSettingsComponent, {
+      width: 'auto',
+      enterAnimationDuration,
+      maxWidth: '60rem',
+      exitAnimationDuration,
+      data: this.currentProject
     });
   }
 }
