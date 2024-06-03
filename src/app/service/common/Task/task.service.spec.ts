@@ -12,8 +12,8 @@ describe('TaskService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule], // Asegúrate de importar todos los módulos necesarios
-      providers: [ProjectService,TaskService], // Agrega el servicio a la lista de providers
+      imports: [HttpClientModule], 
+      providers: [ProjectService,TaskService], 
     });
     
     service = TestBed.inject(TaskService);
