@@ -113,4 +113,13 @@ export class TaskViewAllComponent implements OnDestroy, OnInit {
       panelClass: status
     });
   }
+  private routerActive = inject(ActivatedRoute)
+  navigate(obj: Task){
+    this.value=obj
+    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
+      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    }else{
+      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
+    }
+  }
 }

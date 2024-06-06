@@ -27,6 +27,8 @@ export class TaskBoardComponent implements OnInit{
   value!: Task; // tarea padre
   @Output()
   deleteEvent: EventEmitter<Task> = new EventEmitter<Task>();
+  @Output()
+  navigate: EventEmitter<Task> = new EventEmitter<Task>();
   details: boolean = false; //indica si el menu de detalles esta abierto o cerrado
   newT: boolean = false; // indica si el formulario para crear una nueva tarea esta abierto u oculto
   TasksSelected: { parent_id: string | undefined; Tasks: Task[] | undefined } = { parent_id: undefined, Tasks: [] }; //array de subtareas seleccionadas
@@ -170,11 +172,7 @@ export class TaskBoardComponent implements OnInit{
   }
 
   _router: Router = inject(Router);
-  navigate(){
-    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
-      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
-    }else{
-      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
-    }
+  navigateEmit(obj: Task){
+    this.navigate.emit(obj);
   }
 }

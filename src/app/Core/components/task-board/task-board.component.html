@@ -10,7 +10,7 @@
                         transform="translate(-159.925 48.014) rotate(-90)" fill="#707070" />
                 </svg>
             </div>
-            <p class="text-xl font-semibold w-full select-none" (click)="this.navigate()">{{this.value.description}}</p>
+            <p class="text-xl font-semibold w-full select-none" (click)="this.navigateEmit(this.value)">{{this.value.description}}</p>
         </div>
         <div mat-button [matMenuTriggerFor]="menu" class="px-2 py-3 rounded-lg hover:bg-gray-300/50 active:bg-gray-300 w-fit cursor-pointer" (click)="$event.stopPropagation()">
             <svg  xmlns="http://www.w3.org/2000/svg" width="13.781" height="3.396" viewBox="0 0 13.781 3.396">
@@ -28,7 +28,7 @@
         @if(this.value && this.value.tasks!==undefined && this.value.tasks!.length > 0) {
             <ul class="px-5 py-3 flex flex-col gap-1">
                 @for (task of this.value.tasks; track $index) {
-                    <core-task (delete)="this.deleteSubTask($event)" (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></core-task>
+                    <core-task (navigate)="this.navigateEmit($event)" (delete)="this.deleteSubTask($event)" (Checkbox)="this.selectTasksGroup($event)" [value]="task" [index]="$index"></core-task>
                 }
             </ul>
         }
