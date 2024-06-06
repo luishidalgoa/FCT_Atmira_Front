@@ -1,4 +1,4 @@
 export interface Departament {
-    ID_id: number;
-    Code: string;
+    id: number;
+    code: string;
 }
