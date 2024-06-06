@@ -14,6 +14,11 @@ export const hubRoutes: Routes = [
                 path: 'projects/project/:projectId',
                 loadComponent: ()=> import('../../../Core/pages/project/project-view-all/project-view-all.component').then(m=>m.ProjectViewAllComponent),
                 data: { breadcrumb: 'Task Dash', parent:{breadcrumb: 'Home',url:'/projects'} },
+                
+            },
+            {
+                path: 'projects/project/:projectId/expenses',
+                loadChildren: () => import('../../../Feature/Expenses/expenses.routes').then(mod => mod.expensesRoutes),
             },
             {
                 path: 'projects/project/:projectId/task/:taskId',

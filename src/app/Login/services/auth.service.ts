@@ -9,15 +9,15 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({
-    Email: '',
-    Name: '',
-    id_alias: '',
-    Surname: '',
+    Email: 'luishidalgoa@outlook.es',
+    Name: 'Luis',
+    id_alias: 'luishidalgoa',
+    Surname: 'Hidalgo Aguilar',
   });
 
   public authorization$: WritableSignal<{ //Signal que contiene el token de autenticacion
     token: string | null;
-  }> = signal({ token: null });
+  }> = signal({ token: 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTcyNTY2MjksImV4cCI6MTcxODEyMDYyOX0.9h15neD6GyBtHriK73RabMGKeIF1TRkspeMZG9xcaZc' });
   constructor(private _http: HttpClient) {
   }
   /**

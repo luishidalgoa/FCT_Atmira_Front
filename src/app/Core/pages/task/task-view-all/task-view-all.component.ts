@@ -12,11 +12,12 @@ import { Project } from '../../../../model/domain/project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { CurrentProjectService } from '../../../../shared/services/current-project.service';
+import { ProjectSettingsComponent } from '../../../components/project-settings/project-settings.component';
 
 @Component({
   selector: 'core-task-view-all',
   standalone: true,
-  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent, TaskBoardComponentSkeleton, MatProgressSpinnerModule],
+  imports: [TaskDescriptionComponent, TaskBoardComponent, TaskDetailsComponent, TaskBoardComponentSkeleton, MatProgressSpinnerModule,ProjectSettingsComponent],
   templateUrl: './task-view-all.component.html',
   styleUrl: './task-view-all.component.scss'
 })
@@ -111,5 +112,14 @@ export class TaskViewAllComponent implements OnDestroy, OnInit {
       duration: 2500,
       panelClass: status
     });
+  }
+  private routerActive = inject(ActivatedRoute)
+  navigate(obj: Task){
+    this.value=obj
+    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
+      this.router.navigateByUrl(`projects/project/${this.value.project.id_code}/task/${this.value.idCode}`);
+    }else{
+      this.router.navigate(['task', this.value.idCode], {relativeTo: this.routerActive})
+    }
   }
 }

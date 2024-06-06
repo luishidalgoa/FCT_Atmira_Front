@@ -1,0 +1,32 @@
+<article class="p-5 h-auto w-auto flex flex-col gap-3">
+    <header class="flex gap-2 justify-between">
+        <h1 class="font-semibold text-lg text-[#172B4D]/90">Project Settings</h1>
+        <div class="flex items-center gap-2">
+              
+            <button (click)="this.dialogRef.close()" type="button" class=" border-none  end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-400/50 dark:hover:text-red-500" data-modal-hide="popup-modal">
+                <svg  class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+    </header>
+    <hr>
+    <div class="flex gap-6">
+        <div class="max-w-48 flex flex-col">
+            @for (section of sections.sections; track $index) {
+                <button (click)="this.sections.index= $index" class="text-start">{{section}}</button>
+            }
+        </div>
+        <div>
+            @switch (sections.sections[this.sections.index]) {
+                @case ("General") {
+                    <p>General</p>
+                }
+                @case ("Invite") {
+
+                }
+            }
+        </div>
+    </div>
+</article>

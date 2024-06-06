@@ -23,38 +23,57 @@ export class TaskService {
         'Content-Type': 'application/json'
       })
     };
-    const taskClone:Task ={
-      closed:task.closed,
-      description:task.description,
-      idCode:task.idCode,
-      objective:task.objective,
-      project:{
-        active:task.project!.active,
-        endDate:task.project!.endDate,
-        id_code:task.project!.id_code,
-        name:task.project!.name,
-        initialDate:task.project!.initialDate,
-        typeOfService:task.project!.typeOfService,
-      },
-      task:{
-        idCode:task.task?.idCode,
-        closed:task.task!.closed,
-        description:task.task!.description,
-        objective:task.task!.objective,
-        project: {
-          active: task.task!.project!.active,
-          endDate: task.task!.project!.endDate,
-          id_code: task.task!.project!.id_code,
-          name: task.task!.project!.name,
-          initialDate: task.task!.project!.initialDate,
-          typeOfService: task.task!.project!.typeOfService,
-        },
-        task:null
-      },
-      colaborator: task.colaborator,
-    }
+    let taskClone: Task//sustituir por un nuevo objeto
 
-    console.log(taskClone)
+    if (task.task) {
+      taskClone = { 
+        closed: task.closed,
+        description: task.description,
+        idCode: task.idCode,
+        objective: task.objective,
+        project: {
+          active: task.project!.active,
+          endDate: task.project!.endDate,
+          id_code: task.project!.id_code,
+          name: task.project!.name,
+          initialDate: task.project!.initialDate,
+          typeOfService: task.project!.typeOfService,
+        },
+        task: {
+          idCode: task.task?.idCode,
+          closed: task.task!.closed,
+          description: task.task!.description,
+          objective: task.task!.objective,
+          project: {
+            active: task.task!.project!.active,
+            endDate: task.task!.project!.endDate,
+            id_code: task.task!.project!.id_code,
+            name: task.task!.project!.name,
+            initialDate: task.task!.project!.initialDate,
+            typeOfService: task.task!.project!.typeOfService,
+          },
+          task: null
+        },
+        colaborator: task.colaborator,
+      }
+    } else {
+      taskClone = { //sustituir por un nuevo objeto
+        closed:task.closed,
+        description:task.description,
+        idCode:task.idCode,
+        objective:task.objective,
+        project:{
+          active:task.project!.active,
+          endDate:task.project!.endDate,
+          id_code:task.project!.id_code,
+          name:task.project!.name,
+          initialDate:task.project!.initialDate,
+          typeOfService:task.project!.typeOfService,
+        },
+        task:null,
+        colaborator: task.colaborator,
+      }
+    }
     const url: string = `${environment.apiUrl}/task/save/${this._auth.currentUser$().id_alias}`;
     return this._http.post<Task>(url, taskClone, header);
   }
@@ -116,14 +135,14 @@ export class TaskService {
    */
   status(idCode: string, closed: boolean): Observable<Task> {
     const url: string = `${environment.apiUrl}/task/${idCode}/${closed}`;
-    return this._http.put<Task>(url,{idCode,closed});
+    return this._http.put<Task>(url, { idCode, closed });
   }
   assigned(task: Task, colaborator: Colaborator): Observable<Task> {
     const url: string = `${environment.apiUrl}/task/${task.idCode}/colaborator/${colaborator.id_alias}`;
-    return this._http.put<Task>(url,task);
+    return this._http.put<Task>(url, task);
   }
 
-  update(task:Task): Observable<Task>{
+  update(task: Task): Observable<Task> {
     const header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -131,7 +150,7 @@ export class TaskService {
     }
     console.log(task)
     const url: string = `${environment.apiUrl}/task/update/${task.idCode}`;
-    return this._http.put<Task>(url,task,header);
+    return this._http.put<Task>(url, task, header);
   }
 
 }
