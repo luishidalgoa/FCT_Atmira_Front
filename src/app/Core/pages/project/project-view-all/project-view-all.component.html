@@ -21,7 +21,7 @@
     <div class="flex flex-col gap-4">
     @defer (when this.currentProject.tasks) {
       @for (item of this.currentProject.tasks; track item) {
-        <core-task-board (deleteEvent)="deleteTask($event)" [value]="item"></core-task-board>
+        <core-task-board (navigate)="this.navigate($event)" (deleteEvent)="deleteTask($event)" [value]="item"></core-task-board>
       }
     }@placeholder {
       <task-board-skeleton></task-board-skeleton>

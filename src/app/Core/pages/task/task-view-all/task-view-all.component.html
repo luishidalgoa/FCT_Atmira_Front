@@ -15,7 +15,7 @@
           <app-task-description [value]="value!"></app-task-description>
           @defer (when this.value!.tasks) {
             @for (item of this.value!.tasks; track this.value) {
-              <core-task-board (deleteEvent)="deleteTask($event)" [value]="item"></core-task-board>
+              <core-task-board (navigate)="this.navigate($event)" (deleteEvent)="deleteTask($event)" [value]="item"></core-task-board>
             }
             @if (this.newTask) {
               <task-board-skeleton></task-board-skeleton>

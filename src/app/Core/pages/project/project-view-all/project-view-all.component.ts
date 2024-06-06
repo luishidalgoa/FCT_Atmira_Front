@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from '../../../../model/domain/task';
 import { Project } from '../../../../model/domain/project';
 import { TaskBoardComponent } from '../../../components/task-board/task-board.component';
@@ -23,9 +23,9 @@ import { ProjectSettingsComponent } from '../../../components/project-settings/p
 export class ProjectViewAllComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   currentProject: Project | null = null;
-  constructor(private route: ActivatedRoute, private _project: ProjectService, private dialog: MatDialog, public _currentProject: CurrentProjectService, private router: ActivatedRoute) { }
+  constructor(private route: Router, private _project: ProjectService, private dialog: MatDialog, public _currentProject: CurrentProjectService, private router: ActivatedRoute) { }
   ngOnInit(): void {
-    const projectId = this.route.snapshot.params['projectId'];
+    const projectId = this.routerActive.snapshot.params['projectId'];
     this._currentProject.getProjectById(projectId).then((data: Project | null) => {
       this._currentProject.currentProjectId = projectId
       this.subscription = this._currentProject.getCurrentProject().subscribe((project: Project | null) => {
@@ -103,5 +103,13 @@ export class ProjectViewAllComponent implements OnInit, OnDestroy {
       exitAnimationDuration,
       data: this.currentProject
     });
+  }
+  private routerActive = inject(ActivatedRoute)
+  navigate(obj: Task){
+    if(this.routerActive.snapshot.routeConfig?.path?.includes('task')){
+      this.route.navigateByUrl(`projects/project/${obj.project.id_code}/task/${obj.idCode}`);
+    }else{
+      this.route.navigate(['task', obj.idCode], {relativeTo: this.routerActive})
+    }
   }
 }
