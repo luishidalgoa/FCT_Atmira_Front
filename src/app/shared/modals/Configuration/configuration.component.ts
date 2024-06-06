@@ -27,7 +27,7 @@ import { WorkplaceService } from '../../../Feature/WorkPlace/service/workplace.s
   styleUrls: ['./configuration.component.scss']
 })
 export class ConfigurationComponent {
-  form: FormGroup;
+  form!: FormGroup;
   languages = Object.values(Language);
   
   constructor(
@@ -36,43 +36,38 @@ export class ConfigurationComponent {
     private _authService: AuthService,
     @Inject(DepartmentService) private _departmentService: DepartmentService,
     @Inject(WorkplaceService) private _workplaceService: WorkplaceService,
-  ) {
+  ) {}
+  ngOnInit() {
     this.form = this.fb.group({
-      workPlace: [''],
+      language: [''],
+      workPlace: [this._authService.currentUser$().WorkPlace ?? ''],
       department: ['']
     });
   }
-  ngOnInit() {
-    const savedWorkPlace = this._workplaceService.getWorkPlace();
-    const savedDepartment = this._departmentService.getDepartment();
-
-    if (savedWorkPlace) {
-      this.form.get('workPlace')?.setValue(savedWorkPlace.Code);
-    }
-
-    if (savedDepartment) {
-      this.form.get('department')?.setValue(savedDepartment.Code);
-    }
-  }
   saveWorkplace() {
-    const workPlace: WorkPlace = {
-      Code: this.form.get('workPlace')?.value,
-      ID_id: 0
-    };
-    this._workplaceService.setWorkPlace(workPlace);
-    this._workplaceService.guardarTrabajo(workPlace).subscribe((data: WorkPlace) => {
-      console.log('Workplace saved:', data);
-    });
+    if (this.form.valid) {
+      const workPlace: WorkPlace = {
+        code: this.form.get('workPlace')?.value,
+        id: 0
+      };
+      this._workplaceService.guardarTrabajo(workPlace).subscribe((data: WorkPlace) => {
+      });
+    }
   }
 
   saveDepartment() {
-    const department: Departament = {
-      Code: this.form.get('department')?.value,
-      ID_id: 0
-    };
-    this._departmentService.setDepartment(department);
-    this._departmentService.save(department).subscribe((data: Departament) => {
-      console.log('Department saved:', data);
-    });
+    if (this.form.valid) {
+      const department: Departament = {
+        code: this.form.get('department')?.value,
+        id: 0
+      };
+      this._departmentService.save(department).subscribe((data: Departament) => {
+      });
+    }
+  }
+
+  onSubmit() {
+    this.saveWorkplace();
+    this.saveDepartment();
   }
 } 
