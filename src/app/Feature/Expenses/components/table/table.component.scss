@@ -1,0 +1,36 @@
+table{
+    p{
+        font-family: 'EB Garamond', serif;
+        color: #172B4D;
+    }
+    button{
+        p{
+            color: white;
+        }
+    }
+}
+::ng-deep .mat-sort-header-content{
+    color: #172B4D;
+    font-family: 'EB Garamond', serif;
+    font-weight: 700;
+    font-size: large;
+}
+::ng-deep .mat-mdc-menu-item-text{
+    @apply flex gap-2 items-center;
+    svg{
+        @apply mt-1 fill-[#172B4D]
+    }
+}
+::ng-deep .mat-mdc-table{
+    @apply shadow rounded-t-md overflow-hidden;
+}
+
+::ng-deep .mat-mdc-paginator{
+    @apply shadow rounded-b-md overflow-hidden;
+}
+td{
+    font-family: 'EB Garamond', serif;
+    color: #172B4D;
+    font-size: larger;
+    font-weight: 500;
+}

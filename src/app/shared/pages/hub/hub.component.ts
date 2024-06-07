@@ -16,6 +16,7 @@ import { ObjetiveService } from '../../services/objetive.service';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { CurrentProjectService } from '../../services/current-project.service';
 import { ProjectDashboardComponent } from '../../../Core/components/project-dashboard/project-dashboard.component';
+import { CreateNewExpenseComponent } from '../../../Feature/Expenses/modals/create-new-expense/create-new-expense.component';
 @Component({
   selector: 'app-hub',
   standalone: true,
@@ -85,6 +86,15 @@ export class HubComponent{
   getUserTasks(): void {
     this._task.getTaskByUser(this._auth.currentUser$().id_alias).subscribe((data: Task[]) => {
       this.tasksByUser = data;
+    });
+  }
+
+  openNewExpense(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(CreateNewExpenseComponent, {
+      width: 'auto',
+      enterAnimationDuration,
+      maxWidth: '60rem',
+      exitAnimationDuration
     });
   }
 

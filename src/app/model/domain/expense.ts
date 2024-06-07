@@ -1,7 +1,9 @@
 import { typeExpense } from "../enum/typeExpense";
 import { Colaborator } from "./colaborator";
 import { Project } from "./project";
+
 export class Expense {
+    public typeExpensive?: typeExpense;
     public ticketId?: number;
     public ticketDate?: Date;
     public createdDate?: Date;
@@ -10,9 +12,10 @@ export class Expense {
     public state: boolean | null = null;
     public project?: Project;
     public colaborator?: Colaborator;
-    public typeExpense?: typeExpense;
     
     constructor(partial?: Partial<Expense>) {
-        Object.assign(this, partial);
+        if (partial) {
+            Object.assign(this, partial);
+        }
     }
 }

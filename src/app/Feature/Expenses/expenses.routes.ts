@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { ExpensesComponent } from './expenses.component';
+import { ViewAllComponent } from './pages/view-all/view-all.component';
 export const expensesRoutes: Routes = [
     {
         path: '',
-        component:ExpensesComponent,
+        component: ViewAllComponent,
     },
     {
         path: '**',

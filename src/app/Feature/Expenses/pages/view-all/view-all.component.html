@@ -1,0 +1,7 @@
+<article class="grid gap-10">
+    <header class="flex justify-between items-center">
+        <p class="font-medium text-5xl mb-1 text-[#172B4D]">My Expenses</p>
+    </header>
+    <feature-expenses-table [dataSource]="dataSource" [Data]="Data"
+            [displayedColumns]="['estado', 'colaborador', 'descripcion', 'coste', 'fechaCreacion','tipoGasto', 'project']"></feature-expenses-table>
+</article>

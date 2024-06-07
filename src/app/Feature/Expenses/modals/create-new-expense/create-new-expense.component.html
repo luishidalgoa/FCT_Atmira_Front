@@ -1,0 +1,71 @@
+<article class="p-5 h-auto w-auto flex flex-col gap-3">
+    <header class="flex gap-2 justify-between">
+        <h1 class="font-semibold text-lg text-[#172B4D]/90">New Expense</h1>
+        <div class="flex items-center gap-2">
+
+            <button (click)="this.close()" type="button"
+                class=" border-none  end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-400/50 dark:hover:text-red-500"
+                data-modal-hide="popup-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+    </header>
+    <hr>
+    <form [formGroup]="this.form" class="w-full">
+        <div class="flex flex-col gap-6">
+            @if (!this.project) {
+            <div>
+                <mat-form-field class="w-full">
+                    <mat-label>
+                        <p class="text-[#A8587B]">Select project...</p>
+                    </mat-label>
+                    <mat-select formControlName="project">
+                        @for (project of this.projectsByColaborator; track project) {
+                        <mat-option [value]="project.id_code">{{project.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            }
+            <div>
+                <mat-form-field class="w-full">
+                    <mat-label>Description</mat-label>
+                    <textarea formControlName="description" matInput placeholder="Leave a comment"></textarea>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="w-full">
+                    <mat-label>Count</mat-label>
+                    <input formControlName="count" matInput type="number" [placeholder]="'Enter amount'"
+                        formControlName="count">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <input formControlName="ticketDate" matInput [max]="this.maxDate" [matDatepicker]="picker" placeholder="Choose a date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="w-full">
+                    <mat-label>
+                        <p class="text-[#A8587B]">Select any type...</p>
+                    </mat-label>
+                    <mat-select formControlName="type">
+                        @for (type of this.typeExpenses; track type) {
+                        <mat-option [value]="type">{{type}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <button type="submit" (click)="this.saveExpense()"
+                class="w-full text-white bg-[#172B4D]/90 hover:bg-[#172B4D]/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
+        </div>
+    </form>
+</article>
