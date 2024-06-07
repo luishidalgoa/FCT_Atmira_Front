@@ -1,0 +1,43 @@
+@if(this.currentProject) {
+  @defer (when this.currentProject) {
+    <div class="grid gap-10">
+      <header class="flex justify-between items-center">
+        <p class="font-medium text-5xl mb-1 text-[#172B4D]">{{this.currentProject.name}}</p>
+        <nav class="">
+          <div class="flex gap-3">
+            <div class="flex items-center relative gap-[0.1rem]">
+              @for (item of this.currentProject.colaboratorProjects; track $index) {
+                @if($index < 3){ 
+                  <div class="absolute colaborator h-6 w-6 overflow-hidden rounded-full border border-black/40 shadow-lg">
+                    <img class="object-cover" src="https://avatars.githubusercontent.com/u/119078933?v=4" alt="">
+                  </div>
+                }
+              }
+            </div>
+            <core-project-settings [currentProject]="this.currentProject"></core-project-settings>
+          </div>
+        </nav>
+      </header>
+    <div class="flex flex-col gap-4">
+    @defer (when this.currentProject.tasks) {
+      @for (item of this.currentProject.tasks; track item) {
+        <core-task-board (navigate)="this.navigate($event)" (deleteEvent)="deleteTask($event)" [value]="item"></core-task-board>
+      }
+    }@placeholder {
+      <task-board-skeleton></task-board-skeleton>
+    }
+        <div class="flex justify-end">
+          <button (click)="this.saveChildTask('0ms','0ms')"
+            class="bg-[#06B6D4]/50 border border-[#06B6D4]/50 rounded-md px-4 py-1 w-fit shadow-lg">
+            <p class="text-xl font-semibold text-white mb-1">New task</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  } @placeholder {
+    <div class="w-full flex justify-center mt-20">
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+  }
+}

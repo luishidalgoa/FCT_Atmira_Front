@@ -1,4 +1,4 @@
 export interface WorkPlace {
-  ID_id: number;
-  Code: string;
+  id: number;
+  code: string;
 }

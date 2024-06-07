@@ -1,0 +1,42 @@
+<div class="grid gap-10">
+    <header class="flex justify-between items-center">
+      <p class="font-medium text-5xl mb-1 text-[#172B4D]">{{this.value ? this.value.description : ''}}</p>
+      <nav class="">
+        <div class="flex gap-3">
+          @if(this.value){
+            <core-project-settings [currentProject]="this.value.project"></core-project-settings>
+          }
+        </div>
+      </nav>
+    </header>
+    <article class="flex justify-between items-start gap-14">
+      @defer (when this.value && this.value.idCode == this.id) {
+        <section class="flex flex-col gap-5 w-full">
+          <app-task-description [value]="value!"></app-task-description>
+          @defer (when this.value!.tasks) {
+            @for (item of this.value!.tasks; track this.value) {
+              <core-task-board (navigate)="this.navigate($event)" (deleteEvent)="deleteTask($event)" [value]="item"></core-task-board>
+            }
+            @if (this.newTask) {
+              <task-board-skeleton></task-board-skeleton>
+            }
+            }@placeholder {
+              <task-board-skeleton />
+            }
+          <div class="flex justify-end">
+            <button (click)="this.saveChildTask()"
+              class="bg-[#06B6D4]/50 border border-[#06B6D4]/50 rounded-md px-4 py-1 w-fit shadow-lg">
+              <p class="text-xl font-semibold text-white mb-1">New task</p>
+            </button>
+          </div>
+        </section>
+      }@placeholder {
+        <div class="w-full flex justify-center mt-32">
+          <mat-spinner [diameter]="50" ></mat-spinner>
+        </div>
+      }
+      <section class="max-w-[25rem] w-full">
+        <core-task-details [value]="this.value!"></core-task-details>
+      </section>
+    </article>
+</div>
