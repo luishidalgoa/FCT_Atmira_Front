@@ -60,34 +60,6 @@ export class CurrentProjectService {
   /**
    * Recorre un arbol genealogico de tareas y subtareas
    * el modelo de datos es como el siguiente ejemplo:
-   * {
-      "project": {
-        "id_code": "0",
-        "typeOfService": "OPERACIONES",
-        "name": "Atmira_FTC",
-        "initialDate": 1708815600000,
-        "endDate": 1709161200000,
-        "active": true,
-        "tasks": {
-          "idCode": "0_1_1",
-          "description": "Descripcion de la tarea",
-          "objective": "MANTENIMIENTO",
-          "task": {
-            "idCode": "0_1",
-            "description": "Atmira_FTC",
-            "objective": "DESARROLLO",
-            "task": null,
-            "project": {
-              ...
-            },
-            "colaborator": {
-                ...
-            },
-            "closed": false
-          }
-        }
-      }
-    }
     como se puede apreciar, una forma para atacar al arbol seria ir navegando a traves del idCode para llegar a la tarea o subtarea correspondiente
    * @param id 
    * @returns 
@@ -212,7 +184,11 @@ export class CurrentProjectService {
       });
     })
   }
-
+  /**
+   * Devuelve un proyecto con sus colaboradores insertados dentro de el
+   * @param project a partir de este proyecto se buscara sus colaboradores
+   * @returns una vez recogidos los colaboradores se modificara el objeto con el arreglo de colaboradores y se devuelve
+   */
   getColaboratorsByProject(project: Project): Promise<Project> {
     return new Promise<Project>((resolve) => {
       this.getProjectById(project.id_code as string).then((aux: Project | null) => {

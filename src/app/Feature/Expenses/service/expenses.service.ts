@@ -24,11 +24,27 @@ export class ExpensesService {
   }
 
   updateExpensesState(expense: Expense): Observable<Expense> {
-
-    console.log(expense)
+    const obj: Expense = {
+      state: expense.state,
+      colaborator: expense.colaborator,
+      cost: expense.cost,
+      createdDate: expense.createdDate,
+      description: expense.description,
+      project: {
+        active: expense.project!.active,
+        endDate: expense.project!.endDate,
+        id_code: expense.project!.id_code,
+        name: expense.project!.name,
+        initialDate: expense.project!.initialDate,
+        typeOfService: expense.project!.typeOfService,
+      },
+      ticketDate: expense.ticketDate,
+      ticketId: expense.ticketId,
+      typeExpensive: expense.typeExpensive
+    }
     const headers: HttpHeaders = new HttpHeaders({}).set('Authorization', `Bearer ${this._auth.authorization$().token}`)
     const url: string = `${environment.apiUrl}/expensive/state`;
-    return this._http.put<Expense>(url, expense, { headers: headers });
+    return this._http.put<Expense>(url, obj, { headers: headers });
   }
 
 }

@@ -9,17 +9,16 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   public currentUser$: WritableSignal<Colaborator> = signal<Colaborator>({
-    Email: 'luishidalgoa@outlook.es',
-    Name: 'Luis',
-    id_alias: 'luishidalgoa',
-    Surname: 'Hidalgo Aguilar',
+    Surname: '',
+    Email: '',
+    id_alias: '',
+    Name: '',
   });
 
   public authorization$: WritableSignal<{ //Signal que contiene el token de autenticacion
     token: string | null;
-  }> = signal({ token: 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTcyNTY2MjksImV4cCI6MTcxODEyMDYyOX0.9h15neD6GyBtHriK73RabMGKeIF1TRkspeMZG9xcaZc' });
-  constructor(private _http: HttpClient) {
-  }
+  }> = signal({ token: null });
+  constructor(private _http: HttpClient) {}
   /**
    * metodo que se encarga de autenticar al usuario en base a las credenciales que se le pasen
    * hace una peticion al servidor para obtener un token de autenticacion y los datos del usuario.

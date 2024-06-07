@@ -6,6 +6,10 @@ export const hubRoutes: Routes = [
         component:HubComponent,
         children: [
             {
+                path: 'expenses',
+                loadChildren: () => import('../../../Feature/Expenses/expenses.routes').then(mod => mod.expensesRoutes),
+            },
+            {
                 path: 'projects',
                 loadComponent: ()=> import('../../../Core/pages/view-all/view-all.component').then(m=>m.ViewAllComponent),
                 data: { breadcrumb: 'Home' }
@@ -18,7 +22,7 @@ export const hubRoutes: Routes = [
             },
             {
                 path: 'projects/project/:projectId/expenses',
-                loadChildren: () => import('../../../Feature/Expenses/expenses.routes').then(mod => mod.expensesRoutes),
+                loadComponent: ()=> import('../../../Feature/Expenses/expenses.component').then(m=>m.ExpensesComponent),
             },
             {
                 path: 'projects/project/:projectId/task/:taskId',

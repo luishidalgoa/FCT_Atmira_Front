@@ -24,7 +24,7 @@ import { CurrentProjectService } from '../../../shared/services/current-project.
 export class NewTaskComponent {
   form: FormGroup;
   typeOfServiceValues = Object.values(TypeOfService);
-  @Input({required:true})
+  @Input()
   value!: Task | Project;
   @Output() save = new EventEmitter<boolean>(); // evento para enviar el estado de la creacion de la tarea
   constructor(@Inject(MAT_DIALOG_DATA) public data: Task | Project,public dialogRef: MatDialogRef<NewTaskComponent>,private _formBuilder: FormBuilder,private _task:TaskService){

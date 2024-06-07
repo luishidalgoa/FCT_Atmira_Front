@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { Colaborator } from '../../../model/domain/colaborator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // Importa FormGroup y FormBuilder
 import { ProjectService } from '../../services/Project/project.service';
@@ -29,16 +29,18 @@ import { AuthService } from '../../../Login/services/auth.service';
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, CommonModule, MatSelect, MatOption, MatMenuModule],
   providers: [provideNativeDateAdapter()]
 })
-export class TaskDetailsComponent {
+export class TaskDetailsComponent implements OnInit{
   @Input({ required: true })
   value!: Task;
-  form: FormGroup; // formulario para crear un nuevo proyecto
+  form!: FormGroup; // formulario para crear un nuevo proyecto
   typeOfServiceValues = Object.values(TypeOfService); // obtiene los valores del enum para mostrarlos en el html a través de un bucle for
 
   selected!: string
   selectedColaborator!: string
   selectedClose!: string
-  constructor( private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) {
+  constructor( private formBuilder: FormBuilder, private _project: ProjectService, private _task: TaskService) { }
+
+  ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       objective: ['',],

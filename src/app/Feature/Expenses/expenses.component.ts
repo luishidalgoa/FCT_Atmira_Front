@@ -6,22 +6,20 @@ import { CurrentProjectService } from '../../shared/services/current-project.ser
 import { ProjectSettingsModal } from '../../Core/modals/project-settings/project-settings.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
 import { Expense } from '../../model/domain/expense';
 import { ExpensesService } from './service/expenses.service';
+import { TableComponent } from './components/table/table.component';
+import { CreateNewExpenseComponent } from './modals/create-new-expense/create-new-expense.component';
 
 @Component({
-  selector: 'app-expenses',
+  selector: 'feature-expenses',
   standalone: true,
-  imports: [RouterOutlet,ProjectSettingsComponent,MatTableModule, MatSortModule, MatPaginatorModule,DatePipe,TitleCasePipe,CurrencyPipe],
+  imports: [RouterOutlet,ProjectSettingsComponent,TableComponent],
   templateUrl: './expenses.component.html',
   styleUrl: './expenses.component.scss'
 })
 export class ExpensesComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['estado', 'colaborador', 'descripcion', 'coste', 'fechaCreacion', 'reintegro'];
   dataSource!: MatTableDataSource<Expense>;
   currentProject: Project | null = null;
   subscription!: Subscription
@@ -50,13 +48,16 @@ export class ExpensesComponent implements OnInit, OnDestroy {
         },
         
         this._expenses.filter(obj).subscribe((result: Expense[]) => {
-          this.Data = result;
-          console.log(this.Data)
-          this.dataSource = new MatTableDataSource(this.Data);
+          this.UpdateExpense(result)
         })
       }
 
     })
+  }
+
+  UpdateExpense(data: Expense[]) {
+    this.Data = data;
+    this.dataSource = new MatTableDataSource(this.Data);
   }
 
   openSettings(enterAnimationDuration: string, exitAnimationDuration: string) {
@@ -69,17 +70,25 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateExpensesState(expense: Expense) {
-    this._expenses.updateExpensesState(expense).subscribe(() => {
-      this.Data = this.Data.map((exp: Expense) => {
-        if(exp.ticketId === expense.ticketId) {
-          return expense
-        }
-        return exp
-      })
-
-      this.dataSource = new MatTableDataSource(this.Data)
+  newExpense(enterAnimationDuration: string, exitAnimationDuration: string) {
+    const dialogRef = this.dialog.open(CreateNewExpenseComponent, {
+      width: 'auto',
+      enterAnimationDuration,
+      maxWidth: '60rem',
+      exitAnimationDuration,
+      data: true
+    });
+    dialogRef.componentInstance.save.subscribe((data: Expense) => {
+      if(data) this.pushData(data)
+      
     })
   }
+
+  pushData(data: Expense) {
+    this.Data.push(data)
+    this.dataSource = new MatTableDataSource(this.Data);
+  }
+
+  
 
 }
